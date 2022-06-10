@@ -1,0 +1,118 @@
+:root {
+  --text-color: white;
+  --subtitle-color: #fcdab7;
+  --main-color: #133b5c;
+  --secondary-color: #1e5f74;
+  --tertiary-color: #1d2d50;
+}
+html[data-color-mode="light"] {
+  --text-color: black;
+  --subtitle-color: #03045e;
+  --main-color: #90e0ef;
+  --secondary-color: #caf0f8;
+  --tertiary-color: #00b4d8;
+}
+
+.switch-theme {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  margin: 8px;
+  transition: background 0.25s linear;
+}
+.switch-theme .checkbox {
+  opacity: 0;
+  position: absolute;
+}
+.switch-theme .label {
+  background-color: #111;
+  border-radius: 30px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  height: 15px;
+  width: 30px;
+  padding: 0px 2px;
+  transform: scale(1.5);
+}
+
+.switch-theme .label .ball {
+  background-color: #fff;
+  border-radius: 50%;
+  position: absolute;
+  height: 14px;
+  width: 14px;
+  transform: translateX(0px);
+  transition: transform 0.25s linear;
+}
+
+.switch-theme .checkbox:checked + .label .ball {
+  transform: translateX(12px);
+}
+
+.switch-theme .fa-moon {
+  color: #f1c40f;
+  font-size: 12px;
+}
+
+.switch-theme .fa-sun {
+  color: #f39c12;
+  font-size: 12px;
+}
+
+.navbar {
+  background-color: var(--tertiary-color);
+}
+.navbar a {
+  color: var(--text-color);
+}
+.navbar :active {
+  color: var(--secondary-color);
+}
+footer {
+  background-color: var(--tertiary-color);
+  font-style: var(--text-color);
+}
+body {
+  min-height: 1500px;
+  color: var(--text-color);
+}
+h1 {
+  color: var(--subtitle-color);
+}
+h2 {
+  color: var(--subtitle-color);
+}
+.jumbotron {
+  padding-top: 6rem;
+  background-color: var(--main-color);
+}
+.jumbotron svg path {
+  fill: var(--secondary-color);
+}
+
+#about {
+  background-color: var(--secondary-color);
+}
+#about svg path {
+  fill: var(--main-color);
+}
+
+#projects {
+  background-color: var(--main-color);
+}
+#projects svg path {
+  fill: var(--secondary-color);
+}
+
+#contact {
+  background-color: var(--secondary-color);
+}
+#contact svg path {
+  fill: var(--tertiary-color);
+}
+section {
+  padding-top: 5rem;
+}
