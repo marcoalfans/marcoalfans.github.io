@@ -24,6 +24,7 @@
     <!-- Akhir AOS-->
     <!-- GSAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/TextPlugin.min.js"></script>
     <!-- Akhir GSAP -->
     <link
       rel="stylesheet"
@@ -32,7 +33,6 @@
     <!-- My CSS-->
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="animation.css" />
-    <link rel="stylesheet" href="dist/main.scss" />
     <!-- Akhir My CSS-->
     <style></style>
   </head>
@@ -93,7 +93,7 @@
         class="rounded-circle img-thumbnail"
       />
       <h1 class="display-4 fw-semibold">Marco Alfan</h1>
-      <p class="lead">Technopreneur | Civil Servant</p>
+      <p class="lead"></p>
       <svg
         style="margin-bottom: -5px"
         xmlns="http://www.w3.org/2000/svg"
@@ -397,12 +397,25 @@
         duration: 2000,
       });
 
-      gsap.from(".jumbotron img", { duration: 1, rotateY: 360, opacity: 0 });
+      gsap.registerPlugin(TextPlugin);
       gsap.from(".navbar", {
         duration: 1.5,
         y: "-100%",
         opacity: 0,
         ease: "power2",
+      });
+      gsap.from(".jumbotron img", { duration: 1, rotateY: 360, opacity: 0 });
+      gsap.from(".display-4", {
+        duration: 1,
+        x: -50,
+        opacity: 0,
+        delay: 0.5,
+        ease: "back",
+      });
+      gsap.to(".lead", {
+        duration: 2,
+        delay: 1.2,
+        text: "Technopreneur | Civil Servant",
       });
     </script>
     <!-- Fontawesome JS -->
