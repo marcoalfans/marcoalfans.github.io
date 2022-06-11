@@ -1,0 +1,10 @@
+/* content-3 img */
+.card2 img {
+  animation: floating2 2s infinite;
+}
+
+@keyframes floating2 {
+  50% {
+    transform: translateY(5px);
+  }
+}
