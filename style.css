@@ -12,7 +12,22 @@ html[data-color-mode="light"] {
   --secondary-color: #caf0f8;
   --tertiary-color: #00b4d8;
 }
-
+.socmed a {
+  height: 57px;
+  width: 57px;
+  margin: 10px;
+  border-color: var(--text-color);
+  color: var(--text-color);
+}
+.socmed a:hover {
+  border-color: var(--main-color);
+  background: var(--main-color);
+}
+.socmed a i {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 .switch-theme {
   box-sizing: border-box;
   display: flex;
@@ -95,9 +110,6 @@ h2 {
 
 #about {
   background-color: var(--secondary-color);
-}
-#about svg path {
-  fill: var(--main-color);
 }
 
 #projects {

@@ -3,8 +3,17 @@
   animation: floating2 2s infinite;
 }
 
+.socmed .icon-gjl {
+  animation: floating2 2s infinite;
+}
+
+.socmed .icon-gnp {
+  animation: floating2 2s infinite;
+  animation-delay: 1s;
+}
+
 @keyframes floating2 {
   50% {
-    transform: translateY(5px);
+    transform: translateY(8px);
   }
 }
