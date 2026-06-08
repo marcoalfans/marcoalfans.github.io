@@ -306,11 +306,12 @@ a { color: var(--blue); text-decoration: none; }
 .cert-meta {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   font-family: var(--mono);
   font-size: 10px;
   color: var(--muted);
   flex-wrap: wrap;
+  margin-top: auto;
 }
 .cert-meta i { margin-right: 2px; }
 .cert-noexp {
@@ -337,11 +338,11 @@ a { color: var(--blue); text-decoration: none; }
   font-size: 10px;
   color: var(--accent);
   border: 1px solid var(--accent);
-  padding: 3px 9px;
+  padding: 2px 8px;
   border-radius: 4px;
-  margin-top: 4px;
-  align-self: flex-start;
   transition: .2s;
+  white-space: nowrap;
+  margin-left: auto;
 }
 .cert-link:hover { background: var(--accent); color: #fff; }
 
