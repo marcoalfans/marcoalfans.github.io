@@ -205,15 +205,12 @@ a { color: var(--blue); text-decoration: none; }
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
-  padding-bottom: 8px;
+  scrollbar-width: none;
+  padding-bottom: 0;
   margin: 0 -4px;
   padding-left: 4px;
 }
-.certs-scroll::-webkit-scrollbar { height: 5px; }
-.certs-scroll::-webkit-scrollbar-track { background: transparent; }
-.certs-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+.certs-scroll::-webkit-scrollbar { display: none; }
 
 .certs-grid {
   display: grid;
