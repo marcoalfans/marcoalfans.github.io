@@ -22,39 +22,55 @@ mobileMenu.querySelectorAll('a').forEach(a =>
   a.addEventListener('click', () => mobileMenu.classList.remove('open'))
 );
 
-// Typewriter — whoami → show output → pause → hide → delete → loop
+// Typewriter — whoami → per-line output → pause → reset → loop
 const tw = document.getElementById('typewriter');
-const termOutput = document.getElementById('termOutput');
+const WORD = 'whoami';
 let ci = 0;
 
+function getLines() {
+  return Array.from(document.querySelectorAll('.out-line'));
+}
+
+function showLines(lines, idx) {
+  if (idx < lines.length) {
+    lines[idx].classList.add('visible');
+    setTimeout(() => showLines(lines, idx + 1), 380);
+  } else {
+    // semua line muncul, pause lalu hide
+    setTimeout(hideLines, 3200);
+  }
+}
+
+function hideLines() {
+  getLines().forEach(l => l.classList.remove('visible'));
+  setTimeout(deleteWord, 300);
+}
+
 function showOutput() {
-  if (termOutput) { termOutput.style.visibility = 'visible'; termOutput.style.opacity = '1'; }
-  setTimeout(hideOutput, 3500);
+  showLines(getLines(), 0);
 }
-function hideOutput() {
-  if (termOutput) { termOutput.style.visibility = 'hidden'; termOutput.style.opacity = '0'; }
-  deleteWord();
-}
+
 function deleteWord() {
   if (ci > 0) {
     ci--;
-    tw.textContent = 'whoami'.substring(0, ci);
+    tw.textContent = WORD.substring(0, ci);
     setTimeout(deleteWord, 65);
   } else {
     setTimeout(typeWord, 500);
   }
 }
+
 function typeWord() {
-  if (ci < 6) {
+  if (ci < WORD.length) {
     ci++;
-    tw.textContent = 'whoami'.substring(0, ci);
+    tw.textContent = WORD.substring(0, ci);
     setTimeout(typeWord, 110);
   } else {
     setTimeout(showOutput, 400);
   }
 }
-typeWord();
 
+typeWord();
 // Active nav on scroll
 const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('.nav-links a');
