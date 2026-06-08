@@ -203,7 +203,7 @@ a { color: var(--blue); text-decoration: none; }
 /* ===== Certifications ===== */
 .certs-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 18px;
 }
 
@@ -211,68 +211,70 @@ a { color: var(--blue); text-decoration: none; }
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 20px;
+  overflow: hidden;
   display: flex;
-  gap: 18px;
-  align-items: flex-start;
+  flex-direction: column;
   transition: border-color .2s, transform .2s;
 }
-.cert-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+.cert-card:hover { border-color: var(--accent); transform: translateY(-4px); }
 
-.cert-badge {
-  flex-shrink: 0;
-  width: 52px; height: 52px;
-  border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--mono);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: .04em;
-  color: #fff;
+.cert-img-area {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
-.badge-htb   { background: #1a2a1a; color: #9fef00; border: 1px solid #9fef00; }
-.badge-ine   { background: #0c1a2e; color: #38bdf8; border: 1px solid #38bdf8; }
-.badge-cwl   { background: #2a0a0a; color: #f87171; border: 1px solid #f87171; }
-.badge-cisco { background: #071829; color: #049fd9; border: 1px solid #049fd9; }
-.badge-bnsp  { background: #1a1400; color: #fbbf24; border: 1px solid #fbbf24; }
-
-.cert-body { flex: 1; min-width: 0; }
-.cert-abbr {
-  display: inline-block;
+.cert-img-area img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 8px;
+}
+.cert-ph {
   font-family: var(--mono);
-  font-size: 11px;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  margin-bottom: 4px;
+  font-size: 22px;
+  font-weight: 700;
+  opacity: 0.5;
+  letter-spacing: .05em;
+}
+
+.bg-htb   { background: #1a2a1a; color: #9fef00; }
+.bg-ine   { background: #0c1a2e; color: #38bdf8; }
+.bg-cwl   { background: #2a0a0a; color: #f87171; }
+.bg-cisco { background: #071829; color: #049fd9; }
+.bg-bnsp  { background: #1a1400; color: #fbbf24; }
+
+.cert-body {
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
 }
 .cert-body h3 {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--text);
   line-height: 1.4;
-  margin-bottom: 4px;
 }
-.cert-issuer {
-  font-size: 12px;
-  color: var(--muted);
-  margin-bottom: 8px;
-}
+.cert-issuer { font-size: 11px; color: var(--muted); }
 .cert-meta {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 10px;
   color: var(--muted);
-  margin-bottom: 10px;
+  flex-wrap: wrap;
 }
-.cert-meta i { margin-right: 3px; }
+.cert-meta i { margin-right: 2px; }
 .cert-noexp {
   background: rgba(126,231,135,.12);
   color: var(--green);
   border: 1px solid rgba(126,231,135,.3);
-  padding: 1px 7px;
+  padding: 1px 6px;
   border-radius: 20px;
   font-size: 10px;
 }
@@ -280,7 +282,7 @@ a { color: var(--blue); text-decoration: none; }
   background: rgba(88,166,255,.1);
   color: var(--blue);
   border: 1px solid rgba(88,166,255,.25);
-  padding: 1px 7px;
+  padding: 1px 6px;
   border-radius: 20px;
   font-size: 10px;
 }
@@ -289,21 +291,19 @@ a { color: var(--blue); text-decoration: none; }
   align-items: center;
   gap: 5px;
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 10px;
   color: var(--accent);
   border: 1px solid var(--accent);
-  padding: 3px 10px;
+  padding: 3px 9px;
   border-radius: 4px;
+  margin-top: 4px;
+  align-self: flex-start;
   transition: .2s;
 }
 .cert-link:hover { background: var(--accent); color: #fff; }
 
-.cert-card-credly { align-items: center; }
-.credly-wrap { flex-shrink: 0; width: 52px; height: 52px; }
-.credly-img { width: 52px; height: 52px; border-radius: 10px; object-fit: cover; transition: transform .2s; }
-.credly-img:hover { transform: scale(1.08); }
-
-@media (max-width: 768px) { .certs-grid { grid-template-columns: 1fr; } }
+@media (max-width: 1024px) { .certs-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 540px)  { .certs-grid { grid-template-columns: 1fr; } }
 
 /* ===== Contact ===== */
 .contact-wrap { display: flex; gap: 40px; align-items: flex-start; flex-wrap: wrap; }
