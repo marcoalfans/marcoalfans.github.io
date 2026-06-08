@@ -54,27 +54,62 @@ window.addEventListener('scroll', () => {
   });
 }, { passive: true });
 
-// Cert auto-scroll
+// Cert auto-scroll + arrows
 (function() {
   const wrap = document.querySelector('.certs-scroll');
+  const prev = document.getElementById('certPrev');
+  const next = document.getElementById('certNext');
   if (!wrap) return;
+
   const card = wrap.querySelector('.cert-card');
   let paused = false;
-  let timer;
+  let touchTimer;
+
+  function cardW() { return card ? card.offsetWidth + 20 : 260; }
+  function maxScroll() { return wrap.scrollWidth - wrap.clientWidth; }
+
+  function updateArrows() {
+    if (!prev || !next) return;
+    prev.classList.toggle('hidden', wrap.scrollLeft <= 2);
+    next.classList.toggle('hidden', wrap.scrollLeft >= maxScroll() - 2);
+  }
+
+  wrap.addEventListener('scroll', updateArrows, { passive: true });
+  updateArrows();
+
+  if (prev) prev.addEventListener('click', () => {
+    paused = true;
+    wrap.scrollBy({ left: -cardW(), behavior: 'smooth' });
+    setTimeout(() => paused = false, 1500);
+  });
+  if (next) next.addEventListener('click', () => {
+    paused = true;
+    const max = maxScroll();
+    if (wrap.scrollLeft >= max - 2) {
+      wrap.scrollTo({ left: 0, behavior: 'smooth' });
+    } else {
+      wrap.scrollBy({ left: cardW(), behavior: 'smooth' });
+    }
+    setTimeout(() => paused = false, 1500);
+  });
 
   wrap.addEventListener('mouseenter', () => { paused = true; });
   wrap.addEventListener('mouseleave', () => { paused = false; });
-  wrap.addEventListener('touchstart', () => { paused = true; clearTimeout(timer); timer = setTimeout(() => paused = false, 3000); });
+  wrap.addEventListener('touchstart', () => {
+    paused = true;
+    clearTimeout(touchTimer);
+    touchTimer = setTimeout(() => paused = false, 3000);
+  });
 
   function step() {
     if (!paused) {
-      const cardW = card ? card.offsetWidth + 20 : 260;
-      const max   = wrap.scrollWidth - wrap.clientWidth;
+      const max = maxScroll();
       if (wrap.scrollLeft >= max - 2) {
         wrap.scrollTo({ left: 0, behavior: 'smooth' });
       } else {
-        wrap.scrollBy({ left: cardW, behavior: 'smooth' });
+        wrap.scrollBy({ left: cardW(), behavior: 'smooth' });
       }
+      updateArrows();
     }
     setTimeout(step, 3200);
   }
