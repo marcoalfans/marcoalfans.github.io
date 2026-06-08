@@ -216,8 +216,14 @@ a { color: var(--blue); text-decoration: none; }
 }
 
 
-#termOutput {
-  transition: opacity .3s ease;
+.out-line {
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity .35s ease, transform .35s ease;
+}
+.out-line.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 
