@@ -54,43 +54,47 @@ window.addEventListener('scroll', () => {
   });
 }, { passive: true });
 
-// Cert auto-scroll + arrows
+// Cert scroll: arrows + auto-scroll
 (function() {
   const wrap = document.querySelector('.certs-scroll');
   const prev = document.getElementById('certPrev');
   const next = document.getElementById('certNext');
   if (!wrap) return;
 
-  const card = wrap.querySelector('.cert-card');
   let paused = false;
   let touchTimer;
 
-  function cardW() { return card ? card.offsetWidth + 20 : 260; }
+  function cardW() {
+    const c = wrap.querySelector('.cert-card');
+    return c ? c.offsetWidth + 20 : 300;
+  }
   function maxScroll() { return wrap.scrollWidth - wrap.clientWidth; }
 
   function updateArrows() {
-    if (!prev || !next) return;
-    prev.classList.toggle('hidden', wrap.scrollLeft <= 2);
-    next.classList.toggle('hidden', wrap.scrollLeft >= maxScroll() - 2);
+    const max = maxScroll();
+    if (prev) prev.classList.toggle('hidden', wrap.scrollLeft <= 2);
+    if (next) next.classList.toggle('hidden', max <= 0 || wrap.scrollLeft >= max - 2);
   }
 
+  // Run after fonts/images settle
+  window.addEventListener('load', updateArrows);
+  setTimeout(updateArrows, 300);
   wrap.addEventListener('scroll', updateArrows, { passive: true });
-  updateArrows();
+  window.addEventListener('resize', updateArrows);
 
   if (prev) prev.addEventListener('click', () => {
     paused = true;
     wrap.scrollBy({ left: -cardW(), behavior: 'smooth' });
-    setTimeout(() => paused = false, 1500);
+    setTimeout(() => { paused = false; updateArrows(); }, 700);
   });
   if (next) next.addEventListener('click', () => {
     paused = true;
-    const max = maxScroll();
-    if (wrap.scrollLeft >= max - 2) {
+    if (wrap.scrollLeft >= maxScroll() - 2) {
       wrap.scrollTo({ left: 0, behavior: 'smooth' });
     } else {
       wrap.scrollBy({ left: cardW(), behavior: 'smooth' });
     }
-    setTimeout(() => paused = false, 1500);
+    setTimeout(() => { paused = false; updateArrows(); }, 700);
   });
 
   wrap.addEventListener('mouseenter', () => { paused = true; });
@@ -99,19 +103,17 @@ window.addEventListener('scroll', () => {
     paused = true;
     clearTimeout(touchTimer);
     touchTimer = setTimeout(() => paused = false, 3000);
-  });
+  }, { passive: true });
 
   function step() {
     if (!paused) {
-      const max = maxScroll();
-      if (wrap.scrollLeft >= max - 2) {
+      if (wrap.scrollLeft >= maxScroll() - 2) {
         wrap.scrollTo({ left: 0, behavior: 'smooth' });
       } else {
         wrap.scrollBy({ left: cardW(), behavior: 'smooth' });
       }
-      updateArrows();
     }
-    setTimeout(step, 3200);
+    setTimeout(step, 3500);
   }
-  setTimeout(step, 3200);
+  setTimeout(step, 3500);
 })();
