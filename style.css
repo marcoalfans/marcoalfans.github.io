@@ -220,7 +220,7 @@ a { color: var(--blue); text-decoration: none; }
 
 .cert-img-area {
   width: 100%;
-  aspect-ratio: 16 / 9;
+  height: 110px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -234,7 +234,7 @@ a { color: var(--blue); text-decoration: none; }
 }
 .cert-ph {
   font-family: var(--mono);
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 700;
   opacity: 0.5;
   letter-spacing: .05em;
