@@ -212,6 +212,30 @@ a { color: var(--blue); text-decoration: none; }
 }
 .certs-scroll::-webkit-scrollbar { display: none; }
 
+.certs-outer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.cert-arrow {
+  flex-shrink: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  width: 32px; height: 32px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: .2s;
+  display: flex; align-items: center; justify-content: center;
+  align-self: center;
+  user-select: none;
+}
+.cert-arrow:hover { border-color: var(--accent); color: var(--accent); }
+.cert-arrow.hidden { opacity: 0; pointer-events: none; }
+
 .certs-grid {
   display: grid;
   grid-template-rows: repeat(2, auto);
