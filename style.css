@@ -200,6 +200,21 @@ a { color: var(--blue); text-decoration: none; }
 @media (max-width: 768px) { .projects-grid { grid-template-columns: 1fr; } }
 @media (min-width: 769px) and (max-width: 1024px) { .projects-grid { grid-template-columns: repeat(2, 1fr); } }
 
+.proj-note {
+  margin-top: 28px;
+  font-size: 13px;
+  color: var(--muted);
+  font-family: var(--mono);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.proj-note i {
+  color: var(--accent);
+  font-size: 11px;
+}
+
+
 /* ===== Certifications ===== */
 .certs-outer {
   position: relative;
