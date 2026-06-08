@@ -53,3 +53,30 @@ window.addEventListener('scroll', () => {
     a.classList.toggle('active', href === current);
   });
 }, { passive: true });
+
+// Cert auto-scroll
+(function() {
+  const wrap = document.querySelector('.certs-scroll');
+  if (!wrap) return;
+  const card = wrap.querySelector('.cert-card');
+  let paused = false;
+  let timer;
+
+  wrap.addEventListener('mouseenter', () => { paused = true; });
+  wrap.addEventListener('mouseleave', () => { paused = false; });
+  wrap.addEventListener('touchstart', () => { paused = true; clearTimeout(timer); timer = setTimeout(() => paused = false, 3000); });
+
+  function step() {
+    if (!paused) {
+      const cardW = card ? card.offsetWidth + 20 : 260;
+      const max   = wrap.scrollWidth - wrap.clientWidth;
+      if (wrap.scrollLeft >= max - 2) {
+        wrap.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        wrap.scrollBy({ left: cardW, behavior: 'smooth' });
+      }
+    }
+    setTimeout(step, 3200);
+  }
+  setTimeout(step, 3200);
+})();
