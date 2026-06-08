@@ -22,22 +22,21 @@ mobileMenu.querySelectorAll('a').forEach(a =>
   a.addEventListener('click', () => mobileMenu.classList.remove('open'))
 );
 
-// Typewriter
-const phrases = ['whoami', 'Red Team Operator', 'Threat Intel Analyst', 'Security Researcher', 'Web Developer'];
-let pi = 0, ci = 0, del = false;
+// Typewriter — hanya whoami, loop
 const tw = document.getElementById('typewriter');
+let ci = 0, deleting = false;
+const WORD = 'whoami';
 
 function type() {
-  const cur = phrases[pi];
-  tw.textContent = cur.substring(0, ci);
-  if (del) {
-    ci--;
-    if (ci < 0) { del = false; pi = (pi + 1) % phrases.length; setTimeout(type, 400); return; }
-    setTimeout(type, 55);
-  } else {
+  tw.textContent = WORD.substring(0, ci);
+  if (!deleting) {
     ci++;
-    if (ci > cur.length) { del = true; setTimeout(type, 2200); return; }
-    setTimeout(type, ci === 1 && cur === 'whoami' ? 80 : 95);
+    if (ci > WORD.length) { deleting = true; setTimeout(type, 2800); return; }
+    setTimeout(type, 110);
+  } else {
+    ci--;
+    if (ci < 0) { deleting = false; setTimeout(type, 500); return; }
+    setTimeout(type, 65);
   }
 }
 type();
