@@ -126,9 +126,7 @@ a { color: var(--blue); text-decoration: none; }
 .profile-ring {
   width: 270px; height: 270px; border-radius: 50%; padding: 3px;
   background: conic-gradient(var(--accent) 0%, var(--blue) 33%, var(--green) 66%, var(--accent) 100%);
-  animation: spin 10s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
+  }
 .profile-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 4px solid var(--bg); display: block; }
 
 @media (max-width: 900px) {
