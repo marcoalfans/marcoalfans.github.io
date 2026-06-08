@@ -28,11 +28,11 @@ const termOutput = document.getElementById('termOutput');
 let ci = 0;
 
 function showOutput() {
-  if (termOutput) termOutput.style.display = 'block';
+  if (termOutput) { termOutput.style.visibility = 'visible'; termOutput.style.opacity = '1'; }
   setTimeout(hideOutput, 3500);
 }
 function hideOutput() {
-  if (termOutput) termOutput.style.display = 'none';
+  if (termOutput) { termOutput.style.visibility = 'hidden'; termOutput.style.opacity = '0'; }
   deleteWord();
 }
 function deleteWord() {
