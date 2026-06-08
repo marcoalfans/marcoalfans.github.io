@@ -216,6 +216,11 @@ a { color: var(--blue); text-decoration: none; }
 }
 
 
+#termOutput {
+  transition: opacity .3s ease;
+}
+
+
 /* ===== Certifications ===== */
 .certs-outer {
   position: relative;
