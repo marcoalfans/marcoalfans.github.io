@@ -22,24 +22,38 @@ mobileMenu.querySelectorAll('a').forEach(a =>
   a.addEventListener('click', () => mobileMenu.classList.remove('open'))
 );
 
-// Typewriter — hanya whoami, loop
+// Typewriter — whoami → show output → pause → hide → delete → loop
 const tw = document.getElementById('typewriter');
-let ci = 0, deleting = false;
-const WORD = 'whoami';
+const termOutput = document.getElementById('termOutput');
+let ci = 0;
 
-function type() {
-  tw.textContent = WORD.substring(0, ci);
-  if (!deleting) {
-    ci++;
-    if (ci > WORD.length) { deleting = true; setTimeout(type, 2800); return; }
-    setTimeout(type, 110);
-  } else {
+function showOutput() {
+  if (termOutput) termOutput.style.display = 'block';
+  setTimeout(hideOutput, 3500);
+}
+function hideOutput() {
+  if (termOutput) termOutput.style.display = 'none';
+  deleteWord();
+}
+function deleteWord() {
+  if (ci > 0) {
     ci--;
-    if (ci < 0) { deleting = false; setTimeout(type, 500); return; }
-    setTimeout(type, 65);
+    tw.textContent = 'whoami'.substring(0, ci);
+    setTimeout(deleteWord, 65);
+  } else {
+    setTimeout(typeWord, 500);
   }
 }
-type();
+function typeWord() {
+  if (ci < 6) {
+    ci++;
+    tw.textContent = 'whoami'.substring(0, ci);
+    setTimeout(typeWord, 110);
+  } else {
+    setTimeout(showOutput, 400);
+  }
+}
+typeWord();
 
 // Active nav on scroll
 const sections = document.querySelectorAll('section[id]');
