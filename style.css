@@ -203,7 +203,8 @@ a { color: var(--blue); text-decoration: none; }
 /* ===== Certifications ===== */
 .certs-scroll {
   overflow-x: auto;
-  scroll-snap-type: x mandatory;
+  scroll-snap-type: x proximity;
+  scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   padding-bottom: 0;
@@ -235,6 +236,7 @@ a { color: var(--blue); text-decoration: none; }
 }
 .cert-arrow:hover { border-color: var(--accent); color: var(--accent); }
 .cert-arrow.hidden { opacity: 0; pointer-events: none; }
+.cert-arrow { transition: opacity .3s, border-color .2s, color .2s; }
 
 .certs-grid {
   display: grid;
