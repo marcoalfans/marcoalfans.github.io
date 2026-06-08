@@ -299,8 +299,9 @@ a { color: var(--blue); text-decoration: none; }
 .cert-link:hover { background: var(--accent); color: #fff; }
 
 .cert-card-credly { align-items: center; }
-.credly-wrap { flex-shrink: 0; width: 90px; height: 130px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-.credly-wrap iframe { border-radius: 8px; max-width: 90px; }
+.credly-wrap { flex-shrink: 0; width: 52px; height: 52px; }
+.credly-img { width: 52px; height: 52px; border-radius: 10px; object-fit: cover; transition: transform .2s; }
+.credly-img:hover { transform: scale(1.08); }
 
 @media (max-width: 768px) { .certs-grid { grid-template-columns: 1fr; } }
 
