@@ -117,3 +117,45 @@ window.addEventListener('scroll', () => {
   }
   setTimeout(step, 3500);
 })();
+
+// Cert scroll: drag + auto-scroll + gradient fade
+(function() {
+  const wrap = document.querySelector('.certs-scroll');
+  if (!wrap) return;
+
+  // Drag to scroll
+  let isDown = false, startX, scrollStart;
+  wrap.addEventListener('mousedown', e => {
+    isDown = true; startX = e.pageX; scrollStart = wrap.scrollLeft;
+    wrap.style.userSelect = 'none';
+  });
+  document.addEventListener('mouseup', () => { isDown = false; wrap.style.userSelect = ''; });
+  document.addEventListener('mousemove', e => {
+    if (!isDown) return;
+    wrap.scrollLeft = scrollStart - (e.pageX - startX);
+  });
+
+  // Auto-scroll
+  let paused = false;
+  wrap.addEventListener('mouseenter', () => paused = true);
+  wrap.addEventListener('mouseleave', () => paused = false);
+  wrap.addEventListener('touchstart', () => {
+    paused = true;
+    setTimeout(() => paused = false, 4000);
+  }, { passive: true });
+
+  function step() {
+    if (!paused) {
+      const max = wrap.scrollWidth - wrap.clientWidth;
+      const card = wrap.querySelector('.cert-card');
+      const step = card ? card.offsetWidth + 20 : 300;
+      if (wrap.scrollLeft >= max - 2) {
+        wrap.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        wrap.scrollBy({ left: step, behavior: 'smooth' });
+      }
+    }
+    setTimeout(step, 3500);
+  }
+  setTimeout(step, 3500);
+})();
