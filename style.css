@@ -279,6 +279,7 @@ a { color: var(--blue); text-decoration: none; }
 .bg-cisco { background: #ffffff; color: #049fd9; }
 .bg-bnsp  { background: #1a1400; color: #fbbf24; }
 .bg-certiport { background: #1a0a2e; color: #a855f7; }
+.bg-cisco img, .bg-certiport img { object-fit: contain; padding: 8px; }
 
 .cert-body {
   padding: 12px 14px 14px;
