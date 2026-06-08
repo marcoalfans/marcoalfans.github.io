@@ -159,3 +159,36 @@ window.addEventListener('scroll', () => {
   }
   setTimeout(step, 3500);
 })();
+
+// Navbar brand typewriter: Marco Alfan ↔ Kac0
+(function() {
+  const el = document.getElementById('navBrand');
+  if (!el) return;
+  const words = ['Marco Alfan', 'Kac0'];
+  let wi = 0, ci = 0, deleting = false;
+
+  function tick() {
+    const word = words[wi];
+    el.textContent = word.substring(0, ci);
+
+    if (!deleting) {
+      ci++;
+      if (ci > word.length) {
+        deleting = true;
+        setTimeout(tick, wi === 0 ? 2800 : 2000);
+        return;
+      }
+      setTimeout(tick, 100);
+    } else {
+      ci--;
+      if (ci < 0) {
+        deleting = false;
+        wi = (wi + 1) % words.length;
+        setTimeout(tick, 350);
+        return;
+      }
+      setTimeout(tick, 60);
+    }
+  }
+  tick();
+})();
