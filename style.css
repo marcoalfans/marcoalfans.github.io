@@ -227,6 +227,23 @@ a { color: var(--blue); text-decoration: none; }
 }
 
 
+.htb-badge-link {
+  display: block;
+  margin-top: 16px;
+}
+.htb-badge-img {
+  width: 100%;
+  max-width: 340px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  transition: border-color .2s, transform .2s;
+}
+.htb-badge-link:hover .htb-badge-img {
+  border-color: #9fef00;
+  transform: translateY(-2px);
+}
+
+
 /* ===== Certifications ===== */
 .certs-outer {
   position: relative;
