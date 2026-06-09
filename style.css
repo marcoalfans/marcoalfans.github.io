@@ -461,51 +461,84 @@ a { color: var(--blue); text-decoration: none; }
   margin-bottom: 28px;
   font-family: var(--mono);
 }
-.hof-group {
-  margin-bottom: 24px;
+.hof-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
 }
-.hof-group-label {
-  display: block;
+.hof-col {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.hof-col-header {
+  padding: 12px 16px;
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
+  font-weight: 600;
   color: var(--accent);
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  margin-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg);
 }
-.hof-chips {
+.hof-items {
+  padding: 16px;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
-.hof-chip {
-  display: inline-flex;
+.hof-empty {
   align-items: center;
-  gap: 5px;
+  justify-content: center;
+  min-height: 80px;
+}
+.hof-coming {
   font-family: var(--mono);
   font-size: 11px;
   color: var(--muted);
-  background: var(--bg-card);
+  opacity: .5;
+}
+.hof-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  background: var(--bg);
   border: 1px solid var(--border);
-  padding: 4px 10px;
-  border-radius: 20px;
-  white-space: nowrap;
-  transition: border-color .2s, color .2s;
-}
-.hof-chip:hover {
-  border-color: var(--accent);
-  color: var(--text);
-}
-.hof-chip--intl {
-  color: var(--accent);
-  border-color: var(--accent);
-  background: rgba(126,231,135,.06);
-  font-weight: 600;
+  border-radius: 8px;
+  padding: 8px 10px;
+  width: 72px;
   text-decoration: none;
+  transition: border-color .2s, transform .15s;
+  cursor: default;
 }
-.hof-chip--intl:hover {
-  background: rgba(126,231,135,.12);
-  color: var(--accent);
+a.hof-item { cursor: pointer; }
+.hof-item:hover { border-color: var(--accent); transform: translateY(-2px); }
+.hof-logo {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  border-radius: 4px;
+}
+.hof-logo-icon {
+  font-size: 18px;
+  color: var(--muted);
+}
+.hof-item span {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.3;
+  word-break: break-word;
+}
+a.hof-item:hover span { color: var(--text); }
+
+@media (max-width: 600px) {
+  .hof-columns { grid-template-columns: 1fr; }
 }
 
 
