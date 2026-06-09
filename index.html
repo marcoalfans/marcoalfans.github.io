@@ -177,19 +177,14 @@
   <section id="projects" class="section">
     <div class="container">
       <h2 class="section-title"><span class="accent">// </span>Projects</h2>
-      <!-- nemu: featured project -->
-      <div class="project-featured">
-        <div class="feat-preview">
-          <div class="feat-bar">
-            <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
-            <span class="feat-bar-title">nemu — demo</span>
-          </div>
-          <img src="assets/img/nemu-demo.gif" alt="nemu demo" class="feat-gif">
-        </div>
-        <div class="feat-info">
+      <div class="projects-grid">
+        <div class="project-card" id="nemuCard" style="cursor:pointer" title="Click to preview">
           <div class="project-header">
             <i class="fas fa-folder-open folder-icon"></i>
-            <a href="https://github.com/marcoalfans/nemu" target="_blank" class="gh-link"><i class="fab fa-github"></i></a>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span class="feat-hint"><i class="fas fa-play-circle"></i> preview</span>
+              <a href="https://github.com/marcoalfans/nemu" target="_blank" class="gh-link" onclick="event.stopPropagation()"><i class="fab fa-github"></i></a>
+            </div>
           </div>
           <h3 class="project-name">nemu</h3>
           <p class="project-desc">Precision-first identity discovery tool for username research across platforms — built for accuracy, fewer false positives, and actionable OSINT workflows.</p>
@@ -200,10 +195,10 @@
             <span class="tag">Recon</span>
           </div>
         </div>
-      </div>
-
-      <!-- other projects -->
-      <div class="projects-grid">
+        <div class="project-card">
+          <div class="project-header">
+            <i class="fas fa-folder-open folder-icon"></i>
+            <a href="https://github.com/marcoalfans/malwatcher"
         <div class="project-card">
           <div class="project-header">
             <i class="fas fa-folder-open folder-icon"></i>
@@ -437,5 +432,19 @@
   </footer>
 
   <script src="script.js"></script>
+
+  <!-- nemu GIF preview panel -->
+  <div id="nemuPanel" class="nemu-panel">
+    <div class="nemu-panel-inner">
+      <div class="nemu-panel-bar">
+        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+        <span class="nemu-panel-title">nemu — demo</span>
+        <button class="nemu-close" id="nemuClose" aria-label="Close">&#x2715;</button>
+      </div>
+      <img src="assets/img/nemu-demo.gif" alt="nemu demo" class="nemu-gif">
+    </div>
+  </div>
+  <div id="nemuOverlay" class="nemu-overlay"></div>
+
 </body>
 </html>
