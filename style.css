@@ -229,36 +229,31 @@ a { color: var(--blue); text-decoration: none; }
   width: min(780px, 92vw);
   box-shadow: 0 20px 60px rgba(0,0,0,.7);
   animation: popIn .2s ease;
+  position: relative;
 }
 @keyframes popIn {
   from { opacity: 0; transform: scale(.92); }
   to   { opacity: 1; transform: scale(1); }
 }
-.nemu-modal-bar {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 14px;
-  background: var(--bg);
-  border-bottom: 1px solid var(--border);
-}
-.nemu-modal-title {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--muted);
-  margin-left: 4px;
-  flex: 1;
-}
 .nemu-modal-close {
-  background: none;
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: rgba(0,0,0,.5);
   border: none;
-  color: var(--muted);
+  color: #fff;
   font-size: 14px;
   cursor: pointer;
-  padding: 0 2px;
-  transition: color .2s;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .2s;
+  z-index: 1;
 }
-.nemu-modal-close:hover { color: var(--text); }
+.nemu-modal-close:hover { background: rgba(255,255,255,.2); }
 .nemu-modal-box img {
   width: 100%;
   display: block;
