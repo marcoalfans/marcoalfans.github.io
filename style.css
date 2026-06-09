@@ -511,11 +511,21 @@ a { color: var(--blue); text-decoration: none; }
   border-radius: 8px;
   padding: 8px 10px;
   width: 72px;
+  height: 80px;
   text-decoration: none;
   transition: border-color .2s, transform .15s;
   cursor: default;
+  justify-content: center;
 }
 a.hof-item { cursor: pointer; }
+.hof-more {
+  border-style: dashed;
+  opacity: .5;
+}
+.hof-more i {
+  font-size: 18px;
+  color: var(--muted);
+}
 .hof-item:hover { border-color: var(--accent); transform: translateY(-2px); }
 .hof-logo {
   width: 24px;
