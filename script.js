@@ -222,3 +222,23 @@ window.addEventListener('scroll', () => {
   tick();
 })();
 
+
+// nemu GIF popup
+(function() {
+  const card  = document.getElementById('nemuCard');
+  const modal = document.getElementById('nemuModal');
+  const close = document.getElementById('nemuModalClose');
+  if (!card || !modal) return;
+
+  card.addEventListener('click', (e) => {
+    if (e.target.closest('a')) return;
+    modal.classList.add('open');
+  });
+  close.addEventListener('click', () => modal.classList.remove('open'));
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) modal.classList.remove('open');
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') modal.classList.remove('open');
+  });
+})();
