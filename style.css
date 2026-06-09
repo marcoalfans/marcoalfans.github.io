@@ -201,6 +201,60 @@ a { color: var(--blue); text-decoration: none; }
 @media (max-width: 768px) { .projects-grid { grid-template-columns: 1fr; } }
 @media (min-width: 769px) and (max-width: 1024px) { .projects-grid { grid-template-columns: repeat(2, 1fr); } }
 
+/* ===== Featured Project (nemu) ===== */
+.project-featured {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 28px;
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  transition: border-color .2s;
+}
+.project-featured:hover { border-color: var(--accent); }
+
+.feat-preview {
+  background: #0d0d0d;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+}
+.feat-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-card);
+}
+.feat-bar-title {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  margin-left: 6px;
+}
+.feat-gif {
+  width: 100%;
+  flex: 1;
+  object-fit: cover;
+  display: block;
+}
+.feat-info {
+  padding: 22px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.feat-info .project-desc { flex: 1; }
+
+@media (max-width: 768px) {
+  .project-featured { grid-template-columns: 1fr; }
+  .feat-preview { border-right: none; border-bottom: 1px solid var(--border); }
+  .feat-gif { max-height: 200px; object-fit: cover; }
+}
+
+
 .proj-note {
   margin-top: 28px;
   font-size: 13px;
