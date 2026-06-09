@@ -479,20 +479,42 @@ a { color: var(--blue); text-decoration: none; }
 }
 .hof-items {
   padding: 16px;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(82px, 1fr));
   gap: 8px;
 }
 .hof-empty {
   align-items: center;
   justify-content: center;
-  min-height: 80px;
 }
-.hof-coming {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--muted);
+.bb-pending {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 24px 16px;
+  text-align: center;
+}
+.bb-icon {
+  font-size: 24px;
+  color: var(--accent);
   opacity: .5;
+}
+.bb-status {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--accent);
+  opacity: .7;
+}
+.bb-desc {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  line-height: 1.6;
+  opacity: .6;
+  max-width: 260px;
 }
 .hof-item {
   display: flex;
@@ -503,7 +525,6 @@ a { color: var(--blue); text-decoration: none; }
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 8px 10px;
-  width: 82px;
   height: 88px;
   text-decoration: none;
   transition: border-color .2s, transform .15s;
