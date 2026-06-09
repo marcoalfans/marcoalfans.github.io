@@ -83,69 +83,6 @@ window.addEventListener('scroll', () => {
   });
 }, { passive: true });
 
-// Cert scroll: arrows + auto-scroll
-(function() {
-  const wrap = document.querySelector('.certs-scroll');
-  const prev = document.getElementById('certPrev');
-  const next = document.getElementById('certNext');
-  if (!wrap) return;
-
-  let paused = false;
-  let touchTimer;
-
-  function cardW() {
-    const c = wrap.querySelector('.cert-card');
-    return c ? c.offsetWidth + 20 : 300;
-  }
-  function maxScroll() { return wrap.scrollWidth - wrap.clientWidth; }
-
-  function updateArrows() {
-    const max = maxScroll();
-    if (prev) prev.classList.toggle('hidden', wrap.scrollLeft <= 2);
-    if (next) next.classList.toggle('hidden', max <= 0 || wrap.scrollLeft >= max - 2);
-  }
-
-  // Run after fonts/images settle
-  window.addEventListener('load', updateArrows);
-  setTimeout(updateArrows, 300);
-  wrap.addEventListener('scroll', updateArrows, { passive: true });
-  window.addEventListener('resize', updateArrows);
-
-  if (prev) prev.addEventListener('click', () => {
-    paused = true;
-    wrap.scrollBy({ left: -cardW(), behavior: 'smooth' });
-    setTimeout(() => { paused = false; updateArrows(); }, 700);
-  });
-  if (next) next.addEventListener('click', () => {
-    paused = true;
-    if (wrap.scrollLeft >= maxScroll() - 2) {
-      wrap.scrollTo({ left: 0, behavior: 'smooth' });
-    } else {
-      wrap.scrollBy({ left: cardW(), behavior: 'smooth' });
-    }
-    setTimeout(() => { paused = false; updateArrows(); }, 700);
-  });
-
-  wrap.addEventListener('mouseenter', () => { paused = true; });
-  wrap.addEventListener('mouseleave', () => { paused = false; });
-  wrap.addEventListener('touchstart', () => {
-    paused = true;
-    clearTimeout(touchTimer);
-    touchTimer = setTimeout(() => paused = false, 3000);
-  }, { passive: true });
-
-  function step() {
-    if (!paused) {
-      if (wrap.scrollLeft >= maxScroll() - 2) {
-        wrap.scrollTo({ left: 0, behavior: 'smooth' });
-      } else {
-        wrap.scrollBy({ left: cardW(), behavior: 'smooth' });
-      }
-    }
-    setTimeout(step, 3500);
-  }
-  setTimeout(step, 3500);
-})();
 
 // Cert scroll: drag + auto-scroll + gradient fade
 (function() {
