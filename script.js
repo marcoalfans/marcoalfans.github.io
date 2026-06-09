@@ -222,26 +222,3 @@ window.addEventListener('scroll', () => {
   tick();
 })();
 
-// nemu GIF preview panel
-(function() {
-  const card    = document.getElementById('nemuCard');
-  const panel   = document.getElementById('nemuPanel');
-  const overlay = document.getElementById('nemuOverlay');
-  const closeBtn= document.getElementById('nemuClose');
-  if (!card || !panel) return;
-
-  function open() {
-    panel.classList.add('open');
-    overlay.classList.add('open');
-  }
-  function close() {
-    panel.classList.remove('open');
-    overlay.classList.remove('open');
-  }
-
-  card.addEventListener('click', () => {
-    panel.classList.contains('open') ? close() : open();
-  });
-  closeBtn.addEventListener('click', (e) => { e.stopPropagation(); close(); });
-  overlay.addEventListener('click', close);
-})();
