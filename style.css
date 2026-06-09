@@ -511,6 +511,7 @@ a { color: var(--blue); text-decoration: none; }
   justify-content: center;
 }
 a.hof-item { cursor: pointer; }
+.hof-hidden { display: none; }
 .hof-more {
   border-style: dashed;
   opacity: .5;
