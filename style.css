@@ -207,16 +207,7 @@ a { color: var(--blue); text-decoration: none; }
   cursor: pointer;
   position: relative;
 }
-#nemuCard::after {
-  content: '▶ preview';
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  font-family: var(--mono);
-  font-size: 9px;
-  color: var(--accent);
-  opacity: .6;
-}
+
 
 .nemu-modal {
   display: none;
@@ -235,7 +226,7 @@ a { color: var(--blue); text-decoration: none; }
   border: 1px solid var(--border);
   border-radius: 10px;
   overflow: hidden;
-  width: min(520px, 90vw);
+  width: min(780px, 92vw);
   box-shadow: 0 20px 60px rgba(0,0,0,.7);
   animation: popIn .2s ease;
 }
