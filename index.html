@@ -178,7 +178,7 @@
     <div class="container">
       <h2 class="section-title"><span class="accent">// </span>Projects</h2>
       <div class="projects-grid">
-        <div class="project-card">
+        <div class="project-card" id="nemuCard">
           <div class="project-header">
             <i class="fas fa-folder-open folder-icon"></i>
             <a href="https://github.com/marcoalfans/nemu" target="_blank" class="gh-link"><i class="fab fa-github"></i></a>
@@ -428,6 +428,21 @@
     </div>
   </div>
   <div id="nemuOverlay" class="nemu-overlay"></div>
+
+
+  <!-- nemu preview popup -->
+  <div id="nemuModal" class="nemu-modal" role="dialog" aria-modal="true">
+    <div class="nemu-modal-box">
+      <div class="nemu-modal-bar">
+        <span class="dot red"></span>
+        <span class="dot yellow"></span>
+        <span class="dot green"></span>
+        <span class="nemu-modal-title">nemu — demo</span>
+        <button class="nemu-modal-close" id="nemuModalClose">&#x2715;</button>
+      </div>
+      <img src="assets/img/nemu-demo.gif" alt="nemu demo">
+    </div>
+  </div>
 
 </body>
 </html>
