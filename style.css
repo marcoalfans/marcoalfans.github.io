@@ -203,6 +203,77 @@ a { color: var(--blue); text-decoration: none; }
 
 
 
+#nemuCard {
+  cursor: pointer;
+  position: relative;
+}
+#nemuCard::after {
+  content: '▶ preview';
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--accent);
+  opacity: .6;
+}
+
+.nemu-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+  z-index: 300;
+  align-items: center;
+  justify-content: center;
+}
+.nemu-modal.open {
+  display: flex;
+}
+.nemu-modal-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  width: min(520px, 90vw);
+  box-shadow: 0 20px 60px rgba(0,0,0,.7);
+  animation: popIn .2s ease;
+}
+@keyframes popIn {
+  from { opacity: 0; transform: scale(.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.nemu-modal-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+.nemu-modal-title {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  margin-left: 4px;
+  flex: 1;
+}
+.nemu-modal-close {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0 2px;
+  transition: color .2s;
+}
+.nemu-modal-close:hover { color: var(--text); }
+.nemu-modal-box img {
+  width: 100%;
+  display: block;
+}
+
+
 .proj-note {
   margin-top: 28px;
   font-size: 13px;
