@@ -224,7 +224,7 @@ window.addEventListener('scroll', () => {
 
 
 // nemu GIF popup
-(function() {
+document.addEventListener('DOMContentLoaded', function() {
   const card  = document.getElementById('nemuCard');
   const modal = document.getElementById('nemuModal');
   const close = document.getElementById('nemuModalClose');
@@ -241,4 +241,4 @@ window.addEventListener('scroll', () => {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') modal.classList.remove('open');
   });
-})();
+});
