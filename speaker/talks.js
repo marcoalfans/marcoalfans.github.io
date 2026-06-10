@@ -72,6 +72,15 @@ const TALKS = [
     photo:    ["SMA-53d.jpg", "SMA-53e.jpg", "SMA-53f.jpg"]
   },
   {
+    title:    "Deep Learning and Project-Based Learning for Future-Ready Education",
+    desc:     "A discussion on integrating deep learning approaches and project-based learning into secondary education to create more meaningful, contextual, and student-centered learning experiences. The session also introduced emerging opportunities where artificial intelligence can support teaching and learning processes while maintaining the role of educators as facilitators of critical thinking and creativity. Shared with the educational community at SMAN 15 Jakarta to encourage reflection on preparing students for evolving academic and digital landscapes.",
+    location: "SMAN 15 Jakarta",
+    date:     "May 2025",
+    category: "speaker",
+    slides:   "https://canva.link/vzd3u1mpx2leb08",
+    photo:    ["SMA-15a.jpg", "SMA-15b.jpg"]
+    },
+  {
     title:    "Understanding Nomophobia in the Digital Generation",
     desc:     "An introduction to nomophobia and the growing relationship between smartphone dependency and digital well-being among younger generations. Conducted within the Program Penguatan Profil Pelajar Pancasila (P5) at SMPN 8 Jakarta, the session engaged students and teachers through discussions and reflective assessment using the Nomophobia Questionnaire (NMP-Q) to encourage healthier technology habits and greater awareness of digital dependency.",
     location: "SMPN 8 Jakarta",
