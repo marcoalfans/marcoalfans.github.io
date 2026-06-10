@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Marco Alfan — Speaker | Offensive Security & Threat Intelligence">
+  <title>Speaker — Marco Alfan</title>
+  <link rel="icon" href="../assets/img/toonme.ico">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    /* ---- Speaker page ---- */
+    .spk-hero {
+      padding: 110px 0 40px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 0;
+    }
+    .spk-hero h1 {
+      font-family: var(--mono);
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .spk-hero p {
+      color: var(--muted);
+      font-size: 13px;
+      max-width: 560px;
+    }
+    .spk-count {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 12px;
+    }
+    .spk-count span { color: var(--accent); }
+
+    /* ---- Timeline ---- */
+    .timeline {
+      padding: 52px 0 80px;
+      position: relative;
+    }
+    .timeline-inner {
+      position: relative;
+      padding-left: 40px;
+    }
+    .timeline-inner::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 8px;
+      bottom: 0;
+      width: 1px;
+      background: var(--border);
+    }
+
+    .talk-item {
+      position: relative;
+      margin-bottom: 28px;
+    }
+    .talk-item::before {
+      content: '';
+      position: absolute;
+      left: -34px;
+      top: 19px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--bg);
+      box-shadow: 0 0 0 1px var(--accent);
+      z-index: 1;
+    }
+
+    .talk-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 22px;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      transition: border-color .2s, transform .2s;
+    }
+    .talk-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+    .talk-content { flex: 1; min-width: 0; }
+
+    .talk-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .talk-date {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--accent);
+      background: rgba(255,68,68,.08);
+      border: 1px solid rgba(255,68,68,.2);
+      padding: 2px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .talk-loc {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+    }
+    .talk-loc i { font-size: 9px; }
+
+    .talk-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+    .talk-desc {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 14px;
+    }
+    .talk-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--blue);
+      border: 1px solid rgba(88,166,255,.3);
+      padding: 3px 10px;
+      border-radius: 4px;
+      transition: .2s;
+      text-decoration: none;
+    }
+    .talk-link:hover {
+      background: rgba(88,166,255,.1);
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    /* Photo — fixed size, all standardized */
+    .talk-photo {
+      flex-shrink: 0;
+      width: 176px;
+      height: 118px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+    }
+    .talk-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .talk-photo-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      color: var(--border);
+      font-family: var(--mono);
+      font-size: 10px;
+    }
+    .talk-photo-placeholder i { font-size: 22px; }
+
+    @media (max-width: 768px) {
+      .timeline-inner { padding-left: 28px; }
+      .timeline-inner::before { left: 5px; }
+      .talk-item::before { left: -24px; top: 18px; width: 10px; height: 10px; }
+      .talk-card { flex-direction: column-reverse; }
+      .talk-photo { width: 100%; height: 160px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="/" class="nav-brand">
+        <span class="g">Marco Alfan</span><span class="blink">█</span>
+      </a>
+      <div class="nav-links">
+        <a href="/" style="font-family:var(--mono);font-size:13px;color:var(--muted);transition:color .2s">
+          <i class="fas fa-arrow-left" style="font-size:10px;margin-right:4px"></i>back
+        </a>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+          <i class="fas fa-sun" id="themeIcon"></i>
+        </button>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="/"><i class="fas fa-arrow-left" style="margin-right:6px"></i>back to portfolio</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="spk-hero">
+    <div class="container">
+      <h1><span class="accent">// </span>Speaker</h1>
+      <p>Talks, workshops, and sessions I've delivered on offensive security &amp; threat intelligence.</p>
+      <p class="spk-count">
+        <span id="talkCount">1</span> session<span id="talkPlural">s</span> documented
+      </p>
+    </div>
+  </header>
+
+  <!-- Timeline -->
+  <section class="timeline">
+    <div class="container">
+      <div class="timeline-inner" id="talkList">
+
+        <!-- ============================================================
+             TALK ITEM TEMPLATE — duplicate this block to add more talks
+             ============================================================ -->
+        <div class="talk-item">
+          <div class="talk-card">
+            <div class="talk-content">
+              <div class="talk-meta">
+                <span class="talk-date">5 Mar 2026</span>
+                <span class="talk-loc"><i class="fas fa-location-dot"></i> Universitas Indonesia</span>
+              </div>
+              <h2 class="talk-title">Modern Offensive Security: How AI MCP Are Changing Cybersecurity</h2>
+              <p class="talk-desc">
+                An exploration of how AI-powered tools and Model Context Protocol (MCP) integrations
+                are reshaping the offensive security landscape — from automated reconnaissance to
+                AI-assisted threat analysis and red team operations.
+              </p>
+              <a href="#" class="talk-link">
+                <i class="fas fa-up-right-from-square"></i> View Slides
+              </a>
+            </div>
+            <div class="talk-photo">
+              <!-- Replace with: <img src="../assets/img/speaker-1.jpg" alt="Talk photo"> -->
+              <div class="talk-photo-placeholder">
+                <i class="fas fa-image"></i>
+                <span>photo</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- ============================================================ -->
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p class="footer-cmd"><span class="muted">Connection closed by foreign host.</span></p>
+      <p class="footer-out">© 2026 Marco Alfan</p>
+    </div>
+  </footer>
+
+  <script>
+    // Theme
+    const toggle = document.getElementById('themeToggle');
+    const icon   = document.getElementById('themeIcon');
+    const html   = document.documentElement;
+    const saved  = localStorage.getItem('theme') || 'dark';
+    html.setAttribute('data-theme', saved);
+    icon.className = saved === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+    toggle.addEventListener('click', () => {
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      icon.className = next === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+    });
+
+    // Mobile menu
+    const hb = document.getElementById('hamburger');
+    const mm = document.getElementById('mobileMenu');
+    hb.addEventListener('click', () => mm.classList.toggle('open'));
+
+    // Auto-count talks
+    const items = document.querySelectorAll('.talk-item');
+    const n = items.length;
+    document.getElementById('talkCount').textContent = n;
+    document.getElementById('talkPlural').textContent = n === 1 ? '' : 's';
+  </script>
+</body>
+</html>
