@@ -47,8 +47,16 @@ const TALKS = [
     category: "speaker",
     slides:   "https://canva.link/2ek0e0dugsmf7bh",
     photo:    null
+  },
+  {
+    title:    "Secure Coding (SAST): OWASP Top 10 Deep-Dive",
+    desc:     "A hands-on training session focused on strengthening secure development practices through static application security testing (SAST) and an in-depth review of the OWASP Top 10 (2025). The module explored common application security risks, secure coding considerations, and practical approaches for identifying vulnerabilities earlier in the software development lifecycle. Conducted for technical participants from one of Indonesia’s mining companies, with discussions centered on translating security principles into day-to-day engineering practices.",
+    location: "Gran Rubina Business Park",
+    date:     "May 2026",
+    category: "trainer",
+    slides:   "https://canva.link/23ca18lonniwekj",
+    photo:    null
   }
-
   // Add more talks above this line ↑
   // Example:
   // ,{
