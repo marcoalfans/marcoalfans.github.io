@@ -245,7 +245,7 @@
     // Render cards from TALKS array
     function renderTalks() {
       const list = document.getElementById('talkList');
-      list.innerHTML = [...TALKS].sort((a, b) => new Date(b.date) - new Date(a.date)).map(t => `
+      list.innerHTML = [...TALKS].sort((a, b) => new Date('1 ' + b.date) - new Date('1 ' + a.date)).map(t => `
         <div class="talk-item">
           <div class="talk-card">
             <div class="talk-content">
