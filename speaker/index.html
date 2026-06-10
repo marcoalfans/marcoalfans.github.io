@@ -247,7 +247,9 @@
       list.innerHTML = [...TALKS]
         .sort((a, b) => new Date('1 ' + b.date) - new Date('1 ' + a.date))
         .map(t => {
-          const photos = t.photo ? (Array.isArray(t.photo) ? t.photo : [t.photo]) : [];
+          const _base = (typeof PHOTO_BASE !== 'undefined') ? PHOTO_BASE : '';
+          const _raw  = t.photo ? (Array.isArray(t.photo) ? t.photo : [t.photo]) : [];
+          const photos = _raw.map(p => (p.startsWith('http') || p.startsWith('/') || p.startsWith('.')) ? p : _base + p);
           const photosJson = JSON.stringify(photos).replace(/'/g, "\\'");
 
           const photoHtml = photos.length === 0
