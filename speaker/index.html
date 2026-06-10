@@ -14,159 +14,115 @@
       padding: 110px 0 40px;
       border-bottom: 1px solid var(--border);
     }
-    .spk-hero h1 {
-      font-family: var(--mono);
-      font-size: 28px;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-    .spk-hero p {
-      color: var(--muted);
-      font-size: 13px;
-      max-width: 560px;
-    }
-    .spk-count {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--muted);
-      margin-top: 12px;
-    }
+    .spk-hero h1 { font-family: var(--mono); font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+    .spk-hero p  { color: var(--muted); font-size: 13px; max-width: 560px; }
+    .spk-count   { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 12px; }
     .spk-count span { color: var(--accent); }
 
     .timeline { padding: 52px 0 80px; }
-    .timeline-inner {
-      position: relative;
-      padding-right: 40px;
-    }
+    .timeline-inner { position: relative; padding-right: 40px; }
     .timeline-inner::before {
-      content: '';
-      position: absolute;
-      right: 7px;
-      top: 8px;
-      bottom: 0;
-      width: 1px;
-      background: var(--border);
+      content: ''; position: absolute;
+      right: 7px; top: 8px; bottom: 0;
+      width: 1px; background: var(--border);
     }
 
-    .talk-item {
-      position: relative;
-      margin-bottom: 28px;
-    }
+    .talk-item { position: relative; margin-bottom: 28px; }
     .talk-item::before {
-      content: '';
-      position: absolute;
-      right: -34px;
-      top: 19px;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: var(--accent);
-      border: 2px solid var(--bg);
-      box-shadow: 0 0 0 1px var(--accent);
-      z-index: 1;
+      content: ''; position: absolute;
+      right: -34px; top: 19px;
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--accent); border: 2px solid var(--bg);
+      box-shadow: 0 0 0 1px var(--accent); z-index: 1;
     }
 
     .talk-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px 22px;
-      display: flex;
-      gap: 20px;
-      align-items: flex-start;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px 22px;
+      display: flex; gap: 20px; align-items: flex-start;
       transition: border-color .2s, transform .2s;
     }
     .talk-card:hover { border-color: var(--accent); transform: translateY(-2px); }
 
     .talk-content { flex: 1; min-width: 0; }
 
-    .talk-meta {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
+    .talk-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 10px; }
     .talk-date {
-      font-family: var(--mono);
-      font-size: 10px;
-      color: var(--accent);
-      background: rgba(255,68,68,.08);
-      border: 1px solid rgba(255,68,68,.2);
-      padding: 2px 8px;
-      border-radius: 4px;
-      white-space: nowrap;
+      font-family: var(--mono); font-size: 10px; color: var(--accent);
+      background: rgba(255,68,68,.08); border: 1px solid rgba(255,68,68,.2);
+      padding: 2px 8px; border-radius: 4px; white-space: nowrap;
     }
-    .talk-loc {
-      font-family: var(--mono);
-      font-size: 10px;
-      color: var(--muted);
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      white-space: nowrap;
-    }
+    .talk-loc { font-family: var(--mono); font-size: 10px; color: var(--muted); display: flex; align-items: center; gap: 5px; white-space: nowrap; }
     .talk-loc i { font-size: 9px; }
+    .talk-category { font-family: var(--mono); font-size: 10px; color: var(--muted); opacity: .55; }
 
-    .talk-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text);
-      line-height: 1.5;
-      margin-bottom: 8px;
-    }
-    .talk-desc {
-      font-size: 10px;
-      color: var(--muted);
-      line-height: 1.5;
-      margin-bottom: 8px;
-    }
+    .talk-title { font-size: 14px; font-weight: 600; color: var(--text); line-height: 1.5; margin-bottom: 8px; }
+    .talk-desc  { font-size: 10px; color: var(--muted); line-height: 1.5; margin-bottom: 8px; }
+
     .talk-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-family: var(--mono);
-      font-size: 8px;
-      color: var(--blue);
-      border: 1px solid rgba(88,166,255,.3);
-      padding: 3px 10px;
-      border-radius: 4px;
-      transition: .2s;
-      text-decoration: none;
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: var(--mono); font-size: 8px; color: var(--blue);
+      border: 1px solid rgba(88,166,255,.3); padding: 3px 10px; border-radius: 4px;
+      transition: .2s; text-decoration: none;
     }
-    .talk-link:hover {
-      background: rgba(88,166,255,.1);
-      border-color: var(--blue);
-    }
+    .talk-link:hover { background: rgba(88,166,255,.1); border-color: var(--blue); }
 
+    /* Photo area */
     .talk-photo {
-      flex-shrink: 0;
-      width: 176px;
-      height: 118px;
-      border-radius: 8px;
-      overflow: hidden;
-      background: var(--bg-alt);
-      border: 1px solid var(--border);
+      flex-shrink: 0; position: relative;
+      width: 176px; height: 118px;
+      border-radius: 8px; overflow: hidden;
+      background: var(--bg-alt); border: 1px solid var(--border);
+      cursor: pointer;
     }
-    .talk-photo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
+    .talk-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .2s; }
+    .talk-photo:hover img { transform: scale(1.04); }
     .talk-photo-placeholder {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      color: var(--border);
-      font-family: var(--mono);
-      font-size: 10px;
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 6px; color: var(--border); font-family: var(--mono); font-size: 10px;
+      cursor: default;
     }
     .talk-photo-placeholder i { font-size: 22px; }
+    .photo-more {
+      position: absolute; bottom: 7px; right: 7px;
+      background: rgba(0,0,0,.65); color: #fff;
+      font-family: var(--mono); font-size: 10px; font-weight: 600;
+      padding: 2px 7px; border-radius: 4px;
+      pointer-events: none;
+    }
+
+    /* Lightbox */
+    .lightbox {
+      display: none; position: fixed; inset: 0; z-index: 999;
+      background: rgba(0,0,0,.88); backdrop-filter: blur(6px);
+      align-items: center; justify-content: center;
+    }
+    .lightbox.open { display: flex; }
+    .lb-img-wrap { max-width: 90vw; max-height: 82vh; display: flex; align-items: center; justify-content: center; }
+    .lb-img-wrap img { max-width: 90vw; max-height: 82vh; border-radius: 8px; object-fit: contain; box-shadow: 0 8px 48px rgba(0,0,0,.6); }
+    .lb-btn {
+      position: fixed; top: 50%; transform: translateY(-50%);
+      background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15);
+      color: #fff; width: 42px; height: 42px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 15px; transition: background .2s;
+    }
+    .lb-btn:hover { background: rgba(255,255,255,.18); }
+    .lb-prev { left: 20px; }
+    .lb-next { right: 20px; }
+    .lb-close {
+      position: fixed; top: 18px; right: 20px;
+      background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15);
+      color: #fff; width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 14px; transition: background .2s;
+    }
+    .lb-close:hover { background: rgba(255,255,255,.2); }
+    .lb-counter {
+      position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%);
+      font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,.5);
+    }
 
     @media (max-width: 768px) {
       .timeline-inner { padding-right: 28px; padding-left: 0; }
@@ -174,13 +130,7 @@
       .talk-item::before { right: -24px; left: auto; top: 18px; width: 10px; height: 10px; }
       .talk-card { flex-direction: column-reverse; }
       .talk-photo { width: 100%; height: 160px; }
-    }
-
-    .talk-category {
-      font-family: var(--mono);
-      font-size: 10px;
-      color: var(--muted);
-      opacity: .55;
+      .lb-prev { left: 8px; } .lb-next { right: 8px; }
     }
   </style>
 </head>
@@ -188,9 +138,7 @@
 
   <nav class="navbar" id="navbar">
     <div class="nav-container">
-      <a href="/" class="nav-brand">
-        <span class="g">Marco Alfan</span><span class="blink">█</span>
-      </a>
+      <a href="/" class="nav-brand"><span class="g">Marco Alfan</span><span class="blink">█</span></a>
       <div class="nav-links">
         <a href="/" style="font-family:var(--mono);font-size:13px;color:var(--muted);transition:color .2s">
           <i class="fas fa-arrow-left" style="font-size:10px;margin-right:4px"></i>back
@@ -229,6 +177,15 @@
     </div>
   </footer>
 
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox">
+    <button class="lb-close" id="lbClose"><i class="fas fa-xmark"></i></button>
+    <button class="lb-btn lb-prev" id="lbPrev"><i class="fas fa-chevron-left"></i></button>
+    <div class="lb-img-wrap"><img id="lbImg" src="" alt=""></div>
+    <button class="lb-btn lb-next" id="lbNext"><i class="fas fa-chevron-right"></i></button>
+    <div class="lb-counter" id="lbCounter"></div>
+  </div>
+
   <script src="talks.js"></script>
   <script>
     // Theme
@@ -249,30 +206,75 @@
     document.getElementById('hamburger').addEventListener('click', () =>
       document.getElementById('mobileMenu').classList.toggle('open'));
 
+    // Lightbox
+    let lbPhotos = [], lbIdx = 0;
+    const lb      = document.getElementById('lightbox');
+    const lbImg   = document.getElementById('lbImg');
+    const lbCtr   = document.getElementById('lbCounter');
+
+    function openLightbox(photos, idx) {
+      lbPhotos = photos; lbIdx = idx;
+      lbShow();
+      lb.classList.add('open');
+    }
+    function lbShow() {
+      lbImg.src = lbPhotos[lbIdx];
+      lbCtr.textContent = lbPhotos.length > 1 ? (lbIdx + 1) + ' / ' + lbPhotos.length : '';
+      document.getElementById('lbPrev').style.display = lbPhotos.length > 1 ? '' : 'none';
+      document.getElementById('lbNext').style.display = lbPhotos.length > 1 ? '' : 'none';
+    }
+    function lbNav(dir) {
+      lbIdx = (lbIdx + dir + lbPhotos.length) % lbPhotos.length;
+      lbShow();
+    }
+    function closeLightbox() { lb.classList.remove('open'); }
+
+    document.getElementById('lbClose').addEventListener('click', closeLightbox);
+    document.getElementById('lbPrev').addEventListener('click', () => lbNav(-1));
+    document.getElementById('lbNext').addEventListener('click', () => lbNav(1));
+    lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
+    document.addEventListener('keydown', e => {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape')     closeLightbox();
+      if (e.key === 'ArrowLeft')  lbNav(-1);
+      if (e.key === 'ArrowRight') lbNav(1);
+    });
+
     // Render cards from TALKS array
     function renderTalks() {
       const list = document.getElementById('talkList');
-      list.innerHTML = [...TALKS].sort((a, b) => new Date('1 ' + b.date) - new Date('1 ' + a.date)).map(t => `
-        <div class="talk-item">
-          <div class="talk-card">
-            <div class="talk-content">
-              <div class="talk-meta">
-                <span class="talk-loc"><i class="fas fa-location-dot"></i> ${t.location}</span>
-                <span class="talk-date">${t.date}</span>
-                ${t.category ? `<span class="talk-category">| ${t.category}</span>` : ''}
+
+      list.innerHTML = [...TALKS]
+        .sort((a, b) => new Date('1 ' + b.date) - new Date('1 ' + a.date))
+        .map(t => {
+          const photos = t.photo ? (Array.isArray(t.photo) ? t.photo : [t.photo]) : [];
+          const photosJson = JSON.stringify(photos).replace(/'/g, "\\'");
+
+          const photoHtml = photos.length === 0
+            ? `<div class="talk-photo-placeholder"><i class="fas fa-image"></i><span>photo</span></div>`
+            : `<img src="${photos[0]}" alt="${t.title}">${photos.length > 1 ? `<div class="photo-more">+${photos.length - 1}</div>` : ''}`;
+
+          const photoClick = photos.length > 0
+            ? `onclick="openLightbox(${photosJson.replace(/"/g, '&quot;')}, 0)"`
+            : '';
+
+          return `
+            <div class="talk-item">
+              <div class="talk-card">
+                <div class="talk-content">
+                  <div class="talk-meta">
+                    <span class="talk-loc"><i class="fas fa-location-dot"></i> ${t.location}</span>
+                    <span class="talk-date">${t.date}</span>
+                    ${t.category ? `<span class="talk-category">| ${t.category}</span>` : ''}
+                  </div>
+                  <h2 class="talk-title">${t.title}</h2>
+                  <p class="talk-desc">${t.desc}</p>
+                  ${t.slides ? `<a href="${t.slides}" target="_blank" class="talk-link"><i class="fas fa-up-right-from-square"></i> View Slides</a>` : ''}
+                </div>
+                <div class="talk-photo" ${photoClick}>${photoHtml}</div>
               </div>
-              <h2 class="talk-title">${t.title}</h2>
-              <p class="talk-desc">${t.desc}</p>
-              ${t.slides ? `<a href="${t.slides}" target="_blank" class="talk-link"><i class="fas fa-up-right-from-square"></i> View Slides</a>` : ''}
-            </div>
-            <div class="talk-photo">
-              ${t.photo
-                ? `<img src="${t.photo}" alt="${t.title}">`
-                : '<div class="talk-photo-placeholder"><i class="fas fa-image"></i><span>photo</span></div>'}
-            </div>
-          </div>
-        </div>
-      `).join('');
+            </div>`;
+        }).join('');
 
       const n = TALKS.length;
       document.getElementById('talkCount').textContent = n;
