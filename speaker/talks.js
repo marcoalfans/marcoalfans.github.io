@@ -42,7 +42,7 @@ const TALKS = [
     date:     "Oct 2024",
     category: "awareness",
     slides:   "https://marcoalfans.github.io/nomophobia/",
-    photo:    null
+    photo:    ["SMP-8a.png", "SMP-8b.png", "SMP-8c.png"]
   },
   {
     title:    "Deepfake Technology and Its Negative Effects on Information Authenticity and Identity",
