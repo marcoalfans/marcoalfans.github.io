@@ -16,6 +16,7 @@ const TALKS = [
     desc:     "An exploration of how AI-powered tools and Model Context Protocol (MCP) integrations are reshaping the offensive security landscape — from automated reconnaissance to AI-assisted threat analysis and red team operations.",
     location: "Universitas Indonesia",
     date:     "Mar 2026",
+    category: "speaker",
     slides:   null,
     photo:    null
   }
@@ -26,6 +27,7 @@ const TALKS = [
   //   desc:     "A walkthrough of advanced web vulnerability research techniques.",
   //   location: "ITB — Bandung",
   //   date:     "10 Jan 2026",
+  //   category: "trainer",   // speaker | trainer | judge | mentor | awareness
   //   slides:   "https://docs.google.com/presentation/d/...",
   //   photo:    "../assets/img/speaker-2.jpg"
   // }
