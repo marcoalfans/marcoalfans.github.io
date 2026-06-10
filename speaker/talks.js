@@ -54,6 +54,15 @@ const TALKS = [
     photo:    ["MAR-2a.png", "MAR-2b.png", "MAR-2c.png"]
   },
   {
+    title:    "Artificial Intelligence in Education: Innovating for Future Learning",
+    desc:     "A practical training session introducing the fundamentals of artificial intelligence and its growing role in modern education, from core concepts to hands-on exploration of emerging AI tools. Designed for teachers and education staff at SMAN 53 Jakarta, the session encouraged participants to build foundational understanding, explore classroom and administrative use cases, and reflect on responsible and effective adoption of AI in educational environments.",
+    location: "SMAN 53 Jakarta",
+    date:     "Sep 2025",
+    category: "trainer",
+    slides:   "https://canva.link/vzd3u1mpx2leb08",
+    photo:    ["SMA-53a.png", "SMA-53b.png", "SMA-53c.png"]
+    },
+  {
     title:    "Understanding Nomophobia in the Digital Generation",
     desc:     "An introduction to nomophobia and the growing relationship between smartphone dependency and digital well-being among younger generations. Conducted within the Program Penguatan Profil Pelajar Pancasila (P5) at SMPN 8 Jakarta, the session engaged students and teachers through discussions and reflective assessment using the Nomophobia Questionnaire (NMP-Q) to encourage healthier technology habits and greater awareness of digital dependency.",
     location: "SMPN 8 Jakarta",
