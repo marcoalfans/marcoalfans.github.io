@@ -28,7 +28,7 @@ const TALKS = [
     date:     "Mar 2026",
     category: "awareness",
     slides:   "https://canva.link/xplo8lqbzjadmr6",
-    photo:    [ "../assets/img/MAR-2a.png","../assets/img/MAR-2b.png","../assets/img/MAR-2c.png"]
+    photo:    [ "../assets/img/speaker/MAR-2a.png","../assets/img/speaker/MAR-2b.png","../assets/img/speaker/MAR-2c.png"]
   },
   {
     title:    "Understanding Nomophobia in the Digital Generation",
