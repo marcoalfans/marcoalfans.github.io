@@ -63,6 +63,15 @@ const TALKS = [
     photo:    ["SMA-53a.jpg", "SMA-53b.jpg", "SMA-53c.jpg"]
     },
   {
+    title:    "Be Cyber-Ready from School",
+    desc:     "A foundational cybersecurity session designed to introduce students to essential digital habits and the importance of staying secure in an increasingly connected world. Conducted as part of the Masa Pengenalan Lingkungan Sekolah (MPLS) program at SMAN 53 Jakarta, the session encouraged students to build early awareness of online risks, understand responsible digital behavior, and develop readiness for future academic and technological environments through practical everyday scenarios.",
+    location: "SMAN 53 Jakarta",
+    date:     "Jul 2025",
+    category: "awareness",
+    slides:   "https://canva.link/j83rn9t8yluvhqo",
+    photo:    ["SMA-53d.jpg", "SMA-53e.jpg", "SMA-53f.jpg"]
+  },
+  {
     title:    "Understanding Nomophobia in the Digital Generation",
     desc:     "An introduction to nomophobia and the growing relationship between smartphone dependency and digital well-being among younger generations. Conducted within the Program Penguatan Profil Pelajar Pancasila (P5) at SMPN 8 Jakarta, the session engaged students and teachers through discussions and reflective assessment using the Nomophobia Questionnaire (NMP-Q) to encourage healthier technology habits and greater awareness of digital dependency.",
     location: "SMPN 8 Jakarta",
