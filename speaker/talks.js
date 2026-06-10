@@ -14,7 +14,7 @@
 const TALKS = [
   {
     title:    "Modern Offensive Security: How AI MCP Are Changing Cybersecurity",
-    desc:     "An exploration of how AI-powered tools and Model Context Protocol (MCP) integrations are reshaping the offensive security landscape — from automated reconnaissance to AI-assisted threat analysis and red team operations.",
+    desc:     "An exploration of the evolving intersection between artificial intelligence and offensive security, highlighting how AI-powered tooling and Model Context Protocol (MCP) integrations are shaping reconnaissance, analysis, and red team operations. Delivered as part of the Information Security class for Master of Information Technology (MTI) students at Universitas Indonesia, encouraging discussion on both the capabilities and boundaries of these emerging approaches.",
     location: "Universitas Indonesia",
     date:     "Mar 2026",
     category: "speaker",
