@@ -8,8 +8,13 @@
 //    date     : string  — e.g. "Mar 2026"
 //    category : string  — speaker | trainer | judge | mentor | awareness
 //    slides   : string  — URL to slides, or null to hide button
-//    photo    : string  — path to image e.g. "../assets/img/speaker/speaker-1.jpg", or null or photo: [ "../assets/img/speaker/speaker-1a.jpg","../assets/img/speaker/speaker-1b.jpg","../assets/img/speaker/speaker-1c.jpg"]
+//    photo    : filename, array of filenames, or null
+//              e.g.  photo: "SAST.png"
+//                    photo: ["MAR-2a.png", "MAR-2b.png"]
+//                    photo: null
 // ================================================================
+
+const PHOTO_BASE = "../assets/img/speaker/";
 
 const TALKS = [
   {
@@ -23,12 +28,12 @@ const TALKS = [
   },
   {
     title:    "The Human Firewall: Securing the Workplace from Phishing Risks",
-    desc:     "An overview of phishing risks and the increasingly important role of human awareness as a critical layer of organizational security. Through practical examples and everyday workplace scenarios, the session explored common social engineering techniques, early indicators of phishing attempts, and simple habits that strengthen cyber resilience. Conducted as part of a corporate security awareness initiative at PT ЅΜΙ, encouraging participants to view cybersecurity as a shared responsibility rather than solely a technical function.",
-    location: "PT ЅΜΙ",
+    desc:     "An overview of phishing risks and the increasingly important role of human awareness as a critical layer of organizational security. Through practical examples and everyday workplace scenarios, the session explored common social engineering techniques, early indicators of phishing attempts, and simple habits that strengthen cyber resilience. Conducted as part of a corporate security awareness initiative at PT \u0405\u039c\u0406, encouraging participants to view cybersecurity as a shared responsibility rather than solely a technical function.",
+    location: "PT \u0405\u039c\u0406",
     date:     "Mar 2026",
     category: "awareness",
     slides:   "https://canva.link/xplo8lqbzjadmr6",
-    photo:    [ "../assets/img/speaker/MAR-2a.png","../assets/img/speaker/MAR-2b.png","../assets/img/speaker/MAR-2c.png"]
+    photo:    ["MAR-2a.png", "MAR-2b.png", "MAR-2c.png"]
   },
   {
     title:    "Understanding Nomophobia in the Digital Generation",
@@ -50,22 +55,21 @@ const TALKS = [
   },
   {
     title:    "Secure Coding (SAST): OWASP Top 10 Deep-Dive",
-    desc:     "A hands-on training session focused on strengthening secure development practices through static application security testing (SAST) and an in-depth review of the OWASP Top 10 (2025). The module explored common application security risks, secure coding considerations, and practical approaches for identifying vulnerabilities earlier in the software development lifecycle. Conducted for technical participants from one of Indonesia’s mining companies, with discussions centered on translating security principles into day-to-day engineering practices.",
+    desc:     "A hands-on training session focused on strengthening secure development practices through static application security testing (SAST) and an in-depth review of the OWASP Top 10 (2025). The module explored common application security risks, secure coding considerations, and practical approaches for identifying vulnerabilities earlier in the software development lifecycle. Conducted for technical participants from one of Indonesia\'s mining companies, with discussions centered on translating security principles into day-to-day engineering practices.",
     location: "Gran Rubina Business Park",
     date:     "May 2026",
     category: "trainer",
     slides:   "https://canva.link/23ca18lonniwekj",
-    photo:    "../assets/img/speaker/SAST.png"
+    photo:    "SAST.png"
   }
   // Add more talks above this line ↑
-  // Example:
   // ,{
-  //   title:    "Zero-Day Hunting in Modern Web Apps",
-  //   desc:     "A walkthrough of advanced web vulnerability research techniques.",
-  //   location: "ITB — Bandung",
-  //   date:     "10 Jan 2026",
-  //   category: "trainer",   // speaker | trainer | judge | mentor | awareness
-  //   slides:   "https://docs.google.com/presentation/d/...",
-  //   photo:    "../assets/img/speaker/speaker-2.jpg"
+  //   title:    "Talk Title",
+  //   desc:     "Description.",
+  //   location: "Venue",
+  //   date:     "Jan 2026",
+  //   category: "speaker",   // speaker | trainer | judge | mentor | awareness
+  //   slides:   "https://...",
+  //   photo:    "filename.jpg"   // or ["a.jpg","b.jpg"] or null
   // }
 ];
