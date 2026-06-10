@@ -10,11 +10,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="../style.css">
   <style>
-    /* ---- Speaker page ---- */
     .spk-hero {
       padding: 110px 0 40px;
       border-bottom: 1px solid var(--border);
-      margin-bottom: 0;
     }
     .spk-hero h1 {
       font-family: var(--mono);
@@ -35,11 +33,7 @@
     }
     .spk-count span { color: var(--accent); }
 
-    /* ---- Timeline ---- */
-    .timeline {
-      padding: 52px 0 80px;
-      position: relative;
-    }
+    .timeline { padding: 52px 0 80px; }
     .timeline-inner {
       position: relative;
       padding-right: 40px;
@@ -143,10 +137,8 @@
     .talk-link:hover {
       background: rgba(88,166,255,.1);
       border-color: var(--blue);
-      color: var(--blue);
     }
 
-    /* Photo — fixed size, all standardized */
     .talk-photo {
       flex-shrink: 0;
       width: 176px;
@@ -187,11 +179,10 @@
 </head>
 <body>
 
-  <!-- Navbar -->
   <nav class="navbar" id="navbar">
     <div class="nav-container">
       <a href="/" class="nav-brand">
-        <span class="g">Marco Alfan</span><span class="blink">█</span>
+        <span class="g">Marco Alfan</span><span class="blink">\u2588</span>
       </a>
       <div class="nav-links">
         <a href="/" style="font-family:var(--mono);font-size:13px;color:var(--muted);transition:color .2s">
@@ -210,65 +201,28 @@
     </div>
   </nav>
 
-  <!-- Hero -->
   <header class="spk-hero">
     <div class="container">
       <h1><span class="accent">// </span>Speaker</h1>
       <p>Talks, workshops, and sessions I've delivered on offensive security &amp; threat intelligence.</p>
-      <p class="spk-count">
-        <span id="talkCount">1</span> session<span id="talkPlural">s</span> documented
-      </p>
+      <p class="spk-count"><span id="talkCount">0</span> session<span id="talkPlural">s</span> documented</p>
     </div>
   </header>
 
-  <!-- Timeline -->
   <section class="timeline">
     <div class="container">
-      <div class="timeline-inner" id="talkList">
-
-        <!-- ============================================================
-             TALK ITEM TEMPLATE — duplicate this block to add more talks
-             ============================================================ -->
-        <div class="talk-item">
-          <div class="talk-card">
-            <div class="talk-content">
-              <div class="talk-meta">
-                <span class="talk-loc"><i class="fas fa-location-dot"></i> Universitas Indonesia</span>
-                <span class="talk-date">5 Mar 2026</span>
-              </div>
-              <h2 class="talk-title">Modern Offensive Security: How AI MCP Are Changing Cybersecurity</h2>
-              <p class="talk-desc">
-                An exploration of how AI-powered tools and Model Context Protocol (MCP) integrations
-                are reshaping the offensive security landscape — from automated reconnaissance to
-                AI-assisted threat analysis and red team operations.
-              </p>
-              <a href="#" class="talk-link">
-                <i class="fas fa-up-right-from-square"></i> View Slides
-              </a>
-            </div>
-            <div class="talk-photo">
-              <!-- Replace with: <img src="../assets/img/speaker-1.jpg" alt="Talk photo"> -->
-              <div class="talk-photo-placeholder">
-                <i class="fas fa-image"></i>
-                <span>photo</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- ============================================================ -->
-
-      </div>
+      <div class="timeline-inner" id="talkList"></div>
     </div>
   </section>
 
-  <!-- Footer -->
   <footer>
     <div class="container">
       <p class="footer-cmd"><span class="muted">Connection closed by foreign host.</span></p>
-      <p class="footer-out">© 2026 Marco Alfan</p>
+      <p class="footer-out">\u00a9 2026 Marco Alfan</p>
     </div>
   </footer>
 
+  <script src="talks.js"></script>
   <script>
     // Theme
     const toggle = document.getElementById('themeToggle');
@@ -285,15 +239,39 @@
     });
 
     // Mobile menu
-    const hb = document.getElementById('hamburger');
-    const mm = document.getElementById('mobileMenu');
-    hb.addEventListener('click', () => mm.classList.toggle('open'));
+    document.getElementById('hamburger').addEventListener('click', () =>
+      document.getElementById('mobileMenu').classList.toggle('open'));
 
-    // Auto-count talks
-    const items = document.querySelectorAll('.talk-item');
-    const n = items.length;
-    document.getElementById('talkCount').textContent = n;
-    document.getElementById('talkPlural').textContent = n === 1 ? '' : 's';
+    // Render cards from TALKS array
+    function renderTalks() {
+      const list = document.getElementById('talkList');
+      list.innerHTML = TALKS.map(t => `
+        <div class="talk-item">
+          <div class="talk-card">
+            <div class="talk-content">
+              <div class="talk-meta">
+                <span class="talk-loc"><i class="fas fa-location-dot"></i> ${t.location}</span>
+                <span class="talk-date">${t.date}</span>
+              </div>
+              <h2 class="talk-title">${t.title}</h2>
+              <p class="talk-desc">${t.desc}</p>
+              ${t.slides ? `<a href="${t.slides}" target="_blank" class="talk-link"><i class="fas fa-up-right-from-square"></i> View Slides</a>` : ''}
+            </div>
+            <div class="talk-photo">
+              ${t.photo
+                ? `<img src="${t.photo}" alt="${t.title}">`
+                : '<div class="talk-photo-placeholder"><i class="fas fa-image"></i><span>photo</span></div>'}
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      const n = TALKS.length;
+      document.getElementById('talkCount').textContent = n;
+      document.getElementById('talkPlural').textContent = n === 1 ? '' : 's';
+    }
+
+    renderTalks();
   </script>
 </body>
 </html>
