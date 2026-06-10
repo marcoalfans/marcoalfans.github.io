@@ -18,13 +18,31 @@ const PHOTO_BASE = "../assets/img/speaker/";
 
 const TALKS = [
   {
+    title:    "Secure Coding (SAST): OWASP Top 10 Deep-Dive",
+    desc:     "A hands-on training session focused on strengthening secure development practices through static application security testing (SAST) and an in-depth review of the OWASP Top 10 (2025). The module explored common application security risks, secure coding considerations, and practical approaches for identifying vulnerabilities earlier in the software development lifecycle. Conducted for technical participants from one of Indonesia\'s mining companies, with discussions centered on translating security principles into day-to-day engineering practices.",
+    location: "Gran Rubina Business Park",
+    date:     "May 2026",
+    category: "trainer",
+    slides:   "https://canva.link/23ca18lonniwekj",
+    photo:    "SAST.png"
+  },
+  {
+    title:    "Deepfake Technology and Its Negative Effects on Information Authenticity and Identity",
+    desc:     "A discussion on the rapid advancement of deepfake technology and its growing impact across information ecosystems, highlighting both its innovative potential and the risks associated with misinformation and digital crime. Shared through a public session organized by DeepShield under the Faculty of Social Science and Education, President University, engaging participants from the wider Cikarang community in conversations around digital awareness, critical media literacy, and responsible engagement with emerging technologies.",
+    location: "President University",
+    date:     "Apr 2026",
+    category: "speaker",
+    slides:   "https://canva.link/2ek0e0dugsmf7bh",
+    photo:    null
+  },
+  {
     title:    "Modern Offensive Security: How AI MCP Are Changing Cybersecurity",
     desc:     "An exploration of the evolving intersection between artificial intelligence and offensive security, highlighting how AI-powered tooling and Model Context Protocol (MCP) integrations are shaping reconnaissance, analysis, and red team operations. Delivered as part of the Information Security class for Master of Information Technology (MTI) students at Universitas Indonesia, encouraging discussion on both the capabilities and boundaries of these emerging approaches.",
     location: "Universitas Indonesia",
     date:     "Mar 2026",
     category: "speaker",
     slides:   "https://canva.link/ff1rnqgajujfzqv",
-    photo:    null
+    photo:    "MOS-UI"
   },
   {
     title:    "The Human Firewall: Securing the Workplace from Phishing Risks",
@@ -43,24 +61,6 @@ const TALKS = [
     category: "awareness",
     slides:   "https://marcoalfans.github.io/nomophobia/",
     photo:    ["SMP-8a.png", "SMP-8b.png", "SMP-8c.png"]
-  },
-  {
-    title:    "Deepfake Technology and Its Negative Effects on Information Authenticity and Identity",
-    desc:     "A discussion on the rapid advancement of deepfake technology and its growing impact across information ecosystems, highlighting both its innovative potential and the risks associated with misinformation and digital crime. Shared through a public session organized by DeepShield under the Faculty of Social Science and Education, President University, engaging participants from the wider Cikarang community in conversations around digital awareness, critical media literacy, and responsible engagement with emerging technologies.",
-    location: "President University",
-    date:     "Apr 2026",
-    category: "speaker",
-    slides:   "https://canva.link/2ek0e0dugsmf7bh",
-    photo:    null
-  },
-  {
-    title:    "Secure Coding (SAST): OWASP Top 10 Deep-Dive",
-    desc:     "A hands-on training session focused on strengthening secure development practices through static application security testing (SAST) and an in-depth review of the OWASP Top 10 (2025). The module explored common application security risks, secure coding considerations, and practical approaches for identifying vulnerabilities earlier in the software development lifecycle. Conducted for technical participants from one of Indonesia\'s mining companies, with discussions centered on translating security principles into day-to-day engineering practices.",
-    location: "Gran Rubina Business Park",
-    date:     "May 2026",
-    category: "trainer",
-    slides:   "https://canva.link/23ca18lonniwekj",
-    photo:    "SAST.png"
   }
   // Add more talks above this line ↑
   // ,{
