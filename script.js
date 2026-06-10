@@ -84,10 +84,27 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 
 
-// Cert scroll: drag + auto-scroll + gradient fade
+// Cert scroll: continuous loop auto-scroll + drag
 (function() {
   const wrap = document.querySelector('.certs-scroll');
-  if (!wrap) return;
+  const grid = document.querySelector('.certs-grid');
+  if (!wrap || !grid) return;
+
+  // Disable snap — we control scroll manually
+  wrap.style.scrollSnapType = 'none';
+
+  // Pad to even card count so clones start at a clean column boundary (2-row grid)
+  if (grid.children.length % 2 !== 0) {
+    const sp = document.createElement('div');
+    sp.className = 'cert-card';
+    sp.setAttribute('aria-hidden', 'true');
+    sp.style.cssText = 'visibility:hidden;pointer-events:none';
+    grid.appendChild(sp);
+  }
+  const paddedCount = grid.children.length;
+
+  // Clone all cards — second set for seamless infinite loop
+  Array.from(grid.children).forEach(c => grid.appendChild(c.cloneNode(true)));
 
   // Drag to scroll
   let isDown = false, startX, scrollStart;
@@ -101,29 +118,34 @@ window.addEventListener('scroll', () => {
     wrap.scrollLeft = scrollStart - (e.pageX - startX);
   });
 
-  // Auto-scroll
+  // Pause on hover / touch
   let paused = false;
-  wrap.addEventListener('mouseenter', () => paused = true);
-  wrap.addEventListener('mouseleave', () => paused = false);
+  wrap.addEventListener('mouseenter', () => { paused = true; });
+  wrap.addEventListener('mouseleave', () => { paused = false; });
   wrap.addEventListener('touchstart', () => {
     paused = true;
-    setTimeout(() => paused = false, 4000);
+    setTimeout(() => { paused = false; }, 4000);
   }, { passive: true });
 
-  function step() {
+  // rAF continuous scroll — 0.7 px/frame ≈ 42 px/s, smooth and readable
+  const SPEED = 0.7;
+  let loopPoint = 0;
+
+  function autoScroll() {
     if (!paused) {
-      const max = wrap.scrollWidth - wrap.clientWidth;
-      const card = wrap.querySelector('.cert-card');
-      const step = card ? card.offsetWidth + 20 : 300;
-      if (wrap.scrollLeft >= max - 2) {
-        wrap.scrollTo({ left: 0, behavior: 'smooth' });
-      } else {
-        wrap.scrollBy({ left: step, behavior: 'smooth' });
+      wrap.scrollLeft += SPEED;
+      if (loopPoint > 0 && wrap.scrollLeft >= loopPoint) {
+        wrap.scrollLeft -= loopPoint;
       }
     }
-    setTimeout(step, 3500);
+    requestAnimationFrame(autoScroll);
   }
-  setTimeout(step, 3500);
+
+  // Measure loop point after layout settles (2 frames)
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    loopPoint = grid.children[paddedCount].offsetLeft;
+    autoScroll();
+  }));
 })();
 
 // Navbar brand typewriter: Marco Alfan ↔ Kac0
