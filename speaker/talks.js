@@ -20,6 +20,15 @@ const TALKS = [
     category: "speaker",
     slides:   "https://canva.link/ff1rnqgajujfzqv",
     photo:    null
+  },
+  {
+  title:    "Understanding Nomophobia in the Digital Generation",
+  desc:     "An introduction to nomophobia and the growing relationship between smartphone dependency and digital well-being among younger generations. Conducted within the Program Penguatan Profil Pelajar Pancasila (P5) at SMPN 8 Jakarta, the session engaged students and teachers through discussions and reflective assessment using the Nomophobia Questionnaire (NMP-Q) to encourage healthier technology habits and greater awareness of digital dependency.",
+  location: "SMPN 8 Jakarta",
+  date:     "Oct 2024",
+  category: "awareness",
+  slides:   "https://marcoalfans.github.io/nomophobia/",
+  photo:    null
   }
   // Add more talks above this line ↑
   // Example:
