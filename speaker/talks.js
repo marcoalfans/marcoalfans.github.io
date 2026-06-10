@@ -22,13 +22,22 @@ const TALKS = [
     photo:    null
   },
   {
-  title:    "Understanding Nomophobia in the Digital Generation",
-  desc:     "An introduction to nomophobia and the growing relationship between smartphone dependency and digital well-being among younger generations. Conducted within the Program Penguatan Profil Pelajar Pancasila (P5) at SMPN 8 Jakarta, the session engaged students and teachers through discussions and reflective assessment using the Nomophobia Questionnaire (NMP-Q) to encourage healthier technology habits and greater awareness of digital dependency.",
-  location: "SMPN 8 Jakarta",
-  date:     "Oct 2024",
-  category: "awareness",
-  slides:   "https://marcoalfans.github.io/nomophobia/",
-  photo:    null
+    title:    "The Human Firewall: Securing the Workplace from Phishing Risks",
+    desc:     "An overview of phishing risks and the increasingly important role of human awareness as a critical layer of organizational security. Through practical examples and everyday workplace scenarios, the session explored common social engineering techniques, early indicators of phishing attempts, and simple habits that strengthen cyber resilience. Conducted as part of a corporate security awareness initiative at PT SMI, encouraging participants to view cybersecurity as a shared responsibility rather than solely a technical function.",
+    location: "PT SMI",
+    date:     "Mar 2026",
+    category: "awareness",
+    slides:   "https://canva.link/xplo8lqbzjadmr6",
+    photo:    null
+  },
+  {
+    title:    "Understanding Nomophobia in the Digital Generation",
+    desc:     "An introduction to nomophobia and the growing relationship between smartphone dependency and digital well-being among younger generations. Conducted within the Program Penguatan Profil Pelajar Pancasila (P5) at SMPN 8 Jakarta, the session engaged students and teachers through discussions and reflective assessment using the Nomophobia Questionnaire (NMP-Q) to encourage healthier technology habits and greater awareness of digital dependency.",
+    location: "SMPN 8 Jakarta",
+    date:     "Oct 2024",
+    category: "awareness",
+    slides:   "https://marcoalfans.github.io/nomophobia/",
+    photo:    null
   }
   // Add more talks above this line ↑
   // Example:
