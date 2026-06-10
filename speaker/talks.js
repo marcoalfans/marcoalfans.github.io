@@ -8,7 +8,7 @@
 //    date     : string  — e.g. "Mar 2026"
 //    category : string  — speaker | trainer | judge | mentor | awareness
 //    slides   : string  — URL to slides, or null to hide button
-//    photo    : string  — path to image e.g. "../assets/img/speaker/speaker-1.jpg", or null
+//    photo    : string  — path to image e.g. "../assets/img/speaker/speaker-1.jpg", or null or photo: [ "../assets/img/speaker/speaker-1a.jpg","../assets/img/speaker/speaker-1b.jpg","../assets/img/speaker/speaker-1c.jpg"]
 // ================================================================
 
 const TALKS = [
@@ -19,7 +19,7 @@ const TALKS = [
     date:     "Mar 2026",
     category: "speaker",
     slides:   "https://canva.link/ff1rnqgajujfzqv",
-    photo:    "../assets/img/speaker/SAST.png"
+    photo:    null
   },
   {
     title:    "The Human Firewall: Securing the Workplace from Phishing Risks",
@@ -28,7 +28,7 @@ const TALKS = [
     date:     "Mar 2026",
     category: "awareness",
     slides:   "https://canva.link/xplo8lqbzjadmr6",
-    photo:    null
+    photo:    [ "../assets/img/MAR-2a.png","../assets/img/MAR-2b.png","../assets/img/MAR-2c.png"]
   },
   {
     title:    "Understanding Nomophobia in the Digital Generation",
@@ -55,7 +55,7 @@ const TALKS = [
     date:     "May 2026",
     category: "trainer",
     slides:   "https://canva.link/23ca18lonniwekj",
-    photo:    null
+    photo:    "../assets/img/speaker/SAST.png"
   }
   // Add more talks above this line ↑
   // Example:
