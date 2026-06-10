@@ -42,7 +42,7 @@ const TALKS = [
     date:     "Mar 2026",
     category: "speaker",
     slides:   "https://canva.link/ff1rnqgajujfzqv",
-    photo:    "MOS-UI"
+    photo:    "MOS-UI.png"
   },
   {
     title:    "The Human Firewall: Securing the Workplace from Phishing Risks",
