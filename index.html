@@ -344,46 +344,8 @@
     </div>
   </footer>
 
-  <script src="hof.js"></script>
   <script>
-    (function() {
-      if (typeof HOF === 'undefined') return;
-      const base = (typeof HOF_LOGO_BASE !== 'undefined') ? HOF_LOGO_BASE : '';
-
-      function makeChip(item) {
-        const tag   = item.url ? 'a' : 'div';
-        const href  = item.url ? ` href="${item.url}" target="_blank" rel="noopener noreferrer"` : '';
-        const hide  = item.hidden ? ' hof-hidden' : '';
-        const alt   = item.alt || item.name;
-        return `<${tag}${href} class="hof-item${hide}">
-            <img src="${base}${item.logo}" alt="${alt}" class="hof-logo">
-            <span>${item.name}</span>
-          </${tag}>`;
-      }
-
-      // VDP
-      const vdpEl = document.getElementById('hofVdp');
-      if (vdpEl && HOF.vdp) {
-        const hasHidden = HOF.vdp.some(i => i.hidden);
-        vdpEl.innerHTML = HOF.vdp.map(makeChip).join('') +
-          (hasHidden ? `<div class="hof-item hof-more"><i class="fas fa-ellipsis-h"></i><span>&amp; more</span></div>` : '');
-      }
-
-      // Bug Bounty
-      const bbEl = document.getElementById('hofBugBounty');
-      if (bbEl) {
-        if (!HOF.bugbounty || HOF.bugbounty.length === 0) {
-          bbEl.classList.add('hof-empty');
-          bbEl.innerHTML = '<span class="bb-pending">Pending coordinated disclosure approval.</span>';
-        } else {
-          bbEl.innerHTML = HOF.bugbounty.map(makeChip).join('');
-        }
-      }
-    })();
-  </script>
-    <script src="certs.js"></script>
-  <script>
-    (function() {
+    function renderCerts() {
       const grid = document.getElementById('certsGrid');
       if (!grid || typeof CERTS === 'undefined') return;
       grid.innerHTML = CERTS.map(c => `
@@ -399,9 +361,64 @@
             </div>
           </div>
         </div>`).join('');
+    }
+
+    function renderHof() {
+      if (typeof HOF === 'undefined') return;
+      const base = (typeof HOF_LOGO_BASE !== 'undefined') ? HOF_LOGO_BASE : '';
+      function makeChip(item) {
+        const tag  = item.url ? 'a' : 'div';
+        const href = item.url ? ` href="${item.url}" target="_blank" rel="noopener noreferrer"` : '';
+        const hide = item.hidden ? ' hof-hidden' : '';
+        const alt  = item.alt || item.name;
+        return `<${tag}${href} class="hof-item${hide}"><img src="${base}${item.logo}" alt="${alt}" class="hof-logo"><span>${item.name}</span></${tag}>`;
+      }
+      const vdpEl = document.getElementById('hofVdp');
+      if (vdpEl && HOF.vdp) {
+        const hasHidden = HOF.vdp.some(i => i.hidden);
+        vdpEl.innerHTML = HOF.vdp.map(makeChip).join('') +
+          (hasHidden ? '<div class="hof-item hof-more"><i class="fas fa-ellipsis-h"></i><span>&amp; more</span></div>' : '');
+      }
+      const bbEl = document.getElementById('hofBugBounty');
+      if (bbEl) {
+        if (!HOF.bugbounty || HOF.bugbounty.length === 0) {
+          bbEl.classList.add('hof-empty');
+          bbEl.innerHTML = '<span class="bb-pending">Pending coordinated disclosure approval.</span>';
+        } else {
+          bbEl.innerHTML = HOF.bugbounty.map(makeChip).join('');
+        }
+      }
+    }
+  </script>
+
+  <script>
+    (function() {
+      const TTL = 24 * 3600000;
+      function runCode(code) {
+        const s = document.createElement('script');
+        s.textContent = code;
+        document.head.appendChild(s);
+      }
+      async function loadData(entry) {
+        const cached   = localStorage.getItem(entry.key);
+        const cachedAt = localStorage.getItem(entry.key + '_at');
+        if (cached && cachedAt && (Date.now() - Number(cachedAt)) < TTL) {
+          runCode(cached); return;
+        }
+        const res  = await fetch(entry.url);
+        const code = await res.text();
+        runCode(code);
+        localStorage.setItem(entry.key,         code);
+        localStorage.setItem(entry.key + '_at', Date.now());
+      }
+      Promise.all([
+        loadData({ url: 'https://gist.githubusercontent.com/marcoalfans/7404cdb81d71cb932d71141c705acb1c/raw/certs.js', key: 'pf_certs' }),
+        loadData({ url: 'https://gist.githubusercontent.com/marcoalfans/7aecd864940d3055b43a4a5c8acf301d/raw/hof.js', key: 'pf_hof'   })
+      ]).then(() => { renderCerts(); renderHof(); });
     })();
   </script>
-    <script src="script.js"></script>
+
+  <script src="script.js"></script>
 
   <!-- nemu preview popup -->
   <div id="nemuModal" class="nemu-modal" role="dialog" aria-modal="true">
