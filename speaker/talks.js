@@ -33,7 +33,7 @@ const TALKS = [
     date:     "Apr 2026",
     category: "speaker",
     slides:   "https://canva.link/2ek0e0dugsmf7bh",
-    photo:    null
+    photo:    ["DEEPSa.png", "DEEPSb.png"]
   },
   {
     title:    "Modern Offensive Security: How AI MCP Are Changing Cybersecurity",
