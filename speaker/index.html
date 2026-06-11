@@ -186,7 +186,40 @@
     <div class="lb-counter" id="lbCounter"></div>
   </div>
 
-  <script src="talks.js"></script>
+  <script>
+    (function() {
+      const TTL = 24 * 3600000;
+
+      function runCode(code) {
+        const s = document.createElement('script');
+        s.textContent = code;
+        document.head.appendChild(s);
+      }
+
+      async function loadData(entry) {
+        const cached   = localStorage.getItem(entry.key);
+        const cachedAt = localStorage.getItem(entry.key + '_at');
+        if (cached && cachedAt && (Date.now() - Number(cachedAt)) < TTL) {
+          runCode(cached); return;
+        }
+        const res  = await fetch(entry.url);
+        const code = await res.text();
+        runCode(code);
+        localStorage.setItem(entry.key,        code);
+        localStorage.setItem(entry.key + '_at', Date.now());
+      }
+
+      const scripts = [
+    { check: "TALKS", url: "https://gist.githubusercontent.com/marcoalfans/06591cd2b7c9cbf1717d0c7ba7079871/raw/talks.js", key: "pf_talks" },
+      ];
+
+      Promise.all(scripts.map(loadData)).then(() => {
+        if (typeof renderCerts !== 'undefined') renderCerts();
+        if (typeof renderHof   !== 'undefined') renderHof();
+        if (typeof renderTalks !== 'undefined') renderTalks();
+      });
+    })();
+  </script>
   <script>
     // Theme
     const toggle = document.getElementById('themeToggle');
@@ -285,7 +318,6 @@
       document.getElementById('talkPlural').textContent = n === 1 ? '' : 's';
     }
 
-    renderTalks();
   </script>
 </body>
 </html>
