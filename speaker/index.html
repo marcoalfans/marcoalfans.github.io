@@ -209,15 +209,55 @@
         localStorage.setItem(entry.key + '_at', Date.now());
       }
 
+      function renderTalks() {
+        const list = document.getElementById('talkList');
+
+        list.innerHTML = [...TALKS]
+          .map((t, i) => ({t, i}))
+          .sort((a, b) => new Date('1 ' + b.t.date) - new Date('1 ' + a.t.date) || a.i - b.i)
+          .map(({t}) => t)
+          .map(t => {
+            const _base = (typeof PHOTO_BASE !== 'undefined') ? PHOTO_BASE : '';
+            const _raw  = t.photo ? (Array.isArray(t.photo) ? t.photo : [t.photo]) : [];
+            const photos = _raw.map(p => (p.startsWith('http') || p.startsWith('/') || p.startsWith('.')) ? p : _base + p);
+            const photosJson = JSON.stringify(photos);
+
+            const photoHtml = photos.length === 0
+              ? `<div class="talk-photo-placeholder"><i class="fas fa-image"></i><span>photo</span></div>`
+              : `<img src="${photos[0]}" alt="${t.title}">${photos.length > 1 ? `<div class="photo-more">+${photos.length - 1}</div>` : ''}`;
+
+            const photoClick = photos.length > 0
+              ? `onclick="openLightbox(${photosJson.replace(/"/g, '&quot;')}, 0)"`
+              : '';
+
+            return `
+            <div class="talk-item">
+              <div class="talk-card">
+                <div class="talk-content">
+                  <div class="talk-meta">
+                    <span class="talk-loc"><i class="fas fa-location-dot"></i> ${t.location}</span>
+                    <span class="talk-date">${t.date}</span>
+                    ${t.category ? `<span class="talk-category">| ${t.category}</span>` : ''}
+                  </div>
+                  <h2 class="talk-title">${t.title}</h2>
+                  <p class="talk-desc">${t.desc}</p>
+                  ${t.slides ? `<a href="${t.slides}" target="_blank" rel="noopener noreferrer" class="talk-link"><i class="fas fa-up-right-from-square"></i> View Slides</a>` : ''}
+                </div>
+                <div class="talk-photo" ${photoClick}>${photoHtml}</div>
+              </div>
+            </div>`;
+          }).join('');
+
+        const n = TALKS.length;
+        document.getElementById('talkCount').textContent = n;
+        document.getElementById('talkPlural').textContent = n === 1 ? '' : 's';
+      }
+
       const scripts = [
-    { check: "TALKS", url: "https://gist.githubusercontent.com/marcoalfans/06591cd2b7c9cbf1717d0c7ba7079871/raw/talks.js", key: "pf_talks" },
+        { url: 'https://gist.githubusercontent.com/marcoalfans/06591cd2b7c9cbf1717d0c7ba7079871/raw/talks.js', key: 'pf_talks' },
       ];
 
-      Promise.all(scripts.map(loadData)).then(() => {
-        if (typeof renderCerts !== 'undefined') renderCerts();
-        if (typeof renderHof   !== 'undefined') renderHof();
-        if (typeof renderTalks !== 'undefined') renderTalks();
-      });
+      Promise.all(scripts.map(loadData)).then(() => { renderTalks(); });
     })();
   </script>
   <script>
@@ -272,51 +312,6 @@
       if (e.key === 'ArrowLeft')  lbNav(-1);
       if (e.key === 'ArrowRight') lbNav(1);
     });
-
-    // Render cards from TALKS array
-    function renderTalks() {
-      const list = document.getElementById('talkList');
-
-      list.innerHTML = [...TALKS]
-        .map((t, i) => ({t, i}))
-        .sort((a, b) => new Date('1 ' + b.t.date) - new Date('1 ' + a.t.date) || a.i - b.i)
-        .map(({t}) => t)
-        .map(t => {
-          const _base = (typeof PHOTO_BASE !== 'undefined') ? PHOTO_BASE : '';
-          const _raw  = t.photo ? (Array.isArray(t.photo) ? t.photo : [t.photo]) : [];
-          const photos = _raw.map(p => (p.startsWith('http') || p.startsWith('/') || p.startsWith('.')) ? p : _base + p);
-          const photosJson = JSON.stringify(photos);
-
-          const photoHtml = photos.length === 0
-            ? `<div class="talk-photo-placeholder"><i class="fas fa-image"></i><span>photo</span></div>`
-            : `<img src="${photos[0]}" alt="${t.title}">${photos.length > 1 ? `<div class="photo-more">+${photos.length - 1}</div>` : ''}`;
-
-          const photoClick = photos.length > 0
-            ? `onclick="openLightbox(${photosJson.replace(/"/g, '&quot;')}, 0)"`
-            : '';
-
-          return `
-            <div class="talk-item">
-              <div class="talk-card">
-                <div class="talk-content">
-                  <div class="talk-meta">
-                    <span class="talk-loc"><i class="fas fa-location-dot"></i> ${t.location}</span>
-                    <span class="talk-date">${t.date}</span>
-                    ${t.category ? `<span class="talk-category">| ${t.category}</span>` : ''}
-                  </div>
-                  <h2 class="talk-title">${t.title}</h2>
-                  <p class="talk-desc">${t.desc}</p>
-                  ${t.slides ? `<a href="${t.slides}" target="_blank" rel="noopener noreferrer" class="talk-link"><i class="fas fa-up-right-from-square"></i> View Slides</a>` : ''}
-                </div>
-                <div class="talk-photo" ${photoClick}>${photoHtml}</div>
-              </div>
-            </div>`;
-        }).join('');
-
-      const n = TALKS.length;
-      document.getElementById('talkCount').textContent = n;
-      document.getElementById('talkPlural').textContent = n === 1 ? '' : 's';
-    }
 
   </script>
 </body>
