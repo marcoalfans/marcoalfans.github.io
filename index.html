@@ -287,9 +287,7 @@
           <div class="hof-col-header">
             <i class="fas fa-bug"></i> Bug Bounty
           </div>
-          <div class="hof-items hof-empty">
-            <span class="bb-pending">Pending coordinated disclosure approval.</span>
-          </div>
+          <div class="hof-items" id="hofBugBounty"></div>
         </div>
 
         <!-- VDP -->
@@ -297,80 +295,7 @@
           <div class="hof-col-header">
             <i class="fas fa-shield-alt"></i> VDP
           </div>
-          <div class="hof-items">
-          <a href="https://cert.europa.eu/hall-of-fame#:~:text=Marco%20Alfan,Indonesia" target="_blank" class="hof-item">
-            <img src="assets/img/hof/cert-eu.ico" alt="CERT-EU" class="hof-logo">
-            <span>CERT-EU</span>
-          </a>
-          <div class="hof-item">
-            <img src="assets/img/hof/komdigi.ico" alt="Komdigi" class="hof-logo">
-            <span>Komdigi</span>
-          </div>
-          <div class="hof-item">
-            <img src="assets/img/hof/kemenag.png" alt="Kemenag" class="hof-logo">
-            <span>Kemenag</span>
-          </div>
-          <div class="hof-item">
-            <img src="assets/img/hof/kemenaker.png" alt="Kemenaker" class="hof-logo">
-            <span>Kemenaker</span>
-          </div>
-          <div class="hof-item">
-            <img src="assets/img/hof/kemenkeu.png" alt="Kemenkeu" class="hof-logo">
-            <span>Kemenkeu</span>
-          </div>
-          <div class="hof-item">
-            <img src="assets/img/hof/bssn.png" alt="BSSN" class="hof-logo">
-            <span>BSSN</span>
-          </div>
-          <div class="hof-item">
-            <img src="assets/img/hof/kpk.png" alt="KPK" class="hof-logo">
-            <span>KPK</span>
-          </div>
-          <div class="hof-item">
-            <img src="assets/img/hof/baznas.ico" alt="BAZNAS" class="hof-logo">
-            <span>BAZNAS</span>
-          </div>
-          <div class="hof-item hof-hidden">
-            <img src="assets/img/hof/pelindo.png" alt="Pelindo" class="hof-logo">
-            <span>Pelindo</span>
-          </div>
-          <div class="hof-item">
-            <img src="assets/img/hof/bmkg.png" alt="BMKG" class="hof-logo">
-            <span>BMKG</span>
-          </div>
-          <div class="hof-item">
-            <img src="assets/img/hof/idfood.png" alt="ID FOOD" class="hof-logo">
-            <span>ID FOOD</span>
-          </div>
-          <div class="hof-item">
-            <img src="assets/img/hof/polri.png" alt="POLRI" class="hof-logo">
-            <span>POLRI</span>
-          </div>
-          <div class="hof-item hof-hidden">
-            <img src="assets/img/hof/familymart.png" alt="FamilyMart" class="hof-logo">
-            <span>FamilyMart</span>
-          </div>
-          <div class="hof-item">
-            <img src="assets/img/hof/dki-jakarta.png" alt="DKI Jakarta" class="hof-logo">
-            <span>DKI Jakarta</span>
-          </div>
-          <div class="hof-item">
-            <img src="assets/img/hof/tangsel.png" alt="Tangerang Selatan" class="hof-logo">
-            <span>Tangsel</span>
-          </div>
-          <div class="hof-item hof-hidden">
-            <img src="assets/img/hof/diy.ico" alt="D.I. Yogyakarta" class="hof-logo">
-            <span>DIY</span>
-          </div>
-          <div class="hof-item">
-            <img src="assets/img/hof/pontianak.png" alt="Kota Pontianak" class="hof-logo">
-            <span>Kota Pontianak</span>
-          </div>
-          <div class="hof-item hof-more">
-            <i class="fas fa-ellipsis-h"></i>
-            <span>&amp; more</span>
-          </div>
-          </div>
+          <div class="hof-items" id="hofVdp"></div>
         </div>
 
       </div>
@@ -419,7 +344,44 @@
     </div>
   </footer>
 
-  <script src="certs.js"></script>
+  <script src="hof.js"></script>
+  <script>
+    (function() {
+      if (typeof HOF === 'undefined') return;
+      const base = (typeof HOF_LOGO_BASE !== 'undefined') ? HOF_LOGO_BASE : '';
+
+      function makeChip(item) {
+        const tag   = item.url ? 'a' : 'div';
+        const href  = item.url ? ` href="${item.url}" target="_blank" rel="noopener noreferrer"` : '';
+        const hide  = item.hidden ? ' hof-hidden' : '';
+        const alt   = item.alt || item.name;
+        return `<${tag}${href} class="hof-item${hide}">
+            <img src="${base}${item.logo}" alt="${alt}" class="hof-logo">
+            <span>${item.name}</span>
+          </${tag}>`;
+      }
+
+      // VDP
+      const vdpEl = document.getElementById('hofVdp');
+      if (vdpEl && HOF.vdp) {
+        const hasHidden = HOF.vdp.some(i => i.hidden);
+        vdpEl.innerHTML = HOF.vdp.map(makeChip).join('') +
+          (hasHidden ? `<div class="hof-item hof-more"><i class="fas fa-ellipsis-h"></i><span>&amp; more</span></div>` : '');
+      }
+
+      // Bug Bounty
+      const bbEl = document.getElementById('hofBugBounty');
+      if (bbEl) {
+        if (!HOF.bugbounty || HOF.bugbounty.length === 0) {
+          bbEl.classList.add('hof-empty');
+          bbEl.innerHTML = '<span class="bb-pending">Pending coordinated disclosure approval.</span>';
+        } else {
+          bbEl.innerHTML = HOF.bugbounty.map(makeChip).join('');
+        }
+      }
+    })();
+  </script>
+    <script src="certs.js"></script>
   <script>
     (function() {
       const grid = document.getElementById('certsGrid');
