@@ -17,10 +17,20 @@ toggle.addEventListener('click', () => {
 // Mobile menu
 const hamburger = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobileMenu');
-hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+hamburger.setAttribute('aria-expanded', 'false');
+hamburger.addEventListener('click', () => {
+  const open = mobileMenu.classList.toggle('open');
+  hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
+});
 mobileMenu.querySelectorAll('a').forEach(a =>
-  a.addEventListener('click', () => mobileMenu.classList.remove('open'))
+  a.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+  })
 );
+
+// Respect users who prefer reduced motion
+const REDUCE_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // Typewriter — whoami → per-line output → pause → reset → loop
 const tw = document.getElementById('typewriter');
@@ -127,24 +137,45 @@ window.addEventListener('scroll', () => {
     setTimeout(() => { paused = false; }, 4000);
   }, { passive: true });
 
+  // Pause the loop while the section is scrolled out of view (saves CPU/battery)
+  let offscreen = false;
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(entries => {
+      offscreen = !entries[0].isIntersecting;
+    }, { threshold: 0 }).observe(wrap);
+  }
+
+  // Honor reduced-motion: leave cards in place, scrollable by hand, but don't auto-animate
+  if (REDUCE_MOTION) return;
+
   // rAF continuous scroll — 0.7 px/frame ≈ 42 px/s, smooth and readable
   const SPEED = 0.7;
   let loopPoint = 0;
+  let rafId = null;
 
   function autoScroll() {
-    if (!paused) {
+    if (!paused && !offscreen) {
       wrap.scrollLeft += SPEED;
       if (loopPoint > 0 && wrap.scrollLeft >= loopPoint) {
         wrap.scrollLeft -= loopPoint;
       }
     }
-    requestAnimationFrame(autoScroll);
+    rafId = requestAnimationFrame(autoScroll);
   }
+
+  // Fully stop the loop when the tab is hidden; resume on return
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+    } else if (!rafId) {
+      rafId = requestAnimationFrame(autoScroll);
+    }
+  });
 
   // Measure loop point after layout settles (2 frames)
   requestAnimationFrame(() => requestAnimationFrame(() => {
     loopPoint = grid.children[paddedCount].offsetLeft;
-    autoScroll();
+    rafId = requestAnimationFrame(autoScroll);
   }));
 })();
 

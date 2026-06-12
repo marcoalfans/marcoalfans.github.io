@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Security writeups by Marco Alfan — CTF, HackTheBox, bug bounty and lab walkthroughs on offensive security.">
+  <title>Writeups — Marco Alfan</title>
+  <link rel="canonical" href="https://marcoalfans.github.io/writeups/">
+  <link rel="icon" href="../assets/img/toonme.ico">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Writeups — Marco Alfan">
+  <meta property="og:description" content="CTF, HackTheBox, bug bounty and lab walkthroughs on offensive security.">
+  <meta property="og:url" content="https://marcoalfans.github.io/writeups/">
+  <meta property="og:image" content="https://marcoalfans.github.io/assets/img/photo-profile.png">
+  <meta property="og:site_name" content="Marco Alfan">
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Writeups — Marco Alfan">
+  <meta name="twitter:description" content="CTF, HackTheBox, bug bounty and lab walkthroughs on offensive security.">
+  <meta name="twitter:image" content="https://marcoalfans.github.io/assets/img/photo-profile.png">
+
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .wu-hero {
+      padding: 110px 0 36px;
+      border-bottom: 1px solid var(--border);
+    }
+    .wu-hero h1 { font-family: var(--mono); font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+    .wu-hero p  { color: var(--muted); font-size: 13px; max-width: 800px; }
+    .wu-count   { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 12px; }
+    .wu-count span { color: var(--accent); }
+
+    /* Filter bar */
+    .wu-filters {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      padding: 28px 0 0;
+    }
+    .wu-filter {
+      font-family: var(--mono); font-size: 11px; color: var(--muted);
+      background: var(--bg-card); border: 1px solid var(--border);
+      padding: 6px 14px; border-radius: 6px; cursor: pointer;
+      transition: .18s;
+    }
+    .wu-filter:hover { color: var(--text); border-color: var(--muted); }
+    .wu-filter.active { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+
+    /* Grid */
+    .wu-section { padding: 28px 0 80px; }
+    .wu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 18px;
+    }
+    .wu-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px 22px;
+      display: flex; flex-direction: column; gap: 11px;
+      transition: border-color .2s, transform .2s;
+    }
+    .wu-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+
+    .wu-top { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; }
+    .wu-platform {
+      font-family: var(--mono); font-size: 10px; font-weight: 700;
+      padding: 3px 9px; border-radius: 4px; white-space: nowrap;
+      text-transform: uppercase; letter-spacing: .04em;
+    }
+    .wu-pf-ctf        { color: var(--yellow); background: rgba(227,179,65,.10); border: 1px solid rgba(227,179,65,.28); }
+    .wu-pf-hackthebox { color: var(--green);  background: rgba(126,231,135,.10); border: 1px solid rgba(126,231,135,.28); }
+    .wu-pf-bugbounty  { color: var(--accent); background: rgba(255,68,68,.08);   border: 1px solid rgba(255,68,68,.24); }
+    .wu-pf-lab        { color: var(--blue);   background: rgba(88,166,255,.10);  border: 1px solid rgba(88,166,255,.28); }
+    .wu-pf-default    { color: var(--muted);  background: var(--bg-alt);          border: 1px solid var(--border); }
+
+    .wu-diff {
+      font-family: var(--mono); font-size: 9px; color: var(--muted);
+      border: 1px solid var(--border); padding: 2px 7px; border-radius: 4px;
+    }
+    .wu-date {
+      font-family: var(--mono); font-size: 10px; color: var(--muted);
+      margin-left: auto; white-space: nowrap;
+    }
+
+    .wu-title { font-size: 15px; font-weight: 600; color: var(--text); line-height: 1.45; }
+    .wu-summary { font-size: 11px; color: var(--muted); line-height: 1.6; flex: 1; }
+
+    .wu-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .wu-tag {
+      font-family: var(--mono); font-size: 9px; color: var(--muted);
+      background: var(--bg-alt); border: 1px solid var(--border);
+      padding: 2px 8px; border-radius: 4px;
+    }
+
+    .wu-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: var(--mono); font-size: 10px; color: var(--blue);
+      border: 1px solid rgba(88,166,255,.3); padding: 5px 12px; border-radius: 5px;
+      transition: .2s; text-decoration: none; align-self: flex-start;
+    }
+    .wu-link:hover { background: rgba(88,166,255,.1); border-color: var(--blue); }
+    .wu-soon { font-family: var(--mono); font-size: 9px; color: var(--muted); opacity: .7; align-self: flex-start; }
+
+    .wu-empty {
+      font-family: var(--mono); font-size: 12px; color: var(--muted);
+      text-align: center; padding: 60px 0; grid-column: 1 / -1;
+    }
+
+    @media (max-width: 600px) {
+      .wu-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="/" class="nav-brand"><span class="g">Marco Alfan</span><span class="blink">█</span></a>
+      <div class="nav-links">
+        <a href="/" style="font-family:var(--mono);font-size:13px;color:var(--muted);transition:color .2s">
+          <i class="fas fa-arrow-left" style="font-size:10px;margin-right:4px"></i>back
+        </a>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+          <i class="fas fa-sun" id="themeIcon"></i>
+        </button>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="/"><i class="fas fa-arrow-left" style="margin-right:6px"></i>back to portfolio</a>
+    </div>
+  </nav>
+
+  <header class="wu-hero">
+    <div class="container">
+      <h1><span class="accent">// </span>Writeups</h1>
+      <p>CTF challenges, HackTheBox machines, lab walkthroughs and bug bounty findings — documented end to end, from recon to root.</p>
+      <p class="wu-count"><span id="wuCount">0</span> writeup<span id="wuPlural">s</span> published</p>
+    </div>
+  </header>
+
+  <section class="wu-section">
+    <div class="container">
+      <div class="wu-filters" id="wuFilters"></div>
+      <div class="wu-grid" id="wuGrid" style="margin-top:22px"></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p class="footer-cmd"><span class="muted">Connection closed by foreign host.</span></p>
+      <p class="footer-out">© 2026 Marco Alfan</p>
+    </div>
+  </footer>
+
+  <script>
+    (function() {
+      const TTL = 24 * 3600000;
+
+      function runCode(code) {
+        const s = document.createElement('script');
+        s.textContent = code;
+        document.head.appendChild(s);
+      }
+
+      async function loadData(entry) {
+        const cached   = localStorage.getItem(entry.key);
+        const cachedAt = localStorage.getItem(entry.key + '_at');
+        if (cached && cachedAt && (Date.now() - Number(cachedAt)) < TTL) {
+          runCode(cached); return;
+        }
+        const res  = await fetch(entry.url);
+        const code = await res.text();
+        runCode(code);
+        localStorage.setItem(entry.key,        code);
+        localStorage.setItem(entry.key + '_at', Date.now());
+      }
+
+      let activeFilter = 'All';
+
+      function pfClass(platform) {
+        const k = (platform || '').toLowerCase().replace(/[^a-z]/g, '');
+        const known = { ctf: 'wu-pf-ctf', hackthebox: 'wu-pf-hackthebox', bugbounty: 'wu-pf-bugbounty', lab: 'wu-pf-lab' };
+        return known[k] || 'wu-pf-default';
+      }
+
+      function sortedWriteups() {
+        return [...WRITEUPS]
+          .map((w, i) => ({ w, i }))
+          .sort((a, b) => new Date('1 ' + b.w.date) - new Date('1 ' + a.w.date) || a.i - b.i)
+          .map(({ w }) => w);
+      }
+
+      function renderGrid() {
+        const grid = document.getElementById('wuGrid');
+        const items = sortedWriteups().filter(w => activeFilter === 'All' || w.platform === activeFilter);
+
+        if (items.length === 0) {
+          grid.innerHTML = '<p class="wu-empty">No writeups in this category yet.</p>';
+          return;
+        }
+
+        grid.innerHTML = items.map(w => {
+          const tags = (w.tags || []).map(t => `<span class="wu-tag">${t}</span>`).join('');
+          const diff = w.difficulty ? `<span class="wu-diff">${w.difficulty}</span>` : '';
+          const link = w.url
+            ? `<a class="wu-link" href="${w.url}" target="_blank" rel="noopener noreferrer"><i class="fas fa-up-right-from-square"></i> Read writeup</a>`
+            : `<span class="wu-soon"><i class="fas fa-clock"></i> Coming soon</span>`;
+          return `
+            <article class="wu-card">
+              <div class="wu-top">
+                <span class="wu-platform ${pfClass(w.platform)}">${w.platform}</span>
+                ${diff}
+                <span class="wu-date">${w.date}</span>
+              </div>
+              <h2 class="wu-title">${w.title}</h2>
+              <p class="wu-summary">${w.summary}</p>
+              ${tags ? `<div class="wu-tags">${tags}</div>` : ''}
+              ${link}
+            </article>`;
+        }).join('');
+      }
+
+      function renderFilters() {
+        const bar = document.getElementById('wuFilters');
+        const platforms = [];
+        sortedWriteups().forEach(w => { if (w.platform && !platforms.includes(w.platform)) platforms.push(w.platform); });
+        const all = ['All', ...platforms];
+
+        bar.innerHTML = all.map(p =>
+          `<button class="wu-filter${p === activeFilter ? ' active' : ''}" data-filter="${p}">${p}</button>`
+        ).join('');
+
+        bar.querySelectorAll('.wu-filter').forEach(btn => {
+          btn.addEventListener('click', () => {
+            activeFilter = btn.getAttribute('data-filter');
+            bar.querySelectorAll('.wu-filter').forEach(b => b.classList.toggle('active', b === btn));
+            renderGrid();
+          });
+        });
+      }
+
+      function renderWriteups() {
+        if (typeof WRITEUPS === 'undefined') return;
+        const n = WRITEUPS.length;
+        document.getElementById('wuCount').textContent = n;
+        document.getElementById('wuPlural').textContent = n === 1 ? '' : 's';
+        renderFilters();
+        renderGrid();
+      }
+
+      const scripts = [
+        { url: 'https://gist.githubusercontent.com/marcoalfans/ecd97e34dcc10b723556e3ab8e6a8ee9/raw/writeups.js', key: 'pf_writeups' },
+      ];
+
+      Promise.all(scripts.map(loadData)).then(() => { renderWriteups(); });
+    })();
+  </script>
+  <script>
+    // Theme
+    const toggle = document.getElementById('themeToggle');
+    const icon   = document.getElementById('themeIcon');
+    const html   = document.documentElement;
+    const saved  = localStorage.getItem('theme') || 'dark';
+    html.setAttribute('data-theme', saved);
+    icon.className = saved === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+    toggle.addEventListener('click', () => {
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      icon.className = next === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+    });
+
+    // Mobile menu
+    document.getElementById('hamburger').addEventListener('click', () =>
+      document.getElementById('mobileMenu').classList.toggle('open'));
+  </script>
+</body>
+</html>

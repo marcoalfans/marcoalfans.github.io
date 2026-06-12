@@ -3,9 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Marco Alfan — Red Team Operator & Threat Intelligence Analyst">
-  <title>Marco Alfan</title>
+  <meta name="description" content="Marco Alfan (kac0) — Pentester, Red Team Operator & Threat Intelligence Analyst. Offensive security engagements, adversary TTP tracking, and security tooling.">
+  <title>Marco Alfan — Red Team Operator & Threat Intel</title>
+  <link rel="canonical" href="https://marcoalfans.github.io/">
   <link rel="icon" href="assets/img/toonme.ico">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Marco Alfan — Red Team Operator & Threat Intel">
+  <meta property="og:description" content="Pentester, Red Team Operator & Threat Intelligence Analyst. Offensive security, adversary TTP tracking, and security tooling.">
+  <meta property="og:url" content="https://marcoalfans.github.io/">
+  <meta property="og:image" content="https://marcoalfans.github.io/assets/img/photo-profile.png">
+  <meta property="og:site_name" content="Marco Alfan">
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Marco Alfan — Red Team Operator & Threat Intel">
+  <meta name="twitter:description" content="Pentester, Red Team Operator & Threat Intelligence Analyst. Offensive security, adversary TTP tracking, and security tooling.">
+  <meta name="twitter:image" content="https://marcoalfans.github.io/assets/img/photo-profile.png">
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Marco Alfan",
+    "alternateName": "kac0",
+    "url": "https://marcoalfans.github.io/",
+    "image": "https://marcoalfans.github.io/assets/img/photo-profile.png",
+    "jobTitle": "Red Team Operator & Threat Intelligence Analyst",
+    "sameAs": [
+      "https://github.com/marcoalfans",
+      "https://www.linkedin.com/in/marcoalfans/",
+      "https://profile.hackthebox.com/profile/019ca2e5-4787-73db-8722-52022246285c"
+    ],
+    "knowsAbout": ["Penetration Testing", "Red Teaming", "Threat Intelligence", "OSINT", "Bug Bounty", "MITRE ATT&CK"]
+  }
+  </script>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
@@ -23,7 +56,8 @@
         <a href="#skills">arsenal</a>
         <a href="#projects">projects</a>
         <a href="#certifications">certs</a>
-        <a href="/speaker">speaker</a>
+        <a href="/talks">talks</a>
+        <a href="/writeups">writeups</a>
         <a href="#contact">contact</a>
         <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
           <i class="fas fa-sun" id="themeIcon"></i>
@@ -38,7 +72,8 @@
       <a href="#skills">arsenal</a>
       <a href="#projects">projects</a>
       <a href="#certifications">certs</a>
-      <a href="/speaker">speaker</a>
+      <a href="/talks">talks</a>
+      <a href="/writeups">writeups</a>
       <a href="#contact">contact</a>
     </div>
   </nav>
@@ -116,7 +151,7 @@
             <i class="fas fa-cube"></i> HackTheBox Profile
           </a>
           <a href="https://app.hackthebox.com/users/3047827" target="_blank" class="htb-badge-link">
-            <img src="https://www.hackthebox.eu/badge/image/3047827" alt="HackTheBox Stats" class="htb-badge-img">
+            <img src="https://www.hackthebox.eu/badge/image/3047827" alt="HackTheBox Stats" class="htb-badge-img" loading="lazy" decoding="async">
           </a>
         </div>
       </div>
@@ -350,7 +385,7 @@
       if (!grid || typeof CERTS === 'undefined') return;
       grid.innerHTML = CERTS.map(c => `
         <div class="cert-card">
-          <div class="cert-img-area ${c.bg}"><img src="${c.img}" alt="${c.alt}"></div>
+          <div class="cert-img-area ${c.bg}"><img src="${c.img}" alt="${c.alt}" loading="lazy" decoding="async"></div>
           <div class="cert-body">
             <h3>${c.name}</h3>
             <p class="cert-issuer">${c.issuer}</p>
@@ -371,7 +406,7 @@
         const href = item.url ? ` href="${item.url}" target="_blank" rel="noopener noreferrer"` : '';
         const hide = item.hidden ? ' hof-hidden' : '';
         const alt  = item.alt || item.name;
-        return `<${tag}${href} class="hof-item${hide}"><img src="${base}${item.logo}" alt="${alt}" class="hof-logo"><span>${item.name}</span></${tag}>`;
+        return `<${tag}${href} class="hof-item${hide}"><img src="${base}${item.logo}" alt="${alt}" class="hof-logo" loading="lazy" decoding="async"><span>${item.name}</span></${tag}>`;
       }
       const vdpEl = document.getElementById('hofVdp');
       if (vdpEl && HOF.vdp) {
@@ -424,7 +459,7 @@
   <div id="nemuModal" class="nemu-modal" role="dialog" aria-modal="true">
     <div class="nemu-modal-box">
       <button class="nemu-modal-close" id="nemuModalClose">&#x2715;</button>
-      <img src="assets/img/nemu-demo.gif" alt="nemu demo">
+      <img src="assets/img/nemu-demo.gif" alt="nemu demo" loading="lazy" decoding="async">
     </div>
   </div>
 

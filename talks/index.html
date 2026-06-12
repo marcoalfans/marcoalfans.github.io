@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Talks, trainings and sessions delivered by Marco Alfan on offensive security, threat intelligence and digital literacy.">
+  <title>Talks — Marco Alfan</title>
+  <link rel="canonical" href="https://marcoalfans.github.io/talks/">
+  <link rel="icon" href="../assets/img/toonme.ico">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Talks — Marco Alfan">
+  <meta property="og:description" content="Talks, trainings and sessions on offensive security, threat intelligence and digital literacy.">
+  <meta property="og:url" content="https://marcoalfans.github.io/talks/">
+  <meta property="og:image" content="https://marcoalfans.github.io/assets/img/photo-profile.png">
+  <meta property="og:site_name" content="Marco Alfan">
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Talks — Marco Alfan">
+  <meta name="twitter:description" content="Talks, trainings and sessions on offensive security, threat intelligence and digital literacy.">
+  <meta name="twitter:image" content="https://marcoalfans.github.io/assets/img/photo-profile.png">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .spk-hero {
+      padding: 110px 0 40px;
+      border-bottom: 1px solid var(--border);
+    }
+    .spk-hero h1 { font-family: var(--mono); font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+    .spk-hero p  { color: var(--muted); font-size: 13px; max-width: 800px; }
+    .spk-count   { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 12px; }
+    .spk-count span { color: var(--accent); }
+
+    .timeline { padding: 52px 0 80px; }
+    .timeline-inner { position: relative; padding-right: 40px; }
+    .timeline-inner::before {
+      content: ''; position: absolute;
+      right: 7px; top: 8px; bottom: 0;
+      width: 1px; background: var(--border);
+    }
+
+    .talk-item { position: relative; margin-bottom: 28px; }
+    .talk-item::before {
+      content: ''; position: absolute;
+      right: -34px; top: 19px;
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--accent); border: 2px solid var(--bg);
+      box-shadow: 0 0 0 1px var(--accent); z-index: 1;
+    }
+
+    .talk-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px 22px;
+      display: flex; gap: 20px; align-items: flex-start;
+      transition: border-color .2s, transform .2s;
+    }
+    .talk-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+    .talk-content { flex: 1; min-width: 0; }
+
+    .talk-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .talk-date {
+      font-family: var(--mono); font-size: 10px; color: var(--accent);
+      background: rgba(255,68,68,.08); border: 1px solid rgba(255,68,68,.2);
+      padding: 2px 8px; border-radius: 4px; white-space: nowrap;
+    }
+    .talk-loc { font-family: var(--mono); font-size: 10px; color: var(--muted); display: flex; align-items: center; gap: 5px; white-space: nowrap; }
+    .talk-loc i { font-size: 9px; }
+    .talk-category { font-family: var(--mono); font-size: 10px; color: var(--muted); opacity: .55; }
+
+    .talk-title { font-size: 14px; font-weight: 600; color: var(--text); line-height: 1.5; margin-bottom: 8px; }
+    .talk-desc  { font-size: 10px; color: var(--muted); line-height: 1.5; margin-bottom: 8px; }
+
+    .talk-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: var(--mono); font-size: 8px; color: var(--blue);
+      border: 1px solid rgba(88,166,255,.3); padding: 3px 10px; border-radius: 4px;
+      transition: .2s; text-decoration: none;
+    }
+    .talk-link:hover { background: rgba(88,166,255,.1); border-color: var(--blue); }
+
+    /* Photo area */
+    .talk-photo {
+      flex-shrink: 0; position: relative;
+      width: 176px; height: 118px;
+      border-radius: 8px; overflow: hidden;
+      background: var(--bg-alt); border: 1px solid var(--border);
+      cursor: pointer;
+    }
+    .talk-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .2s; }
+    .talk-photo:hover img { transform: scale(1.04); }
+    .talk-photo-placeholder {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 6px; color: var(--border); font-family: var(--mono); font-size: 10px;
+      cursor: default;
+    }
+    .talk-photo-placeholder i { font-size: 22px; }
+    .photo-more {
+      position: absolute; bottom: 7px; right: 7px;
+      background: rgba(0,0,0,.65); color: #fff;
+      font-family: var(--mono); font-size: 10px; font-weight: 600;
+      padding: 2px 7px; border-radius: 4px;
+      pointer-events: none;
+    }
+
+    /* Lightbox */
+    .lightbox {
+      display: none; position: fixed; inset: 0; z-index: 999;
+      background: rgba(0,0,0,.88); backdrop-filter: blur(6px);
+      align-items: center; justify-content: center;
+    }
+    .lightbox.open { display: flex; }
+    .lb-img-wrap { max-width: 90vw; max-height: 82vh; display: flex; align-items: center; justify-content: center; }
+    .lb-img-wrap img { max-width: 90vw; max-height: 82vh; border-radius: 8px; object-fit: contain; box-shadow: 0 8px 48px rgba(0,0,0,.6); }
+    .lb-btn {
+      position: fixed; top: 50%; transform: translateY(-50%);
+      background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15);
+      color: #fff; width: 42px; height: 42px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 15px; transition: background .2s;
+    }
+    .lb-btn:hover { background: rgba(255,255,255,.18); }
+    .lb-prev { left: 20px; }
+    .lb-next { right: 20px; }
+    .lb-close {
+      position: fixed; top: 18px; right: 20px;
+      background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15);
+      color: #fff; width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 14px; transition: background .2s;
+    }
+    .lb-close:hover { background: rgba(255,255,255,.2); }
+    .lb-counter {
+      position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%);
+      font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,.5);
+    }
+
+    @media (max-width: 768px) {
+      .timeline-inner { padding-right: 28px; padding-left: 0; }
+      .timeline-inner::before { right: 5px; left: auto; }
+      .talk-item::before { right: -24px; left: auto; top: 18px; width: 10px; height: 10px; }
+      .talk-card { flex-direction: column-reverse; }
+      .talk-photo { width: 100%; height: 160px; }
+      .lb-prev { left: 8px; } .lb-next { right: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="/" class="nav-brand"><span class="g">Marco Alfan</span><span class="blink">█</span></a>
+      <div class="nav-links">
+        <a href="/" style="font-family:var(--mono);font-size:13px;color:var(--muted);transition:color .2s">
+          <i class="fas fa-arrow-left" style="font-size:10px;margin-right:4px"></i>back
+        </a>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+          <i class="fas fa-sun" id="themeIcon"></i>
+        </button>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="/"><i class="fas fa-arrow-left" style="margin-right:6px"></i>back to portfolio</a>
+    </div>
+  </nav>
+
+  <header class="spk-hero">
+    <div class="container">
+      <h1><span class="accent">// </span>Talks</h1>
+      <p>Talks, trainings, workshops and sessions I've delivered on cybersecurity, digital literacy, and emerging technology.</p>
+      <p class="spk-count"><span id="talkCount">0</span> session<span id="talkPlural">s</span> documented</p>
+    </div>
+  </header>
+
+  <section class="timeline">
+    <div class="container">
+      <div class="timeline-inner" id="talkList"></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p class="footer-cmd"><span class="muted">Connection closed by foreign host.</span></p>
+      <p class="footer-out">© 2026 Marco Alfan</p>
+    </div>
+  </footer>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox">
+    <button class="lb-close" id="lbClose"><i class="fas fa-xmark"></i></button>
+    <button class="lb-btn lb-prev" id="lbPrev"><i class="fas fa-chevron-left"></i></button>
+    <div class="lb-img-wrap"><img id="lbImg" src="" alt=""></div>
+    <button class="lb-btn lb-next" id="lbNext"><i class="fas fa-chevron-right"></i></button>
+    <div class="lb-counter" id="lbCounter"></div>
+  </div>
+
+  <script>
+    (function() {
+      const TTL = 24 * 3600000;
+
+      function runCode(code) {
+        const s = document.createElement('script');
+        s.textContent = code;
+        document.head.appendChild(s);
+      }
+
+      async function loadData(entry) {
+        const cached   = localStorage.getItem(entry.key);
+        const cachedAt = localStorage.getItem(entry.key + '_at');
+        if (cached && cachedAt && (Date.now() - Number(cachedAt)) < TTL) {
+          runCode(cached); return;
+        }
+        const res  = await fetch(entry.url);
+        const code = await res.text();
+        runCode(code);
+        localStorage.setItem(entry.key,        code);
+        localStorage.setItem(entry.key + '_at', Date.now());
+      }
+
+      function renderTalks() {
+        const list = document.getElementById('talkList');
+
+        list.innerHTML = [...TALKS]
+          .map((t, i) => ({t, i}))
+          .sort((a, b) => new Date('1 ' + b.t.date) - new Date('1 ' + a.t.date) || a.i - b.i)
+          .map(({t}) => t)
+          .map(t => {
+            const _base = (typeof PHOTO_BASE !== 'undefined') ? PHOTO_BASE : '';
+            const _raw  = t.photo ? (Array.isArray(t.photo) ? t.photo : [t.photo]) : [];
+            const photos = _raw.map(p => (p.startsWith('http') || p.startsWith('/') || p.startsWith('.')) ? p : _base + p);
+            const photosJson = JSON.stringify(photos);
+
+            const photoHtml = photos.length === 0
+              ? `<div class="talk-photo-placeholder"><i class="fas fa-image"></i><span>photo</span></div>`
+              : `<img src="${photos[0]}" alt="${t.title}" loading="lazy" decoding="async">${photos.length > 1 ? `<div class="photo-more">+${photos.length - 1}</div>` : ''}`;
+
+            const photoClick = photos.length > 0
+              ? `onclick="openLightbox(${photosJson.replace(/"/g, '&quot;')}, 0)"`
+              : '';
+
+            return `
+            <div class="talk-item">
+              <div class="talk-card">
+                <div class="talk-content">
+                  <div class="talk-meta">
+                    <span class="talk-loc"><i class="fas fa-location-dot"></i> ${t.location}</span>
+                    <span class="talk-date">${t.date}</span>
+                    ${t.category ? `<span class="talk-category">| ${t.category}</span>` : ''}
+                  </div>
+                  <h2 class="talk-title">${t.title}</h2>
+                  <p class="talk-desc">${t.desc}</p>
+                  ${t.slides ? `<a href="${t.slides}" target="_blank" rel="noopener noreferrer" class="talk-link"><i class="fas fa-up-right-from-square"></i> View Slides</a>` : ''}
+                </div>
+                <div class="talk-photo" ${photoClick}>${photoHtml}</div>
+              </div>
+            </div>`;
+          }).join('');
+
+        const n = TALKS.length;
+        document.getElementById('talkCount').textContent = n;
+        document.getElementById('talkPlural').textContent = n === 1 ? '' : 's';
+      }
+
+      const scripts = [
+        { url: 'https://gist.githubusercontent.com/marcoalfans/06591cd2b7c9cbf1717d0c7ba7079871/raw/talks.js', key: 'pf_talks' },
+      ];
+
+      Promise.all(scripts.map(loadData)).then(() => { renderTalks(); });
+    })();
+  </script>
+  <script>
+    // Theme
+    const toggle = document.getElementById('themeToggle');
+    const icon   = document.getElementById('themeIcon');
+    const html   = document.documentElement;
+    const saved  = localStorage.getItem('theme') || 'dark';
+    html.setAttribute('data-theme', saved);
+    icon.className = saved === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+    toggle.addEventListener('click', () => {
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      icon.className = next === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+    });
+
+    // Mobile menu
+    document.getElementById('hamburger').addEventListener('click', () =>
+      document.getElementById('mobileMenu').classList.toggle('open'));
+
+    // Lightbox
+    let lbPhotos = [], lbIdx = 0;
+    const lb      = document.getElementById('lightbox');
+    const lbImg   = document.getElementById('lbImg');
+    const lbCtr   = document.getElementById('lbCounter');
+
+    function openLightbox(photos, idx) {
+      lbPhotos = photos; lbIdx = idx;
+      lbShow();
+      lb.classList.add('open');
+    }
+    function lbShow() {
+      lbImg.src = lbPhotos[lbIdx];
+      lbCtr.textContent = lbPhotos.length > 1 ? (lbIdx + 1) + ' / ' + lbPhotos.length : '';
+      document.getElementById('lbPrev').style.display = lbPhotos.length > 1 ? '' : 'none';
+      document.getElementById('lbNext').style.display = lbPhotos.length > 1 ? '' : 'none';
+    }
+    function lbNav(dir) {
+      lbIdx = (lbIdx + dir + lbPhotos.length) % lbPhotos.length;
+      lbShow();
+    }
+    function closeLightbox() { lb.classList.remove('open'); }
+
+    document.getElementById('lbClose').addEventListener('click', closeLightbox);
+    document.getElementById('lbPrev').addEventListener('click', () => lbNav(-1));
+    document.getElementById('lbNext').addEventListener('click', () => lbNav(1));
+    lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
+    document.addEventListener('keydown', e => {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape')     closeLightbox();
+      if (e.key === 'ArrowLeft')  lbNav(-1);
+      if (e.key === 'ArrowRight') lbNav(1);
+    });
+
+  </script>
+</body>
+</html>
