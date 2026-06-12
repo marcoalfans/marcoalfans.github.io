@@ -385,7 +385,7 @@
       if (!grid || typeof CERTS === 'undefined') return;
       grid.innerHTML = CERTS.map(c => `
         <div class="cert-card">
-          <div class="cert-img-area ${c.bg}"><img src="${c.img}" alt="${c.alt}" loading="lazy" decoding="async"></div>
+          <div class="cert-img-area ${c.bg}"><img src="${c.img}" alt="${c.alt}" loading="lazy" decoding="async" onerror="window.__pfHeal&&window.__pfHeal()"></div>
           <div class="cert-body">
             <h3>${c.name}</h3>
             <p class="cert-issuer">${c.issuer}</p>
@@ -406,7 +406,7 @@
         const href = item.url ? ` href="${item.url}" target="_blank" rel="noopener noreferrer"` : '';
         const hide = item.hidden ? ' hof-hidden' : '';
         const alt  = item.alt || item.name;
-        return `<${tag}${href} class="hof-item${hide}"><img src="${base}${item.logo}" alt="${alt}" class="hof-logo" loading="lazy" decoding="async"><span>${item.name}</span></${tag}>`;
+        return `<${tag}${href} class="hof-item${hide}"><img src="${base}${item.logo}" alt="${alt}" class="hof-logo" loading="lazy" decoding="async" onerror="window.__pfHeal&&window.__pfHeal()"><span>${item.name}</span></${tag}>`;
       }
       const vdpEl = document.getElementById('hofVdp');
       if (vdpEl && HOF.vdp) {
@@ -429,27 +429,44 @@
   <script>
     (function() {
       const TTL = 24 * 3600000;
+      const CACHE_VERSION = 2;                 // bump ONLY on breaking data changes (e.g. renamed asset paths)
+      const ckey = e => e.key + '_v' + CACHE_VERSION;
+
       function runCode(code) {
         const s = document.createElement('script');
         s.textContent = code;
         document.head.appendChild(s);
       }
+
+      const scripts = [
+        { url: 'https://gist.githubusercontent.com/marcoalfans/7404cdb81d71cb932d71141c705acb1c/raw/certs.js', key: 'pf_certs' },
+        { url: 'https://gist.githubusercontent.com/marcoalfans/7aecd864940d3055b43a4a5c8acf301d/raw/hof.js',   key: 'pf_hof'   }
+      ];
+
       async function loadData(entry) {
-        const cached   = localStorage.getItem(entry.key);
-        const cachedAt = localStorage.getItem(entry.key + '_at');
+        const k = ckey(entry);
+        const cached   = localStorage.getItem(k);
+        const cachedAt = localStorage.getItem(k + '_at');
         if (cached && cachedAt && (Date.now() - Number(cachedAt)) < TTL) {
           runCode(cached); return;
         }
         const res  = await fetch(entry.url);
         const code = await res.text();
         runCode(code);
-        localStorage.setItem(entry.key,         code);
-        localStorage.setItem(entry.key + '_at', Date.now());
+        localStorage.setItem(k,         code);
+        localStorage.setItem(k + '_at', Date.now());
       }
-      Promise.all([
-        loadData({ url: 'https://gist.githubusercontent.com/marcoalfans/7404cdb81d71cb932d71141c705acb1c/raw/certs.js', key: 'pf_certs' }),
-        loadData({ url: 'https://gist.githubusercontent.com/marcoalfans/7aecd864940d3055b43a4a5c8acf301d/raw/hof.js', key: 'pf_hof'   })
-      ]).then(() => { renderCerts(); renderHof(); });
+
+      // Self-heal: if cached data points at assets that 404 (e.g. an old path
+      // after a rename), purge our cache once and reload to fetch fresh data.
+      window.__pfHeal = function() {
+        if (sessionStorage.getItem('pf_healed')) return;   // at most once per session — no reload loops
+        sessionStorage.setItem('pf_healed', '1');
+        scripts.forEach(e => { const k = ckey(e); localStorage.removeItem(k); localStorage.removeItem(k + '_at'); });
+        location.reload();
+      };
+
+      Promise.all(scripts.map(loadData)).then(() => { renderCerts(); renderHof(); });
     })();
   </script>
 

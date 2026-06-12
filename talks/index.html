@@ -234,6 +234,8 @@
   <script>
     (function() {
       const TTL = 24 * 3600000;
+      const CACHE_VERSION = 2;                 // bump ONLY on breaking data changes (e.g. renamed asset paths)
+      const ckey = e => e.key + '_v' + CACHE_VERSION;
 
       function runCode(code) {
         const s = document.createElement('script');
@@ -242,17 +244,27 @@
       }
 
       async function loadData(entry) {
-        const cached   = localStorage.getItem(entry.key);
-        const cachedAt = localStorage.getItem(entry.key + '_at');
+        const k = ckey(entry);
+        const cached   = localStorage.getItem(k);
+        const cachedAt = localStorage.getItem(k + '_at');
         if (cached && cachedAt && (Date.now() - Number(cachedAt)) < TTL) {
           runCode(cached); return;
         }
         const res  = await fetch(entry.url);
         const code = await res.text();
         runCode(code);
-        localStorage.setItem(entry.key,        code);
-        localStorage.setItem(entry.key + '_at', Date.now());
+        localStorage.setItem(k,        code);
+        localStorage.setItem(k + '_at', Date.now());
       }
+
+      // Self-heal: if cached data points at assets that 404 (e.g. an old path
+      // after a rename), purge our cache once and reload to fetch fresh data.
+      window.__pfHeal = function() {
+        if (sessionStorage.getItem('pf_healed')) return;   // at most once per session — no reload loops
+        sessionStorage.setItem('pf_healed', '1');
+        scripts.forEach(e => { const k = ckey(e); localStorage.removeItem(k); localStorage.removeItem(k + '_at'); });
+        location.reload();
+      };
 
       let activeCat = 'All';
 
@@ -282,7 +294,7 @@
 
           const photoHtml = photos.length === 0
             ? `<div class="talk-photo-placeholder"><i class="fas fa-image"></i><span>photo</span></div>`
-            : `<img src="${photos[0]}" alt="${t.title}" loading="lazy" decoding="async">${photos.length > 1 ? `<div class="photo-more">+${photos.length - 1}</div>` : ''}`;
+            : `<img src="${photos[0]}" alt="${t.title}" loading="lazy" decoding="async" onerror="window.__pfHeal&&window.__pfHeal()">${photos.length > 1 ? `<div class="photo-more">+${photos.length - 1}</div>` : ''}`;
 
           const photoClick = photos.length > 0
             ? `onclick="openLightbox(${photosJson.replace(/"/g, '&quot;')}, 0)"`
@@ -364,12 +376,8 @@
         renderTimeline();
       }
 
-      // Cache key is versioned: bumping it invalidates stale cached data
-      // (e.g. an old talks.js that still pointed photos at /assets/img/speaker/).
-      try { localStorage.removeItem('pf_talks'); localStorage.removeItem('pf_talks_at'); } catch (e) {}
-
       const scripts = [
-        { url: 'https://gist.githubusercontent.com/marcoalfans/06591cd2b7c9cbf1717d0c7ba7079871/raw/talks.js', key: 'pf_talks_v2' },
+        { url: 'https://gist.githubusercontent.com/marcoalfans/06591cd2b7c9cbf1717d0c7ba7079871/raw/talks.js', key: 'pf_talks' },
       ];
 
       Promise.all(scripts.map(loadData)).then(() => { renderTalks(); });
