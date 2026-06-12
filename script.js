@@ -29,9 +29,6 @@ mobileMenu.querySelectorAll('a').forEach(a =>
   })
 );
 
-// Respect users who prefer reduced motion
-const REDUCE_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
 // Typewriter — whoami → per-line output → pause → reset → loop
 const tw = document.getElementById('typewriter');
 const WORD = 'whoami';
@@ -100,83 +97,97 @@ window.addEventListener('scroll', () => {
   const grid = document.querySelector('.certs-grid');
   if (!wrap || !grid) return;
 
-  // Disable snap — we control scroll manually
-  wrap.style.scrollSnapType = 'none';
+  let started = false;
 
-  // Pad to even card count so clones start at a clean column boundary (2-row grid)
-  if (grid.children.length % 2 !== 0) {
-    const sp = document.createElement('div');
-    sp.className = 'cert-card';
-    sp.setAttribute('aria-hidden', 'true');
-    sp.style.cssText = 'visibility:hidden;pointer-events:none';
-    grid.appendChild(sp);
-  }
-  const paddedCount = grid.children.length;
+  function init() {
+    if (started || grid.children.length === 0) return;
+    started = true;
 
-  // Clone all cards — second set for seamless infinite loop
-  Array.from(grid.children).forEach(c => grid.appendChild(c.cloneNode(true)));
+    // Disable snap — we control scroll manually
+    wrap.style.scrollSnapType = 'none';
 
-  // Drag to scroll
-  let isDown = false, startX, scrollStart;
-  wrap.addEventListener('mousedown', e => {
-    isDown = true; startX = e.pageX; scrollStart = wrap.scrollLeft;
-    wrap.style.userSelect = 'none';
-  });
-  document.addEventListener('mouseup', () => { isDown = false; wrap.style.userSelect = ''; });
-  document.addEventListener('mousemove', e => {
-    if (!isDown) return;
-    wrap.scrollLeft = scrollStart - (e.pageX - startX);
-  });
-
-  // Pause on hover / touch
-  let paused = false;
-  wrap.addEventListener('mouseenter', () => { paused = true; });
-  wrap.addEventListener('mouseleave', () => { paused = false; });
-  wrap.addEventListener('touchstart', () => {
-    paused = true;
-    setTimeout(() => { paused = false; }, 4000);
-  }, { passive: true });
-
-  // Pause the loop while the section is scrolled out of view (saves CPU/battery)
-  let offscreen = false;
-  if ('IntersectionObserver' in window) {
-    new IntersectionObserver(entries => {
-      offscreen = !entries[0].isIntersecting;
-    }, { threshold: 0 }).observe(wrap);
-  }
-
-  // Honor reduced-motion: leave cards in place, scrollable by hand, but don't auto-animate
-  if (REDUCE_MOTION) return;
-
-  // rAF continuous scroll — 0.7 px/frame ≈ 42 px/s, smooth and readable
-  const SPEED = 0.7;
-  let loopPoint = 0;
-  let rafId = null;
-
-  function autoScroll() {
-    if (!paused && !offscreen) {
-      wrap.scrollLeft += SPEED;
-      if (loopPoint > 0 && wrap.scrollLeft >= loopPoint) {
-        wrap.scrollLeft -= loopPoint;
-      }
+    // Pad to even card count so clones start at a clean column boundary (2-row grid)
+    if (grid.children.length % 2 !== 0) {
+      const sp = document.createElement('div');
+      sp.className = 'cert-card';
+      sp.setAttribute('aria-hidden', 'true');
+      sp.style.cssText = 'visibility:hidden;pointer-events:none';
+      grid.appendChild(sp);
     }
-    rafId = requestAnimationFrame(autoScroll);
-  }
+    const paddedCount = grid.children.length;
 
-  // Fully stop the loop when the tab is hidden; resume on return
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
-      if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
-    } else if (!rafId) {
+    // Clone all cards — second set for seamless infinite loop
+    Array.from(grid.children).forEach(c => grid.appendChild(c.cloneNode(true)));
+
+    // Drag to scroll
+    let isDown = false, startX, scrollStart;
+    wrap.addEventListener('mousedown', e => {
+      isDown = true; startX = e.pageX; scrollStart = wrap.scrollLeft;
+      wrap.style.userSelect = 'none';
+    });
+    document.addEventListener('mouseup', () => { isDown = false; wrap.style.userSelect = ''; });
+    document.addEventListener('mousemove', e => {
+      if (!isDown) return;
+      wrap.scrollLeft = scrollStart - (e.pageX - startX);
+    });
+
+    // Pause on hover / touch
+    let paused = false;
+    wrap.addEventListener('mouseenter', () => { paused = true; });
+    wrap.addEventListener('mouseleave', () => { paused = false; });
+    wrap.addEventListener('touchstart', () => {
+      paused = true;
+      setTimeout(() => { paused = false; }, 4000);
+    }, { passive: true });
+
+    // Pause the loop while the section is scrolled out of view (saves CPU/battery)
+    let offscreen = false;
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(entries => {
+        offscreen = !entries[0].isIntersecting;
+      }, { threshold: 0 }).observe(wrap);
+    }
+
+    // rAF continuous scroll — 0.7 px/frame ≈ 42 px/s, smooth and readable
+    const SPEED = 0.7;
+    let loopPoint = 0;
+    let rafId = null;
+
+    function autoScroll() {
+      if (!paused && !offscreen && loopPoint > 0) {
+        wrap.scrollLeft += SPEED;
+        if (wrap.scrollLeft >= loopPoint) wrap.scrollLeft -= loopPoint;
+      }
       rafId = requestAnimationFrame(autoScroll);
     }
-  });
 
-  // Measure loop point after layout settles (2 frames)
-  requestAnimationFrame(() => requestAnimationFrame(() => {
-    loopPoint = grid.children[paddedCount].offsetLeft;
-    rafId = requestAnimationFrame(autoScroll);
-  }));
+    // Fully stop the loop when the tab is hidden; resume on return
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+      } else if (!rafId) {
+        rafId = requestAnimationFrame(autoScroll);
+      }
+    });
+
+    // Measure loop point after layout settles (2 frames)
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      const anchor = grid.children[paddedCount];
+      loopPoint = anchor ? anchor.offsetLeft : 0;
+      rafId = requestAnimationFrame(autoScroll);
+    }));
+  }
+
+  // Cert cards render asynchronously from the Gist. Init immediately if they're
+  // already there (cache hit); otherwise wait for them to appear (cache miss).
+  if (grid.children.length > 0) {
+    init();
+  } else {
+    const mo = new MutationObserver(() => {
+      if (grid.children.length > 0) { mo.disconnect(); init(); }
+    });
+    mo.observe(grid, { childList: true });
+  }
 })();
 
 // Navbar brand typewriter: Marco Alfan ↔ Kac0

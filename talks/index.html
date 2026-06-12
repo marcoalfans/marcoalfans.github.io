@@ -33,7 +33,18 @@
     .spk-count   { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 12px; }
     .spk-count span { color: var(--accent); }
 
-    .timeline { padding: 52px 0 80px; }
+    /* Filter bar */
+    .tl-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+    .tl-filter {
+      font-family: var(--mono); font-size: 11px; color: var(--muted);
+      background: var(--bg-card); border: 1px solid var(--border);
+      padding: 6px 14px; border-radius: 6px; cursor: pointer; transition: .18s;
+    }
+    .tl-filter:hover { color: var(--text); border-color: var(--muted); }
+    .tl-filter.active { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+    .tl-empty { font-family: var(--mono); font-size: 12px; color: var(--muted); padding: 40px 0; }
+
+    .timeline { padding: 40px 0 80px; }
     .timeline-inner { position: relative; padding-right: 40px; }
     .timeline-inner::before {
       content: ''; position: absolute;
@@ -41,7 +52,9 @@
       width: 1px; background: var(--border);
     }
 
-    .talk-item { position: relative; margin-bottom: 28px; }
+    .talk-item { position: relative; margin-bottom: 28px; animation: talkIn .5s ease both; }
+    @keyframes talkIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) { .talk-item { animation: none; } }
     .talk-item::before {
       content: ''; position: absolute;
       right: -34px; top: 19px;
@@ -175,6 +188,7 @@
       <h1><span class="accent">// </span>Talks</h1>
       <p>Trainings, workshops and sessions I've delivered on cybersecurity, digital literacy, and emerging technology.</p>
       <p class="spk-count"><span id="talkCount">0</span> session<span id="talkPlural">s</span> documented</p>
+      <div class="tl-filters" id="tlFilters"></div>
     </div>
   </header>
 
@@ -223,29 +237,44 @@
         localStorage.setItem(entry.key + '_at', Date.now());
       }
 
-      function renderTalks() {
-        const list = document.getElementById('talkList');
+      let activeCat = 'All';
 
-        list.innerHTML = [...TALKS]
-          .map((t, i) => ({t, i}))
+      function cap(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
+
+      function sortedTalks() {
+        return [...TALKS]
+          .map((t, i) => ({ t, i }))
           .sort((a, b) => new Date('1 ' + b.t.date) - new Date('1 ' + a.t.date) || a.i - b.i)
-          .map(({t}) => t)
-          .map(t => {
-            const _base = (typeof PHOTO_BASE !== 'undefined') ? PHOTO_BASE : '';
-            const _raw  = t.photo ? (Array.isArray(t.photo) ? t.photo : [t.photo]) : [];
-            const photos = _raw.map(p => (p.startsWith('http') || p.startsWith('/') || p.startsWith('.')) ? p : _base + p);
-            const photosJson = JSON.stringify(photos);
+          .map(({ t }) => t);
+      }
 
-            const photoHtml = photos.length === 0
-              ? `<div class="talk-photo-placeholder"><i class="fas fa-image"></i><span>photo</span></div>`
-              : `<img src="${photos[0]}" alt="${t.title}" loading="lazy" decoding="async">${photos.length > 1 ? `<div class="photo-more">+${photos.length - 1}</div>` : ''}`;
+      function renderTimeline() {
+        const list = document.getElementById('talkList');
+        const items = sortedTalks().filter(t => activeCat === 'All' || t.category === activeCat);
 
-            const photoClick = photos.length > 0
-              ? `onclick="openLightbox(${photosJson.replace(/"/g, '&quot;')}, 0)"`
-              : '';
+        if (items.length === 0) {
+          list.innerHTML = '<p class="tl-empty">No sessions in this category yet.</p>';
+          return;
+        }
 
-            return `
-            <div class="talk-item">
+        list.innerHTML = items.map((t, idx) => {
+          const _base = (typeof PHOTO_BASE !== 'undefined') ? PHOTO_BASE : '';
+          const _raw  = t.photo ? (Array.isArray(t.photo) ? t.photo : [t.photo]) : [];
+          const photos = _raw.map(p => (p.startsWith('http') || p.startsWith('/') || p.startsWith('.')) ? p : _base + p);
+          const photosJson = JSON.stringify(photos);
+
+          const photoHtml = photos.length === 0
+            ? `<div class="talk-photo-placeholder"><i class="fas fa-image"></i><span>photo</span></div>`
+            : `<img src="${photos[0]}" alt="${t.title}" loading="lazy" decoding="async">${photos.length > 1 ? `<div class="photo-more">+${photos.length - 1}</div>` : ''}`;
+
+          const photoClick = photos.length > 0
+            ? `onclick="openLightbox(${photosJson.replace(/"/g, '&quot;')}, 0)"`
+            : '';
+
+          const delay = Math.min(idx, 8) * 60;
+
+          return `
+            <div class="talk-item" style="animation-delay:${delay}ms">
               <div class="talk-card">
                 <div class="talk-content">
                   <div class="talk-meta">
@@ -260,11 +289,36 @@
                 <div class="talk-photo" ${photoClick}>${photoHtml}</div>
               </div>
             </div>`;
-          }).join('');
+        }).join('');
+      }
 
+      function renderFilters() {
+        const bar = document.getElementById('tlFilters');
+        if (!bar) return;
+        const cats = [];
+        sortedTalks().forEach(t => { if (t.category && !cats.includes(t.category)) cats.push(t.category); });
+        const all = ['All', ...cats];
+
+        bar.innerHTML = all.map(c =>
+          `<button class="tl-filter${c === activeCat ? ' active' : ''}" data-cat="${c}">${c === 'All' ? 'All' : cap(c)}</button>`
+        ).join('');
+
+        bar.querySelectorAll('.tl-filter').forEach(btn => {
+          btn.addEventListener('click', () => {
+            activeCat = btn.getAttribute('data-cat');
+            bar.querySelectorAll('.tl-filter').forEach(b => b.classList.toggle('active', b === btn));
+            renderTimeline();
+          });
+        });
+      }
+
+      function renderTalks() {
+        if (typeof TALKS === 'undefined') return;
         const n = TALKS.length;
         document.getElementById('talkCount').textContent = n;
         document.getElementById('talkPlural').textContent = n === 1 ? '' : 's';
+        renderFilters();
+        renderTimeline();
       }
 
       const scripts = [
