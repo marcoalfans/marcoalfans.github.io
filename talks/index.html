@@ -52,15 +52,32 @@
       width: 1px; background: var(--border);
     }
 
-    .talk-item { position: relative; margin-bottom: 28px; opacity: 0; transform: translateY(16px); transition: opacity .5s ease, transform .5s ease; }
+    .talk-item {
+      position: relative; margin-bottom: 28px;
+      opacity: 0; transform: translateY(28px) scale(.98);
+      transition: opacity .6s ease, transform .65s cubic-bezier(.22,.61,.36,1);
+      will-change: opacity, transform;
+    }
     .talk-item.reveal { opacity: 1; transform: none; }
-    @media (prefers-reduced-motion: reduce) { .talk-item { opacity: 1; transform: none; transition: none; } }
     .talk-item::before {
       content: ''; position: absolute;
       right: -34px; top: 19px;
       width: 12px; height: 12px; border-radius: 50%;
       background: var(--accent); border: 2px solid var(--bg);
       box-shadow: 0 0 0 1px var(--accent); z-index: 1;
+      transform: scale(0);
+      transition: transform .5s cubic-bezier(.34,1.56,.64,1) .15s, box-shadow .4s ease;
+    }
+    .talk-item.reveal::before { transform: scale(1); }
+    /* gentle pulse on the dot once revealed */
+    .talk-item.reveal::before { animation: dotPulse 2.4s ease-in-out .7s 1; }
+    @keyframes dotPulse {
+      0%, 100% { box-shadow: 0 0 0 1px var(--accent); }
+      50%      { box-shadow: 0 0 0 1px var(--accent), 0 0 10px 2px rgba(255,68,68,.45); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .talk-item { opacity: 1; transform: none; transition: none; }
+      .talk-item::before { transform: scale(1); transition: none; animation: none; }
     }
 
     .talk-card {
@@ -291,18 +308,31 @@
             </div>`;
         }).join('');
 
-        // Reveal each card as it scrolls into view
+        // Reveal each card as it scrolls into view — with failsafes so a card
+        // is NEVER left permanently hidden if the observer misfires.
         const cards = list.querySelectorAll('.talk-item');
-        if (!('IntersectionObserver' in window)) {
-          cards.forEach(el => el.classList.add('reveal'));
+        const revealAll = () => cards.forEach(el => el.classList.add('reveal'));
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        if (reduceMotion || !('IntersectionObserver' in window)) {
+          revealAll();
           return;
         }
+
+        // Cards already in (or near) the viewport reveal immediately — don't wait
+        // for the async observer callback.
+        const vh = window.innerHeight || document.documentElement.clientHeight;
+        cards.forEach(el => { if (el.getBoundingClientRect().top < vh * 0.92) el.classList.add('reveal'); });
+
         const io = new IntersectionObserver((entries, obs) => {
           entries.forEach(e => {
             if (e.isIntersecting) { e.target.classList.add('reveal'); obs.unobserve(e.target); }
           });
-        }, { threshold: 0.12 });
-        cards.forEach(el => io.observe(el));
+        }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+        cards.forEach(el => { if (!el.classList.contains('reveal')) io.observe(el); });
+
+        // Belt-and-suspenders: if anything is still hidden after 2.5s, show it.
+        setTimeout(revealAll, 2500);
       }
 
       function renderFilters() {
@@ -334,8 +364,12 @@
         renderTimeline();
       }
 
+      // Cache key is versioned: bumping it invalidates stale cached data
+      // (e.g. an old talks.js that still pointed photos at /assets/img/speaker/).
+      try { localStorage.removeItem('pf_talks'); localStorage.removeItem('pf_talks_at'); } catch (e) {}
+
       const scripts = [
-        { url: 'https://gist.githubusercontent.com/marcoalfans/06591cd2b7c9cbf1717d0c7ba7079871/raw/talks.js', key: 'pf_talks' },
+        { url: 'https://gist.githubusercontent.com/marcoalfans/06591cd2b7c9cbf1717d0c7ba7079871/raw/talks.js', key: 'pf_talks_v2' },
       ];
 
       Promise.all(scripts.map(loadData)).then(() => { renderTalks(); });
