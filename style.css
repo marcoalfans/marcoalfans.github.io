@@ -367,7 +367,10 @@ a { color: var(--blue); text-decoration: none; }
   height: 100%;
   object-fit: cover;
   padding: 0;
+  filter: grayscale(1);
+  transition: filter .3s cubic-bezier(.4, 0, .2, 1);
 }
+.cert-card:hover .cert-img-area img { filter: grayscale(0); }
 
 .bg-htb   { background: #1a2a1a; color: #9fef00; }
 .bg-ine   { background: #0c1a2e; color: #38bdf8; }
@@ -527,7 +530,10 @@ a.hof-item { cursor: pointer; }
   height: 24px;
   object-fit: contain;
   border-radius: 4px;
+  filter: grayscale(1);
+  transition: filter .3s cubic-bezier(.4, 0, .2, 1);
 }
+.hof-item:hover .hof-logo { filter: grayscale(0); }
 .hof-item span {
   font-family: var(--mono);
   font-size: 8.5px;
