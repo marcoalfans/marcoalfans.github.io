@@ -124,77 +124,42 @@ a { color: var(--blue); text-decoration: none; }
 .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
 
 .hero-visual { flex-shrink: 0; }
-.profile-ring {
+/* ===== Hero scan-reveal (dual-photo dynamic circular mask + targeting reticle) ===== */
+.scan-reveal {
   position: relative;
   width: 320px; height: 320px;
   border-radius: 50%;
-  transition: box-shadow .35s ease;
+  overflow: hidden;
+  border: 2px solid rgba(255,68,68,.35);
+  box-shadow: 0 0 30px rgba(255,68,68,.18);
+  background: #000;
+  cursor: crosshair;
 }
-.profile-ring:hover { box-shadow: 0 0 42px rgba(255,68,68,.5); }
+.scan-reveal img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover;
+  user-select: none; -webkit-user-drag: none;
+}
+.sr-a { z-index: 1; }                                   /* Photo A — avatar (full) */
+.sr-b { z-index: 2; clip-path: circle(56px at 50% 50%); } /* Photo B — real, revealed inside the circle */
 
-/* target frame (camera-style corner brackets) that SCANS around — right, left, up, down — searching */
-.profile-ring::before {
-  content: '';
-  position: absolute; inset: -22px;
-  --c: var(--accent);
-  background-image:
-    linear-gradient(var(--c),var(--c)), linear-gradient(var(--c),var(--c)),
-    linear-gradient(var(--c),var(--c)), linear-gradient(var(--c),var(--c)),
-    linear-gradient(var(--c),var(--c)), linear-gradient(var(--c),var(--c)),
-    linear-gradient(var(--c),var(--c)), linear-gradient(var(--c),var(--c));
-  background-repeat: no-repeat;
-  background-size: 26px 3px, 3px 26px, 26px 3px, 3px 26px, 26px 3px, 3px 26px, 26px 3px, 3px 26px;
-  background-position:
-    top left, top left, top right, top right,
-    bottom left, bottom left, bottom right, bottom right;
-  transition: inset .3s cubic-bezier(.34,1.56,.64,1),
-              transform .3s cubic-bezier(.34,1.56,.64,1),
-              filter .3s ease;
-  animation: scan 4s ease-in-out infinite;
-  pointer-events: none;
-}
-/* LOCK-ON: when the cursor is over the photo, the frame snaps tight + centered and glows */
-.profile-ring:hover::before {
-  animation: none;
-  transform: translate(0, 0);
-  inset: -9px;
-  filter: drop-shadow(0 0 5px var(--accent));
-}
-
-/* "TARGET LOCKED" readout — only while locked */
-.profile-ring::after {
-  content: '\25CE TARGET LOCKED';
-  position: absolute; left: 50%; bottom: -34px;
-  transform: translateX(-50%) scale(.9);
-  font-family: var(--mono); font-size: 10px; font-weight: 700;
-  letter-spacing: .14em; color: var(--accent); white-space: nowrap;
-  opacity: 0; transition: opacity .25s ease, transform .25s ease;
-  pointer-events: none;
-}
-.profile-ring:hover::after { opacity: 1; transform: translateX(-50%) scale(1); }
-
-.profile-img {
-  position: relative; z-index: 1;
-  width: 100%; height: 100%;
-  border-radius: 50%; object-fit: cover; object-position: top;
-  border: 4px solid var(--bg); display: block;
-  filter: grayscale(1);
-  transition: filter .3s cubic-bezier(.4, 0, .2, 1);
-}
-.profile-img:hover { filter: grayscale(0); }
-
-/* scanning sweep: right -> left -> up -> down, then recenter */
-@keyframes scan {
-  0%, 100% { transform: translate(0, 0); }
-  15%      { transform: translateX(20px); }
-  35%      { transform: translateX(-20px); }
-  58%      { transform: translate(-5px, -17px); }
-  80%      { transform: translate(6px, 17px); }
-}
+.sr-reticle { position: absolute; z-index: 3; top: 0; left: 0; width: 132px; height: 132px; pointer-events: none; will-change: transform; }
+.sr-ring   { position: absolute; inset: 10px; border-radius: 50%; border: 1.5px solid var(--accent); box-shadow: 0 0 12px rgba(255,68,68,.5), inset 0 0 10px rgba(255,68,68,.25); }
+.sr-dashed { position: absolute; inset: 3px;  border-radius: 50%; border: 1.5px dashed rgba(255,68,68,.7); animation: srSpin 6s linear infinite; }
+.sr-h, .sr-v { position: absolute; background: rgba(255,68,68,.85); }
+.sr-h { left: 50%; top: 50%; width: 26px; height: 1.5px; transform: translate(-50%,-50%); }
+.sr-v { left: 50%; top: 50%; width: 1.5px; height: 26px; transform: translate(-50%,-50%); }
+.sr-dot { position: absolute; left: 50%; top: 50%; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); transform: translate(-50%,-50%); box-shadow: 0 0 8px var(--accent); }
+.sr-br { position: absolute; width: 14px; height: 14px; border: 2px solid var(--accent); }
+.sr-br.tl  { top: 0; left: 0;  border-right: 0; border-bottom: 0; }
+.sr-br.tr  { top: 0; right: 0; border-left: 0;  border-bottom: 0; }
+.sr-br.bl  { bottom: 0; left: 0;  border-right: 0; border-top: 0; }
+.sr-br.br2 { bottom: 0; right: 0; border-left: 0;  border-top: 0; }
+@keyframes srSpin { to { transform: rotate(1turn); } }
 
 @media (max-width: 900px) {
   .hero-inner { flex-direction: column-reverse; padding-top: 100px; gap: 32px; }
-  .profile-ring { width: 210px; height: 210px; }
+  .scan-reveal { width: 240px; height: 240px; }
 }
 
 /* ===== Sections ===== */

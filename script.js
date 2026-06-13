@@ -1,3 +1,42 @@
+// Hero scan-reveal: circular mask over Photo B that auto-scans, and follows the cursor on hover
+(function () {
+  const root = document.getElementById('scanReveal');
+  if (!root) return;
+  const imgB = document.getElementById('srB');
+  const ret  = document.getElementById('srReticle');
+  const R = 56, HALF = 66;                 // mask radius + half the reticle box (132/2)
+  let t = 0, hovering = false, tx = 0, ty = 0, mx = 0, my = 0, started = false;
+
+  root.addEventListener('pointerenter', () => hovering = true);
+  root.addEventListener('pointerleave', () => hovering = false);
+  root.addEventListener('pointermove', e => {
+    const r = root.getBoundingClientRect();
+    tx = e.clientX - r.left; ty = e.clientY - r.top;
+  });
+
+  function frame() {
+    const w = root.clientWidth, h = root.clientHeight, cx = w / 2, cy = h / 2;
+    if (!started) { mx = cx; my = cy; started = true; }
+    if (!hovering) {                          // auto-scan (Lissajous roam)
+      t += 1 / 60;
+      tx = cx + Math.sin(t * 0.7)  * (w * 0.30);
+      ty = cy + Math.sin(t * 1.13) * (h * 0.30);
+    }
+    // keep the reticle inside the circular frame
+    const maxR = Math.min(w, h) / 2 - R - 6;
+    const dx = tx - cx, dy = ty - cy, d = Math.hypot(dx, dy);
+    if (d > maxR) { tx = cx + dx / d * maxR; ty = cy + dy / d * maxR; }
+    // ease toward target (smooths motion + the auto<->cursor handoff)
+    mx += (tx - mx) * 0.12; my += (ty - my) * 0.12;
+
+    const clip = `circle(${R}px at ${mx}px ${my}px)`;
+    imgB.style.clipPath = clip; imgB.style.webkitClipPath = clip;
+    ret.style.transform = `translate(${mx - HALF}px, ${my - HALF}px)`;
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+
 // Theme toggle
 const toggle = document.getElementById('themeToggle');
 const icon = document.getElementById('themeIcon');
