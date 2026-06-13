@@ -143,7 +143,7 @@ a { color: var(--blue); text-decoration: none; }
     var(--accent-h) 190deg,
     #3d0a0f 280deg,
     #3d0a0f 360deg);
-  animation: ringSpin 4s linear infinite;
+  animation: ringZig 4.5s ease-in-out infinite;
 }
 /* soft pulsing glow behind */
 .profile-ring::after {
@@ -154,7 +154,7 @@ a { color: var(--blue); text-decoration: none; }
   filter: blur(12px);
   animation: ringGlow 3.2s ease-in-out infinite;
 }
-.profile-ring:hover::before { animation-duration: 1.8s; }
+.profile-ring:hover::before { animation-duration: 2.4s; }
 .profile-ring:hover { box-shadow: 0 0 32px rgba(255,68,68,.45); }
 
 .profile-img {
@@ -167,7 +167,16 @@ a { color: var(--blue); text-decoration: none; }
 }
 .profile-img:hover { filter: grayscale(0); }
 
-@keyframes ringSpin { to { transform: rotate(1turn); } }
+/* zig-zag: darts forward then eases back, but nets a full 360deg per cycle so it loops seamlessly */
+@keyframes ringZig {
+  0%   { transform: rotate(0deg); }
+  16%  { transform: rotate(95deg); }
+  33%  { transform: rotate(55deg); }
+  50%  { transform: rotate(190deg); }
+  66%  { transform: rotate(150deg); }
+  83%  { transform: rotate(285deg); }
+  100% { transform: rotate(360deg); }
+}
 @keyframes ringGlow { 0%, 100% { opacity: .4; } 50% { opacity: .85; } }
 
 @media (max-width: 900px) {
