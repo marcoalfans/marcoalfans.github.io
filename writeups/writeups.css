@@ -254,6 +254,12 @@ a { color: var(--blue); text-decoration: none; }
 .wu-result.active i, .wu-result.active .r-label { color: var(--accent); }
 .wu-search-empty { padding: 30px; text-align: center; color: var(--muted); font-size: 13px; }
 
+/* ===== Footer (mirrors portfolio) ===== */
+.wu-footer { padding: 36px 24px; border-top: 1px solid var(--border); text-align: center; }
+.wu-footer .footer-cmd { font-family: var(--mono); font-size: 13px; }
+.wu-footer .footer-cmd .muted { color: var(--muted); }
+.wu-footer .footer-out { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
 /* ===== Mobile ===== */
 .wu-overlay { display: none; position: fixed; inset: var(--topbar-h) 0 0; background: rgba(0,0,0,.5); z-index: 90; }
 @media (max-width: 1100px) {
