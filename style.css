@@ -148,17 +148,17 @@ a { color: var(--blue); text-decoration: none; }
 }
 .sr-a { z-index: 1; }                                   /* Photo A — avatar (full) */
 /* Photo B — real, revealed inside the circle; inner img zoomed out a touch to match A's framing */
-.sr-b { position: absolute; inset: 0; z-index: 2; background: #0d1117; clip-path: circle(56px at 50% 50%); }
-.sr-b img { transform: scale(.78); transform-origin: center; }
+.sr-b { position: absolute; inset: 0; z-index: 2; background: #0d1117; clip-path: circle(42px at 50% 50%); }
+.sr-b img { transform: scale(.85); transform-origin: center; }
 
-.sr-reticle { position: absolute; z-index: 3; top: 0; left: 0; width: 132px; height: 132px; pointer-events: none; will-change: transform; }
-.sr-ring   { position: absolute; inset: 10px; border-radius: 50%; border: 1.5px solid var(--accent); box-shadow: 0 0 12px rgba(255,68,68,.5), inset 0 0 10px rgba(255,68,68,.25); }
+.sr-reticle { position: absolute; z-index: 3; top: 0; left: 0; width: 100px; height: 100px; pointer-events: none; will-change: transform; }
+.sr-ring   { position: absolute; inset: 8px; border-radius: 50%; border: 1.5px solid var(--accent); box-shadow: 0 0 10px rgba(255,68,68,.5), inset 0 0 8px rgba(255,68,68,.25); }
 .sr-dashed { position: absolute; inset: 3px; width: calc(100% - 6px); height: calc(100% - 6px); animation: srSpin 10s linear infinite; }
 .sr-h, .sr-v { position: absolute; background: rgba(255,68,68,.85); }
-.sr-h { left: 50%; top: 50%; width: 26px; height: 1.5px; transform: translate(-50%,-50%); }
-.sr-v { left: 50%; top: 50%; width: 1.5px; height: 26px; transform: translate(-50%,-50%); }
+.sr-h { left: 50%; top: 50%; width: 18px; height: 1.5px; transform: translate(-50%,-50%); }
+.sr-v { left: 50%; top: 50%; width: 1.5px; height: 18px; transform: translate(-50%,-50%); }
 .sr-dot { position: absolute; left: 50%; top: 50%; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); transform: translate(-50%,-50%); box-shadow: 0 0 8px var(--accent); }
-.sr-br { position: absolute; width: 14px; height: 14px; border: 2px solid var(--accent); }
+.sr-br { position: absolute; width: 11px; height: 11px; border: 2px solid var(--accent); }
 .sr-br.tl  { top: 0; left: 0;  border-right: 0; border-bottom: 0; }
 .sr-br.tr  { top: 0; right: 0; border-left: 0;  border-bottom: 0; }
 .sr-br.bl  { bottom: 0; left: 0;  border-right: 0; border-top: 0; }

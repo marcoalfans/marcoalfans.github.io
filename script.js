@@ -4,7 +4,7 @@
   if (!root) return;
   const imgB = document.getElementById('srB');
   const ret  = document.getElementById('srReticle');
-  const R = 56, HALF = 66;                 // mask radius + half the reticle box (132/2)
+  const R = 42, HALF = 50;                 // mask radius + half the reticle box (100/2)
   let t = 0, hovering = false, tx = 0, ty = 0, mx = 0, my = 0, started = false;
 
   root.addEventListener('pointerenter', () => hovering = true);
@@ -23,7 +23,7 @@
       ty = cy + Math.sin(t * 1.13) * (h * 0.30);
     }
     // keep the reticle inside the circular frame AND inside Photo B's (zoomed-out) content
-    const B_SCALE = 0.78;
+    const B_SCALE = 0.85;
     const half = Math.min(w, h) / 2;
     const maxR = Math.min(half - R - 6, B_SCALE * half - R);
     const dx = tx - cx, dy = ty - cy, d = Math.hypot(dx, dy);
