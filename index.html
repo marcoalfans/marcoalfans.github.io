@@ -110,9 +110,11 @@
       <div class="hero-visual">
         <div class="scan-reveal" id="scanReveal">
           <img class="sr-a" src="assets/img/PhotoA.png" alt="Marco Alfan" decoding="async">
-          <img class="sr-b" id="srB" src="assets/img/PhotoB.jpeg" alt="Marco Alfan" decoding="async">
+          <div class="sr-b" id="srB"><img src="assets/img/PhotoB.jpeg" alt="Marco Alfan" decoding="async"></div>
           <div class="sr-reticle" id="srReticle">
-            <span class="sr-dashed"></span>
+            <svg class="sr-dashed" viewBox="0 0 100 100" aria-hidden="true">
+              <circle cx="50" cy="50" r="47" fill="none" stroke="rgba(255,68,68,.8)" stroke-width="2.2" stroke-dasharray="1 12" stroke-linecap="round"/>
+            </svg>
             <span class="sr-ring"></span>
             <span class="sr-h"></span><span class="sr-v"></span>
             <span class="sr-dot"></span>
