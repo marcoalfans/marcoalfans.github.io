@@ -27,11 +27,6 @@
     <a href="#/" class="wu-brand"><span class="accent">~/</span>writeups<span class="muted">.kac0</span></a>
     <nav class="wu-spaces" id="wuSpaces"></nav>
     <div class="wu-topbar-right">
-      <button class="wu-search-btn" id="wuSearchBtn" aria-label="Search">
-        <i class="fas fa-magnifying-glass"></i>
-        <span class="sb-label">Search writeups</span>
-        <kbd>⌘K</kbd>
-      </button>
       <a href="/" class="wu-back" title="Back to portfolio"><i class="fas fa-arrow-left"></i> portfolio</a>
       <button class="wu-icon-btn" id="wuTheme" aria-label="Toggle theme"><i class="fas fa-sun" id="wuThemeIcon"></i></button>
     </div>
@@ -39,7 +34,16 @@
 
   <!-- Shell -->
   <div class="wu-shell">
-    <aside class="wu-sidebar" id="wuSidebar"></aside>
+    <aside class="wu-sidebar" id="wuSidebar">
+      <div class="wu-sidebar-search">
+        <button class="wu-search-btn" id="wuSearchBtn" aria-label="Search">
+          <i class="fas fa-magnifying-glass"></i>
+          <span class="sb-label">Search writeups</span>
+          <kbd>⌘K</kbd>
+        </button>
+      </div>
+      <div class="wu-sidebar-nav" id="wuSidebarNav"></div>
+    </aside>
     <main class="wu-main">
       <div class="wu-breadcrumbs" id="wuCrumbs"></div>
       <article class="wu-article" id="wuArticle"></article>
@@ -120,7 +124,7 @@
     let curSpace = SPACES[0];
     function renderSidebar(space, activeStr) {
       curSpace = space;
-      const host = document.getElementById('wuSidebar');
+      const host = document.getElementById('wuSidebarNav');
       let html = `<div class="wu-space-title"><i class="fas ${space.icon}"></i>${space.label}</div>`;
       // mobile-only space switcher
       html += '<div class="wu-mobile-spaces">' + SPACES.map(s =>
@@ -151,7 +155,7 @@
       return `<div class="wu-locked">
         <div class="wu-lock-orb"><i class="fas fa-lock"></i></div>
         <h1>${node.label}</h1>
-        <p class="wu-locked-note">Writeup ini belum dipublikasikan. Konten sedang disiapkan dan akan dibuka setelah disclosure/embargo selesai.</p>
+        <p class="wu-locked-note">This writeup hasn't been published yet. Content is being prepared and will unlock once any disclosure or embargo window has passed.</p>
         <span class="wu-chip"><i class="fas fa-lock"></i> Locked</span>
       </div>`;
     }
