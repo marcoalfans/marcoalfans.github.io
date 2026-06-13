@@ -128,16 +128,22 @@ a { color: var(--blue); text-decoration: none; }
   position: relative;
   width: 320px; height: 320px;
   border-radius: 50%;
-  padding: 4px;
+  padding: 8px;
   transition: box-shadow .35s ease;
 }
-/* rotating gradient ring */
+/* rotating gradient ring — high-contrast highlight sweeps around so the spin reads clearly */
 .profile-ring::before {
   content: '';
   position: absolute; inset: 0;
   border-radius: 50%;
-  background: conic-gradient(from 0deg, var(--accent), #ff9d9d, var(--accent-h), #5c0f17, var(--accent));
-  animation: ringSpin 5s linear infinite;
+  background: conic-gradient(from 0deg,
+    #3d0a0f 0deg,
+    var(--accent) 70deg,
+    #ffe3e3 130deg,
+    var(--accent-h) 190deg,
+    #3d0a0f 280deg,
+    #3d0a0f 360deg);
+  animation: ringSpin 4s linear infinite;
 }
 /* soft pulsing glow behind */
 .profile-ring::after {
