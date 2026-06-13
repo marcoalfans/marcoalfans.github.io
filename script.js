@@ -22,8 +22,10 @@
       tx = cx + Math.sin(t * 0.7)  * (w * 0.30);
       ty = cy + Math.sin(t * 1.13) * (h * 0.30);
     }
-    // keep the reticle inside the circular frame
-    const maxR = Math.min(w, h) / 2 - R - 6;
+    // keep the reticle inside the circular frame AND inside Photo B's (zoomed-out) content
+    const B_SCALE = 0.78;
+    const half = Math.min(w, h) / 2;
+    const maxR = Math.min(half - R - 6, B_SCALE * half - R);
     const dx = tx - cx, dy = ty - cy, d = Math.hypot(dx, dy);
     if (d > maxR) { tx = cx + dx / d * maxR; ty = cy + dy / d * maxR; }
     // ease toward target (smooths motion + the auto<->cursor handoff)
