@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Scan Reveal — Demo</title>
+  <link rel="icon" href="../assets/img/toonme.ico">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    body { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; gap: 22px; padding: 30px; }
+    .demo-title { font-family: var(--mono); font-size: 13px; color: var(--muted); text-align: center; }
+    .demo-title b { color: var(--accent); }
+
+    .scan {
+      position: relative;
+      width: 540px; max-width: 92vw;
+      aspect-ratio: 3 / 2;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #000;
+      box-shadow: 0 0 40px rgba(0,0,0,.5);
+    }
+    .scan img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      user-select: none; -webkit-user-drag: none;
+    }
+    /* Photo A — full base image */
+    .scan-a { z-index: 1; }
+    /* Photo B — revealed only inside the moving circle (here: an x-ray/thermal look of the same shot for the demo) */
+    .scan-b {
+      z-index: 2;
+      filter: invert(1) hue-rotate(150deg) saturate(2.2) contrast(1.05) brightness(1.05);
+      clip-path: circle(70px at 50% 50%);
+    }
+
+    /* Targeting reticle, moved in lockstep with the mask */
+    .reticle {
+      position: absolute; z-index: 3; top: 0; left: 0;
+      width: 168px; height: 168px;
+      pointer-events: none;
+      will-change: transform;
+    }
+    .reticle .ring {
+      position: absolute; inset: 14px;
+      border-radius: 50%;
+      border: 1.5px solid var(--accent);
+      box-shadow: 0 0 12px rgba(255,68,68,.5), inset 0 0 12px rgba(255,68,68,.25);
+    }
+    .reticle .ring-dashed {
+      position: absolute; inset: 6px;
+      border-radius: 50%;
+      border: 1.5px dashed rgba(255,68,68,.7);
+      animation: retSpin 6s linear infinite;
+    }
+    /* crosshair */
+    .reticle .cx-h, .reticle .cx-v { position: absolute; background: rgba(255,68,68,.8); }
+    .reticle .cx-h { left: 50%; top: 50%; width: 30px; height: 1.5px; transform: translate(-50%,-50%); }
+    .reticle .cx-v { left: 50%; top: 50%; width: 1.5px; height: 30px; transform: translate(-50%,-50%); }
+    .reticle .dot { position: absolute; left: 50%; top: 50%; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); transform: translate(-50%,-50%); box-shadow: 0 0 8px var(--accent); }
+    /* corner brackets */
+    .reticle .br { position: absolute; width: 16px; height: 16px; border: 2px solid var(--accent); }
+    .reticle .br.tl { top: 0; left: 0; border-right: 0; border-bottom: 0; }
+    .reticle .br.tr { top: 0; right: 0; border-left: 0; border-bottom: 0; }
+    .reticle .br.bl { bottom: 0; left: 0; border-right: 0; border-top: 0; }
+    .reticle .br.br2 { bottom: 0; right: 0; border-left: 0; border-top: 0; }
+    /* horizontal sweep line inside the ring */
+    .reticle .sweep { position: absolute; left: 14px; right: 14px; height: 1px; top: 14px;
+      background: linear-gradient(90deg, transparent, rgba(255,68,68,.9), transparent);
+      animation: retSweep 2.2s ease-in-out infinite; }
+
+    @keyframes retSpin  { to { transform: rotate(1turn); } }
+    @keyframes retSweep { 0%,100% { transform: translateY(0); } 50% { transform: translateY(140px); } }
+
+    .hint { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <p class="demo-title"><b>SCAN REVEAL</b> — prototype<br>area di dalam lingkaran = Foto B · di luar = Foto A</p>
+
+  <div class="scan" id="scan">
+    <img class="scan-a" id="imgA" src="../assets/img/photo-profile.png" alt="Photo A">
+    <img class="scan-b" id="imgB" src="../assets/img/photo-profile.png" alt="Photo B (revealed)">
+    <div class="reticle" id="reticle">
+      <span class="ring"></span>
+      <span class="ring-dashed"></span>
+      <span class="sweep"></span>
+      <span class="cx-h"></span>
+      <span class="cx-v"></span>
+      <span class="dot"></span>
+      <span class="br tl"></span><span class="br tr"></span>
+      <span class="br bl"></span><span class="br br2"></span>
+    </div>
+  </div>
+
+  <p class="hint">Gerak otomatis (auto-scan). Bisa juga dibuat ikut kursor.</p>
+
+  <script>
+    (function () {
+      const scan    = document.getElementById('scan');
+      const imgB    = document.getElementById('imgB');
+      const reticle = document.getElementById('reticle');
+
+      const R   = 70;   // mask radius (must match .scan-b clip-path radius)
+      const HALF = 84;  // half of reticle box (168/2) so its center lands on (mx,my)
+
+      let t = 0;
+      function frame() {
+        t += 1 / 60;
+        const w = scan.clientWidth, h = scan.clientHeight;
+        // Lissajous-style roaming scan, kept inside the frame with margins
+        const mx = w / 2 + Math.sin(t * 0.7)  * (w / 2 - R - 12);
+        const my = h / 2 + Math.sin(t * 1.13) * (h / 2 - R - 12);
+
+        const clip = `circle(${R}px at ${mx}px ${my}px)`;
+        imgB.style.clipPath = clip;
+        imgB.style.webkitClipPath = clip;
+        reticle.style.transform = `translate(${mx - HALF}px, ${my - HALF}px)`;
+
+        requestAnimationFrame(frame);
+      }
+      frame();
+    })();
+  </script>
+</body>
+</html>
