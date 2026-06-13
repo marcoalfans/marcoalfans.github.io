@@ -130,20 +130,10 @@ a { color: var(--blue); text-decoration: none; }
   border-radius: 50%;
   transition: box-shadow .35s ease;
 }
-.profile-ring:hover { box-shadow: 0 0 40px rgba(255,68,68,.5); }
+.profile-ring:hover { box-shadow: 0 0 42px rgba(255,68,68,.5); }
 
-/* rotating dashed reticle ring — zig-zag motion */
+/* target frame (camera-style corner brackets) that SCANS around — right, left, up, down — searching */
 .profile-ring::before {
-  content: '';
-  position: absolute; inset: -11px;
-  border-radius: 50%;
-  border: 2px dashed var(--accent);
-  animation: ringZig 4.5s ease-in-out infinite;
-}
-.profile-ring:hover::before { animation-duration: 2.4s; }
-
-/* camera-style corner brackets — the "target frame"; snaps inward on hover (lock-on) */
-.profile-ring::after {
   content: '';
   position: absolute; inset: -22px;
   --c: var(--accent);
@@ -153,14 +143,35 @@ a { color: var(--blue); text-decoration: none; }
     linear-gradient(var(--c),var(--c)), linear-gradient(var(--c),var(--c)),
     linear-gradient(var(--c),var(--c)), linear-gradient(var(--c),var(--c));
   background-repeat: no-repeat;
-  background-size: 24px 3px, 3px 24px, 24px 3px, 3px 24px, 24px 3px, 3px 24px, 24px 3px, 3px 24px;
+  background-size: 26px 3px, 3px 26px, 26px 3px, 3px 26px, 26px 3px, 3px 26px, 26px 3px, 3px 26px;
   background-position:
     top left, top left, top right, top right,
     bottom left, bottom left, bottom right, bottom right;
-  transition: inset .3s cubic-bezier(.34,1.56,.64,1);
+  transition: inset .3s cubic-bezier(.34,1.56,.64,1),
+              transform .3s cubic-bezier(.34,1.56,.64,1),
+              filter .3s ease;
+  animation: scan 4s ease-in-out infinite;
   pointer-events: none;
 }
-.profile-ring:hover::after { inset: -12px; }
+/* LOCK-ON: when the cursor is over the photo, the frame snaps tight + centered and glows */
+.profile-ring:hover::before {
+  animation: none;
+  transform: translate(0, 0);
+  inset: -9px;
+  filter: drop-shadow(0 0 5px var(--accent));
+}
+
+/* "TARGET LOCKED" readout — only while locked */
+.profile-ring::after {
+  content: '\25CE TARGET LOCKED';
+  position: absolute; left: 50%; bottom: -34px;
+  transform: translateX(-50%) scale(.9);
+  font-family: var(--mono); font-size: 10px; font-weight: 700;
+  letter-spacing: .14em; color: var(--accent); white-space: nowrap;
+  opacity: 0; transition: opacity .25s ease, transform .25s ease;
+  pointer-events: none;
+}
+.profile-ring:hover::after { opacity: 1; transform: translateX(-50%) scale(1); }
 
 .profile-img {
   position: relative; z-index: 1;
@@ -169,21 +180,17 @@ a { color: var(--blue); text-decoration: none; }
   border: 4px solid var(--bg); display: block;
   filter: grayscale(1);
   transition: filter .3s cubic-bezier(.4, 0, .2, 1);
-  animation: lockGlow 3s ease-in-out infinite;
 }
 .profile-img:hover { filter: grayscale(0); }
 
-/* zig-zag: darts forward then eases back, but nets a full 360deg per cycle so it loops seamlessly */
-@keyframes ringZig {
-  0%   { transform: rotate(0deg); }
-  16%  { transform: rotate(95deg); }
-  33%  { transform: rotate(55deg); }
-  50%  { transform: rotate(190deg); }
-  66%  { transform: rotate(150deg); }
-  83%  { transform: rotate(285deg); }
-  100% { transform: rotate(360deg); }
+/* scanning sweep: right -> left -> up -> down, then recenter */
+@keyframes scan {
+  0%, 100% { transform: translate(0, 0); }
+  15%      { transform: translateX(20px); }
+  35%      { transform: translateX(-20px); }
+  58%      { transform: translate(-5px, -17px); }
+  80%      { transform: translate(6px, 17px); }
 }
-@keyframes lockGlow { 0%, 100% { box-shadow: 0 0 0 rgba(255,68,68,0); } 50% { box-shadow: 0 0 20px rgba(255,68,68,.3); } }
 
 @media (max-width: 900px) {
   .hero-inner { flex-direction: column-reverse; padding-top: 100px; gap: 32px; }
