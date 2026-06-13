@@ -3,284 +3,333 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Security writeups by Marco Alfan — CTF, HackTheBox, bug bounty and lab walkthroughs on offensive security.">
+  <meta name="description" content="Writeups by Marco Alfan (kac0) — HackTheBox machines & Season, CTF events, and bug bounty findings. A growing offensive-security knowledge base.">
   <title>Writeups — Marco Alfan</title>
   <link rel="canonical" href="https://marcoalfans.github.io/writeups/">
   <link rel="icon" href="../assets/img/toonme.ico">
 
-  <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Writeups — Marco Alfan">
-  <meta property="og:description" content="CTF, HackTheBox, bug bounty and lab walkthroughs on offensive security.">
+  <meta property="og:description" content="HackTheBox, CTF & bug bounty writeups — an offensive-security knowledge base.">
   <meta property="og:url" content="https://marcoalfans.github.io/writeups/">
   <meta property="og:image" content="https://marcoalfans.github.io/assets/img/photo-profile.png">
-  <meta property="og:site_name" content="Marco Alfan">
-  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Writeups — Marco Alfan">
-  <meta name="twitter:description" content="CTF, HackTheBox, bug bounty and lab walkthroughs on offensive security.">
-  <meta name="twitter:image" content="https://marcoalfans.github.io/assets/img/photo-profile.png">
 
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="../style.css">
-  <style>
-    .wu-hero {
-      padding: 110px 0 36px;
-      border-bottom: 1px solid var(--border);
-    }
-    .wu-hero h1 { font-family: var(--mono); font-size: 28px; font-weight: 700; margin-bottom: 8px; }
-    .wu-hero p  { color: var(--muted); font-size: 13px; max-width: 800px; }
-    .wu-count   { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 12px; }
-    .wu-count span { color: var(--accent); }
-
-    /* Filter bar */
-    .wu-filters {
-      display: flex; flex-wrap: wrap; gap: 8px;
-      padding: 28px 0 0;
-    }
-    .wu-filter {
-      font-family: var(--mono); font-size: 11px; color: var(--muted);
-      background: var(--bg-card); border: 1px solid var(--border);
-      padding: 6px 14px; border-radius: 6px; cursor: pointer;
-      transition: .18s;
-    }
-    .wu-filter:hover { color: var(--text); border-color: var(--muted); }
-    .wu-filter.active { color: var(--bg); background: var(--accent); border-color: var(--accent); }
-
-    /* Grid */
-    .wu-section { padding: 28px 0 80px; }
-    .wu-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 18px;
-    }
-    .wu-card {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: 12px; padding: 20px 22px;
-      display: flex; flex-direction: column; gap: 11px;
-      transition: border-color .2s, transform .2s;
-    }
-    .wu-card:hover { border-color: var(--accent); transform: translateY(-3px); }
-
-    .wu-top { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; }
-    .wu-platform {
-      font-family: var(--mono); font-size: 10px; font-weight: 700;
-      padding: 3px 9px; border-radius: 4px; white-space: nowrap;
-      text-transform: uppercase; letter-spacing: .04em;
-    }
-    .wu-pf-ctf        { color: var(--yellow); background: rgba(227,179,65,.10); border: 1px solid rgba(227,179,65,.28); }
-    .wu-pf-hackthebox { color: var(--green);  background: rgba(126,231,135,.10); border: 1px solid rgba(126,231,135,.28); }
-    .wu-pf-bugbounty  { color: var(--accent); background: rgba(255,68,68,.08);   border: 1px solid rgba(255,68,68,.24); }
-    .wu-pf-lab        { color: var(--blue);   background: rgba(88,166,255,.10);  border: 1px solid rgba(88,166,255,.28); }
-    .wu-pf-default    { color: var(--muted);  background: var(--bg-alt);          border: 1px solid var(--border); }
-
-    .wu-diff {
-      font-family: var(--mono); font-size: 9px; color: var(--muted);
-      border: 1px solid var(--border); padding: 2px 7px; border-radius: 4px;
-    }
-    .wu-date {
-      font-family: var(--mono); font-size: 10px; color: var(--muted);
-      margin-left: auto; white-space: nowrap;
-    }
-
-    .wu-title { font-size: 15px; font-weight: 600; color: var(--text); line-height: 1.45; }
-    .wu-summary { font-size: 11px; color: var(--muted); line-height: 1.6; flex: 1; }
-
-    .wu-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-    .wu-tag {
-      font-family: var(--mono); font-size: 9px; color: var(--muted);
-      background: var(--bg-alt); border: 1px solid var(--border);
-      padding: 2px 8px; border-radius: 4px;
-    }
-
-    .wu-link {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-family: var(--mono); font-size: 10px; color: var(--blue);
-      border: 1px solid rgba(88,166,255,.3); padding: 5px 12px; border-radius: 5px;
-      transition: .2s; text-decoration: none; align-self: flex-start;
-    }
-    .wu-link:hover { background: rgba(88,166,255,.1); border-color: var(--blue); }
-    .wu-soon { font-family: var(--mono); font-size: 9px; color: var(--muted); opacity: .7; align-self: flex-start; }
-
-    .wu-empty {
-      font-family: var(--mono); font-size: 12px; color: var(--muted);
-      text-align: center; padding: 60px 0; grid-column: 1 / -1;
-    }
-
-    @media (max-width: 600px) {
-      .wu-grid { grid-template-columns: 1fr; }
-    }
-  </style>
+  <link rel="stylesheet" href="writeups.css">
 </head>
 <body>
 
-  <nav class="navbar" id="navbar">
-    <div class="nav-container">
-      <a href="/" class="nav-brand"><span class="g">Marco Alfan</span><span class="blink">█</span></a>
-      <div class="nav-links">
-        <a href="/" style="font-family:var(--mono);font-size:13px;color:var(--muted);transition:color .2s">
-          <i class="fas fa-arrow-left" style="font-size:10px;margin-right:4px"></i>back
-        </a>
-        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-          <i class="fas fa-sun" id="themeIcon"></i>
-        </button>
-      </div>
-      <button class="hamburger" id="hamburger" aria-label="Menu">
-        <span></span><span></span><span></span>
+  <!-- Top bar -->
+  <header class="wu-topbar">
+    <button class="wu-icon-btn wu-hamburger" id="wuHamburger" aria-label="Menu"><i class="fas fa-bars"></i></button>
+    <a href="#/" class="wu-brand"><span class="accent">~/</span>writeups<span class="muted">.kac0</span></a>
+    <nav class="wu-spaces" id="wuSpaces"></nav>
+    <div class="wu-topbar-right">
+      <button class="wu-search-btn" id="wuSearchBtn" aria-label="Search">
+        <i class="fas fa-magnifying-glass"></i>
+        <span class="sb-label">Search writeups</span>
+        <kbd>⌘K</kbd>
       </button>
-    </div>
-    <div class="mobile-menu" id="mobileMenu">
-      <a href="/"><i class="fas fa-arrow-left" style="margin-right:6px"></i>back to portfolio</a>
-    </div>
-  </nav>
-
-  <header class="wu-hero">
-    <div class="container">
-      <h1><span class="accent">// </span>Writeups</h1>
-      <p>CTF challenges, HackTheBox machines, lab walkthroughs and bug bounty findings — documented end to end, from recon to root.</p>
-      <p class="wu-count"><span id="wuCount">0</span> writeup<span id="wuPlural">s</span> published</p>
+      <a href="/" class="wu-back" title="Back to portfolio"><i class="fas fa-arrow-left"></i> portfolio</a>
+      <button class="wu-icon-btn" id="wuTheme" aria-label="Toggle theme"><i class="fas fa-sun" id="wuThemeIcon"></i></button>
     </div>
   </header>
 
-  <section class="wu-section">
-    <div class="container">
-      <div class="wu-filters" id="wuFilters"></div>
-      <div class="wu-grid" id="wuGrid" style="margin-top:22px"></div>
-    </div>
-  </section>
+  <!-- Shell -->
+  <div class="wu-shell">
+    <aside class="wu-sidebar" id="wuSidebar"></aside>
+    <main class="wu-main">
+      <div class="wu-breadcrumbs" id="wuCrumbs"></div>
+      <article class="wu-article" id="wuArticle"></article>
+      <nav class="wu-pager" id="wuPager"></nav>
+    </main>
+    <aside class="wu-toc" id="wuToc"></aside>
+  </div>
+  <div class="wu-overlay" id="wuOverlay"></div>
 
-  <footer>
-    <div class="container">
-      <p class="footer-cmd"><span class="muted">Connection closed by foreign host.</span></p>
-      <p class="footer-out">© 2026 Marco Alfan</p>
+  <!-- Search modal -->
+  <div class="wu-search-modal" id="wuSearchModal" role="dialog" aria-modal="true">
+    <div class="wu-search-box">
+      <div class="wu-search-input-wrap">
+        <i class="fas fa-magnifying-glass"></i>
+        <input class="wu-search-input" id="wuSearchInput" placeholder="Search machines, CTFs, sections…" autocomplete="off">
+        <kbd style="font-family:var(--mono);font-size:10.5px;color:var(--muted);border:1px solid var(--border);border-radius:4px;padding:1px 6px">ESC</kbd>
+      </div>
+      <div class="wu-search-results" id="wuSearchResults"></div>
     </div>
-  </footer>
+  </div>
 
+  <script src="nav.js"></script>
   <script>
-    (function() {
-      const TTL = 24 * 3600000;
-      const CACHE_VERSION = 2;                 // bump ONLY on breaking data changes (e.g. renamed asset paths)
-      const ckey = e => e.key + '_v' + CACHE_VERSION;
+  (function () {
+    const SPACES = WU_NAV.spaces;
+    const spaceById = id => SPACES.find(s => s.id === id);
 
-      function runCode(code) {
-        const s = document.createElement('script');
-        s.textContent = code;
-        document.head.appendChild(s);
+    /* ---------- routing ---------- */
+    function parseHash() {
+      const raw = (location.hash || '').replace(/^#\/?/, '');
+      const parts = raw.split('/').filter(Boolean);
+      if (parts.length === 0) return { spaceId: SPACES[0].id, path: [], home: true };
+      return { spaceId: parts[0], path: parts.slice(1), home: false };
+    }
+    function hashFor(spaceId, path) { return '#/' + [spaceId].concat(path || []).join('/'); }
+
+    function findInSpace(space, path) {
+      let nodes = space.tree, node = null; const trail = [];
+      for (const id of path) {
+        node = (nodes || []).find(n => n.id === id);
+        if (!node) return null;
+        trail.push(node);
+        nodes = node.children;
       }
+      return { node, trail };
+    }
+    function flattenLeaves(space) {
+      const out = [];
+      space.tree.forEach(top => {
+        if (top.children) top.children.forEach(ch => out.push({ node: ch, path: [top.id, ch.id], group: top }));
+        else out.push({ node: top, path: [top.id], group: null });
+      });
+      return out;
+    }
+    const slug = s => s.toLowerCase().replace(/[^\w]+/g, '-').replace(/^-+|-+$/g, '');
 
-      async function loadData(entry) {
-        const k = ckey(entry);
-        const cached   = localStorage.getItem(k);
-        const cachedAt = localStorage.getItem(k + '_at');
-        if (cached && cachedAt && (Date.now() - Number(cachedAt)) < TTL) {
-          runCode(cached); return;
+    /* ---------- sidebar ---------- */
+    function renderSpaces(activeSpaceId) {
+      const host = document.getElementById('wuSpaces');
+      host.innerHTML = SPACES.map(s =>
+        `<button class="wu-space-tab${s.id === activeSpaceId ? ' active' : ''}" data-space="${s.id}">
+           <i class="fas ${s.icon}"></i>${s.label}
+         </button>`).join('');
+      host.querySelectorAll('.wu-space-tab').forEach(b =>
+        b.addEventListener('click', () => { location.hash = hashFor(b.dataset.space, []); }));
+    }
+
+    function leafLink(node, path, activeStr) {
+      const active = path.join('/') === activeStr ? ' active' : '';
+      const icon = node.icon ? `fas ${node.icon}` : 'fas fa-file-lines';
+      const lock = node.locked ? '<i class="fas fa-lock lk-lock" title="Locked"></i>' : '';
+      const badge = node.badge ? `<span class="wu-badge">${node.badge}</span>` : '';
+      return `<a class="wu-nav-link${active}" href="${hashFor(curSpace.id, path)}">
+                <i class="lk-icon ${icon}"></i><span class="lk-label">${node.label}</span>${badge}${lock}
+              </a>`;
+    }
+
+    let curSpace = SPACES[0];
+    function renderSidebar(space, activeStr) {
+      curSpace = space;
+      const host = document.getElementById('wuSidebar');
+      let html = `<div class="wu-space-title"><i class="fas ${space.icon}"></i>${space.label}</div>`;
+      // mobile-only space switcher
+      html += '<div class="wu-mobile-spaces">' + SPACES.map(s =>
+        `<button class="wu-space-tab${s.id === space.id ? ' active' : ''}" data-mspace="${s.id}"><i class="fas ${s.icon}"></i>${s.label}</button>`).join('') + '</div>';
+
+      space.tree.forEach(top => {
+        if (top.children) {
+          const containsActive = top.children.some(ch => [top.id, ch.id].join('/') === activeStr);
+          const icon = top.icon ? `fas ${top.icon}` : 'fas fa-folder';
+          const badge = top.badge ? `<span class="wu-badge">${top.badge}</span>` : '';
+          html += `<details class="wu-group"${containsActive ? ' open' : ''}>
+            <summary><i class="lk-icon ${icon}"></i><span class="lk-label">${top.label}</span>${badge}<i class="fas fa-chevron-right wu-chevron"></i></summary>
+            <div class="wu-group-children">` +
+            top.children.map(ch => leafLink(ch, [top.id, ch.id], activeStr)).join('') +
+            `</div></details>`;
+        } else {
+          html += leafLink(top, [top.id], activeStr);
         }
-        const res  = await fetch(entry.url);
-        const code = await res.text();
-        runCode(code);
-        localStorage.setItem(k,        code);
-        localStorage.setItem(k + '_at', Date.now());
-      }
+      });
+      host.innerHTML = html;
+      host.querySelectorAll('[data-mspace]').forEach(b =>
+        b.addEventListener('click', () => { location.hash = hashFor(b.dataset.mspace, []); closeDrawer(); }));
+      host.querySelectorAll('a.wu-nav-link').forEach(a => a.addEventListener('click', closeDrawer));
+    }
 
-      let activeFilter = 'All';
+    /* ---------- content renderers ---------- */
+    function lockedPage(node) {
+      return `<div class="wu-locked">
+        <div class="wu-lock-orb"><i class="fas fa-lock"></i></div>
+        <h1>${node.label}</h1>
+        <p class="wu-locked-note">Writeup ini belum dipublikasikan. Konten sedang disiapkan dan akan dibuka setelah disclosure/embargo selesai.</p>
+        <span class="wu-chip"><i class="fas fa-lock"></i> Locked</span>
+      </div>`;
+    }
+    function cardGrid(items) {
+      return `<div class="wu-cards">` + items.map(it =>
+        `<a class="wu-card" href="${it.hash}">
+           <div class="wu-card-head"><i class="fas ${it.icon || 'fa-folder'}"></i><h3>${it.label}</h3></div>
+           <p>${it.desc || ''}</p>
+           <div class="wu-card-meta"><i class="fas fa-lock"></i> ${it.meta || 'Locked'}</div>
+         </a>`).join('') + `</div>`;
+    }
+    function countLeaves(top) { return top.children ? top.children.length : 1; }
 
-      function pfClass(platform) {
-        const k = (platform || '').toLowerCase().replace(/[^a-z]/g, '');
-        const known = { ctf: 'wu-pf-ctf', hackthebox: 'wu-pf-hackthebox', bugbounty: 'wu-pf-bugbounty', lab: 'wu-pf-lab' };
-        return known[k] || 'wu-pf-default';
-      }
+    function renderHome() {
+      document.getElementById('wuArticle').innerHTML =
+        `<h1>Writeups</h1>
+         <p class="wu-lead">An offensive-security knowledge base — HackTheBox machines &amp; the live competitive Season, CTF events, and responsible-disclosure bug bounty findings. Most entries are locked while content is being prepared.</p>` +
+        cardGrid(SPACES.map(s => ({
+          label: s.label, icon: s.icon, hash: hashFor(s.id, []), desc: s.blurb,
+          meta: s.tree.reduce((n, t) => n + countLeaves(t), 0) + ' entries'
+        })));
+    }
+    function renderSpaceIndex(space) {
+      document.getElementById('wuArticle').innerHTML =
+        `<h1>${space.label}</h1><p class="wu-lead">${space.blurb}</p>` +
+        cardGrid(space.tree.map(top => ({
+          label: top.label, icon: top.icon, hash: hashFor(space.id, [top.id]),
+          desc: top.children ? top.children.map(c => c.label).join(' · ') : 'Writeup section',
+          meta: top.badge ? top.badge : (countLeaves(top) + (top.children ? ' categories' : ' · Locked'))
+        })));
+    }
+    function renderGroupIndex(space, top) {
+      document.getElementById('wuArticle').innerHTML =
+        `<h1>${top.label}</h1><p class="wu-lead">Pick a category.</p>` +
+        cardGrid(top.children.map(ch => ({
+          label: ch.label, icon: ch.icon || 'fa-file-lines', hash: hashFor(space.id, [top.id, ch.id]),
+          desc: '', meta: ch.locked ? 'Locked' : 'Available'
+        })));
+    }
 
-      function sortedWriteups() {
-        return [...WRITEUPS]
-          .map((w, i) => ({ w, i }))
-          .sort((a, b) => new Date('1 ' + b.w.date) - new Date('1 ' + a.w.date) || a.i - b.i)
-          .map(({ w }) => w);
-      }
-
-      function renderGrid() {
-        const grid = document.getElementById('wuGrid');
-        const items = sortedWriteups().filter(w => activeFilter === 'All' || w.platform === activeFilter);
-
-        if (items.length === 0) {
-          grid.innerHTML = '<p class="wu-empty">No writeups in this category yet.</p>';
-          return;
-        }
-
-        grid.innerHTML = items.map(w => {
-          const tags = (w.tags || []).map(t => `<span class="wu-tag">${t}</span>`).join('');
-          const diff = w.difficulty ? `<span class="wu-diff">${w.difficulty}</span>` : '';
-          const link = w.url
-            ? `<a class="wu-link" href="${w.url}" target="_blank" rel="noopener noreferrer"><i class="fas fa-up-right-from-square"></i> Read writeup</a>`
-            : `<span class="wu-soon"><i class="fas fa-clock"></i> Coming soon</span>`;
-          return `
-            <article class="wu-card">
-              <div class="wu-top">
-                <span class="wu-platform ${pfClass(w.platform)}">${w.platform}</span>
-                ${diff}
-                <span class="wu-date">${w.date}</span>
-              </div>
-              <h2 class="wu-title">${w.title}</h2>
-              <p class="wu-summary">${w.summary}</p>
-              ${tags ? `<div class="wu-tags">${tags}</div>` : ''}
-              ${link}
-            </article>`;
-        }).join('');
-      }
-
-      function renderFilters() {
-        const bar = document.getElementById('wuFilters');
-        const platforms = [];
-        sortedWriteups().forEach(w => { if (w.platform && !platforms.includes(w.platform)) platforms.push(w.platform); });
-        const all = ['All', ...platforms];
-
-        bar.innerHTML = all.map(p =>
-          `<button class="wu-filter${p === activeFilter ? ' active' : ''}" data-filter="${p}">${p}</button>`
-        ).join('');
-
-        bar.querySelectorAll('.wu-filter').forEach(btn => {
-          btn.addEventListener('click', () => {
-            activeFilter = btn.getAttribute('data-filter');
-            bar.querySelectorAll('.wu-filter').forEach(b => b.classList.toggle('active', b === btn));
-            renderGrid();
-          });
+    /* ---------- breadcrumbs ---------- */
+    function renderCrumbs(space, trail, home) {
+      const host = document.getElementById('wuCrumbs');
+      const parts = [`<a href="#/">writeups</a>`];
+      if (!home) {
+        parts.push(`<span class="sep">/</span><a href="${hashFor(space.id, [])}">${space.label}</a>`);
+        let acc = [];
+        trail.forEach((n, i) => {
+          acc = acc.concat(n.id);
+          const last = i === trail.length - 1;
+          parts.push(`<span class="sep">/</span>` +
+            (last ? `<span class="crumb-current">${n.label}</span>` : `<a href="${hashFor(space.id, acc.slice())}">${n.label}</a>`));
         });
       }
+      host.innerHTML = parts.join('');
+    }
 
-      function renderWriteups() {
-        if (typeof WRITEUPS === 'undefined') return;
-        const n = WRITEUPS.length;
-        document.getElementById('wuCount').textContent = n;
-        document.getElementById('wuPlural').textContent = n === 1 ? '' : 's';
-        renderFilters();
-        renderGrid();
+    /* ---------- TOC + scrollspy ---------- */
+    let spyObserver = null;
+    function renderTOC() {
+      const host = document.getElementById('wuToc');
+      const heads = Array.from(document.querySelectorAll('#wuArticle h2, #wuArticle h3'))
+        .filter(h => !h.closest('.wu-card'));   // ignore landing/index card titles
+      if (heads.length < 2) { host.innerHTML = `<div class="wu-toc-title">On this page</div><div class="wu-toc-empty">—</div>`; return; }
+      heads.forEach(h => { if (!h.id) h.id = slug(h.textContent); });
+      host.innerHTML = `<div class="wu-toc-title">On this page</div>` + heads.map(h =>
+        `<a href="#${h.id}" class="${h.tagName === 'H3' ? 'sub' : ''}" data-spy="${h.id}">${h.textContent}</a>`).join('');
+      if (spyObserver) spyObserver.disconnect();
+      const links = host.querySelectorAll('[data-spy]');
+      spyObserver = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            links.forEach(l => l.classList.toggle('active', l.dataset.spy === e.target.id));
+          }
+        });
+      }, { rootMargin: '-80px 0px -70% 0px' });
+      heads.forEach(h => spyObserver.observe(h));
+    }
+
+    /* ---------- pager ---------- */
+    function renderPager(space, path) {
+      const host = document.getElementById('wuPager');
+      const leaves = flattenLeaves(space);
+      const idx = leaves.findIndex(l => l.path.join('/') === path.join('/'));
+      if (idx === -1) { host.innerHTML = ''; return; }
+      const prev = leaves[idx - 1], next = leaves[idx + 1];
+      let html = '';
+      html += prev ? `<a href="${hashFor(space.id, prev.path)}"><span class="pg-dir"><i class="fas fa-arrow-left"></i> Previous</span><span class="pg-title">${prev.node.label}</span></a>` : '<span style="flex:1"></span>';
+      html += next ? `<a class="next" href="${hashFor(space.id, next.path)}"><span class="pg-dir">Next <i class="fas fa-arrow-right"></i></span><span class="pg-title">${next.node.label}</span></a>` : '<span style="flex:1"></span>';
+      host.innerHTML = html;
+    }
+
+    /* ---------- router ---------- */
+    function route() {
+      const { spaceId, path, home } = parseHash();
+      const space = spaceById(spaceId) || SPACES[0];
+      const activeStr = path.join('/');
+      renderSpaces(space.id);
+      renderSidebar(space, activeStr);
+
+      if (home) {
+        renderHome(); renderCrumbs(space, [], true); document.getElementById('wuPager').innerHTML = '';
+      } else if (path.length === 0) {
+        renderSpaceIndex(space); renderCrumbs(space, [], false); document.getElementById('wuPager').innerHTML = '';
+      } else {
+        const found = findInSpace(space, path);
+        if (!found) { renderHome(); renderCrumbs(space, [], true); }
+        else {
+          const node = found.node;
+          renderCrumbs(space, found.trail, false);
+          if (node.children) { renderGroupIndex(space, node); document.getElementById('wuPager').innerHTML = ''; }
+          else if (node.content) { document.getElementById('wuArticle').innerHTML = node.content; renderPager(space, path); }
+          else { document.getElementById('wuArticle').innerHTML = lockedPage(node); renderPager(space, path); }
+        }
       }
+      renderTOC();
+      document.querySelector('.wu-main').scrollTop = 0;
+      window.scrollTo(0, 0);
+    }
+    window.addEventListener('hashchange', route);
 
-      const scripts = [
-        { url: 'https://gist.githubusercontent.com/marcoalfans/ecd97e34dcc10b723556e3ab8e6a8ee9/raw/writeups.js', key: 'pf_writeups' },
-      ];
-
-      Promise.all(scripts.map(loadData)).then(() => { renderWriteups(); });
-    })();
-  </script>
-  <script>
-    // Theme
-    const toggle = document.getElementById('themeToggle');
-    const icon   = document.getElementById('themeIcon');
-    const html   = document.documentElement;
-    const saved  = localStorage.getItem('theme') || 'dark';
-    html.setAttribute('data-theme', saved);
-    icon.className = saved === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-    toggle.addEventListener('click', () => {
-      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      html.setAttribute('data-theme', next);
-      localStorage.setItem('theme', next);
-      icon.className = next === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+    /* ---------- theme (synced with portfolio) ---------- */
+    const themeIcon = document.getElementById('wuThemeIcon');
+    function applyTheme(t) { document.documentElement.setAttribute('data-theme', t); themeIcon.className = t === 'dark' ? 'fas fa-sun' : 'fas fa-moon'; }
+    applyTheme(localStorage.getItem('theme') || 'dark');
+    document.getElementById('wuTheme').addEventListener('click', () => {
+      const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('theme', next); applyTheme(next);
     });
 
-    // Mobile menu
-    document.getElementById('hamburger').addEventListener('click', () =>
-      document.getElementById('mobileMenu').classList.toggle('open'));
+    /* ---------- mobile drawer ---------- */
+    const sidebar = document.getElementById('wuSidebar'), overlay = document.getElementById('wuOverlay');
+    function closeDrawer() { sidebar.classList.remove('open'); overlay.classList.remove('open'); }
+    document.getElementById('wuHamburger').addEventListener('click', () => {
+      sidebar.classList.toggle('open'); overlay.classList.toggle('open');
+    });
+    overlay.addEventListener('click', closeDrawer);
+
+    /* ---------- search (⌘K) ---------- */
+    const modal = document.getElementById('wuSearchModal');
+    const input = document.getElementById('wuSearchInput');
+    const results = document.getElementById('wuSearchResults');
+    let searchIndex = [], activeResult = 0;
+    SPACES.forEach(s => s.tree.forEach(top => {
+      if (top.children) top.children.forEach(ch => searchIndex.push({ label: ch.label, icon: ch.icon || 'fa-file-lines', hash: hashFor(s.id, [top.id, ch.id]), path: s.label + ' › ' + top.label }));
+      else searchIndex.push({ label: top.label, icon: top.icon || 'fa-folder', hash: hashFor(s.id, [top.id]), path: s.label });
+    }));
+    function drawResults(q) {
+      const list = q ? searchIndex.filter(r => (r.label + ' ' + r.path).toLowerCase().includes(q.toLowerCase())) : searchIndex;
+      activeResult = 0;
+      if (!list.length) { results.innerHTML = `<div class="wu-search-empty">No matches.</div>`; return; }
+      results.innerHTML = list.map((r, i) =>
+        `<div class="wu-result${i === 0 ? ' active' : ''}" data-hash="${r.hash}"><i class="fas ${r.icon}"></i><span class="r-label">${r.label}</span><span class="r-path">${r.path}</span></div>`).join('');
+      Array.from(results.children).forEach(el => {
+        if (!el.dataset.hash) return;
+        el.addEventListener('click', () => { location.hash = el.dataset.hash; closeSearch(); });
+      });
+    }
+    function openSearch() { modal.classList.add('open'); input.value = ''; drawResults(''); input.focus(); }
+    function closeSearch() { modal.classList.remove('open'); }
+    document.getElementById('wuSearchBtn').addEventListener('click', openSearch);
+    input.addEventListener('input', () => drawResults(input.value));
+    modal.addEventListener('click', e => { if (e.target === modal) closeSearch(); });
+    document.addEventListener('keydown', e => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); modal.classList.contains('open') ? closeSearch() : openSearch(); return; }
+      if (!modal.classList.contains('open')) return;
+      const items = Array.from(results.querySelectorAll('.wu-result'));
+      if (e.key === 'Escape') closeSearch();
+      else if (e.key === 'ArrowDown') { e.preventDefault(); activeResult = Math.min(activeResult + 1, items.length - 1); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); activeResult = Math.max(activeResult - 1, 0); }
+      else if (e.key === 'Enter') { const el = items[activeResult]; if (el) { location.hash = el.dataset.hash; closeSearch(); } return; }
+      items.forEach((el, i) => el.classList.toggle('active', i === activeResult));
+      if (items[activeResult]) items[activeResult].scrollIntoView({ block: 'nearest' });
+    });
+
+    /* ---------- go ---------- */
+    route();
+  })();
   </script>
 </body>
 </html>
